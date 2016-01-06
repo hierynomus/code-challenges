@@ -1,0 +1,4 @@
+= Fun Coding
+
+== Fun Coding solutions
+This is a gathering of solutions to various code competitions and fun-coding exercises across the web.
