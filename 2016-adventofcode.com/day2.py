@@ -4,6 +4,13 @@ Key = namedtuple('Key', ['x', 'y'])
 
 keypad_1 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 sequence_1 = []
+moves_1 = {
+    'U': lambda k: Key(k.x, max(0, k.y - 1)),
+    'D': lambda k: Key(k.x, min(2, k.y + 1)),
+    'L': lambda k: Key(max(0, k.x - 1), k.y),
+    'R': lambda k: Key(min(2, k.x + 1), k.y)
+}
+
 keypad_2 = {
     '1': {'D': '3'},
     '2': {'R': '3', 'D': '6'},
@@ -22,32 +29,13 @@ keypad_2 = {
 sequence_2 = []
 
 
-moves_1 = {
-    'U': lambda k: Key(k.x, max(0, k.y - 1)),
-    'D': lambda k: Key(k.x, min(2, k.y + 1)),
-    'L': lambda k: Key(max(0, k.x - 1), k.y),
-    'R': lambda k: Key(min(2, k.x + 1), k.y)
-}
-
-
-def new_key_1(k, c):
-    return moves_1[c](k)
-
-
-def new_key_2(k, c):
-    if c in keypad_2[k]:
-        return keypad_2[k][c]
-    else:
-        return k
-
-
 with open('day2.in', 'r') as f:
     key_1 = Key(1, 1)
     key_2 = '5'
     for l in f:
         for c in l.strip():
-            key_1 = new_key_1(key_1, c)
-            key_2 = new_key_2(key_2, c)
+            key_1 = moves_1[c](key_1)
+            key_2 = keypad_2[key_2][c] if c in keypad_2[key_2] else key_2
         sequence_1.append(keypad_1[key_1.y][key_1.x])
         sequence_2.append(key_2)
 
