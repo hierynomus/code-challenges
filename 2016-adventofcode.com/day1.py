@@ -2,6 +2,7 @@ coord_x = 0
 coord_y = 0
 day2 = None
 
+
 def walk(start_x, start_y, walk, direction, locations):
     global day2
     walks = [(0, 1), (1, 0), (0, -1), (-1, 0)]
@@ -16,6 +17,7 @@ def walk(start_x, start_y, walk, direction, locations):
         locations.add((new_x, new_y))
 
     return (new_x, new_y)
+
 
 with open('day1.in', 'r') as f:
     direction = 0  # 0=North, 1=East, 2=South, 3=West
