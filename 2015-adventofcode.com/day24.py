@@ -1,7 +1,10 @@
 from itertools import combinations
+from functools import reduce
+
 
 def quantum_entanglement(gifts):
     return reduce(lambda x, y: x * y, gifts)
+
 
 def minimum_balanced_combos(gifts, groups):
     balance_weight = sum(gifts) / groups
@@ -14,6 +17,7 @@ def minimum_balanced_combos(gifts, groups):
             break
     return combos
 
+
 gifts = []
 with open('day24.in', 'r') as f:
     for l in f:
@@ -22,8 +26,8 @@ with open('day24.in', 'r') as f:
 gifts.sort()
 
 combo = min(minimum_balanced_combos(gifts, 3), key=quantum_entanglement)
-print "1: %s" % quantum_entanglement(combo)
+print("Day 24.1: %s" % quantum_entanglement(combo))
 combo = min(minimum_balanced_combos(gifts, 4), key=quantum_entanglement)
-print "2: %s" % quantum_entanglement(combo)
+print("Day 24.2: %s" % quantum_entanglement(combo))
 
 
