@@ -4,10 +4,12 @@ rewrites = []
 rev_rewrites = []
 input = None
 
+
 def recombinate(elements, index, target):
     new_elements = elements[:]
     new_elements[index] = target
     return new_elements
+
 
 with open('day19.in', 'r') as f:
     for l in f:
@@ -27,7 +29,7 @@ for source, target in rewrites:
         if e == source:
             molecules.add(''.join(recombinate(elements, i, target)))
 
-print("1: %s" % len(molecules))
+print("Day 19.1: %s" % len(molecules))
 
 rev_input = input[::-1]
 index = 0
@@ -42,7 +44,4 @@ while rev_input != 'e':
             break
     index += 1
 
-print("2: %s" % replacements)
-
-
-
+print("Day 19.2: %s" % replacements)
