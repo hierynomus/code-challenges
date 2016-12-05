@@ -28,5 +28,5 @@ with open('day1.in', 'r') as f:
         direction = (direction + turn) % 4
         (coord_x, coord_y) = walk(coord_x, coord_y, steps, direction, locations)
 
-print("Day 1: %d" % (abs(coord_x) + abs(coord_y)))
-print("Day 2: %d" % (abs(day2[0]) + abs(day2[1])))
+print("Day 1.1: %d" % (abs(coord_x) + abs(coord_y)))
+print("Day 1.2: %d" % (abs(day2[0]) + abs(day2[1])))

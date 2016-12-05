@@ -1,13 +1,13 @@
 import hashlib
 
-inp = "reyedfim"
+inp = 'reyedfim'.encode('utf-8')
 hasher = hashlib.md5()
 hasher.update(inp)
 
 
 def digest(nr):
     copy = hasher.copy()
-    copy.update(str(nr))
+    copy.update(str(nr).encode('utf-8'))
     return copy.hexdigest()
 
 

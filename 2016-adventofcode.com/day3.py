@@ -19,4 +19,4 @@ for i in range(0, len(triangles), 3):
             possible1 += 1
 
 print("Day 3.1: %s" % possible1)
-print("Day 3.1: %s" % possible2)
+print("Day 3.2: %s" % possible2)
