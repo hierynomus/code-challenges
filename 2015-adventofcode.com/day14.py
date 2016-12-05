@@ -1,4 +1,3 @@
-
 class Reindeer:
     def __init__(self, name, speed, fly_time, rest_time):
         self.name = name
@@ -24,6 +23,7 @@ class Reindeer:
                 break
         return distance
 
+
 reindeer = []
 
 with open('day14.in', 'r') as f:
@@ -31,14 +31,14 @@ with open('day14.in', 'r') as f:
         parts = l.strip().split()
         reindeer.append(Reindeer(parts[0], int(parts[3]), int(parts[6]), int(parts[13])))
 
-print("1: %s" % max([r.distance_travelled(2503) for r in reindeer]))
+print("Day 14.1: %s" % max([r.distance_travelled(2503) for r in reindeer]))
 
 points = {}
 for r in reindeer:
     points[r.name] = 0
 
 for i in range(1, 2504):
-    r = max([r for r in reindeer], key=lambda x: x.distance_travelled(i))
-    points[r.name] += 1
+    deer = max([r for r in reindeer], key=lambda x: x.distance_travelled(i))
+    points[deer.name] += 1
 
-print("2: %s" % max([points[r.name] for r in reindeer]))
+print("Day 14.2: %s" % max([points[r.name] for r in reindeer]))

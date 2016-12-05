@@ -1,4 +1,3 @@
-
 gift = {
     "children": 3,
     "cats": 7,
@@ -12,6 +11,7 @@ gift = {
     "perfumes": 1
 }
 
+
 def to_aunt(l):
     aunt, d = l.split(': ', 1)
     knowledge = {}
@@ -24,6 +24,7 @@ def to_aunt(l):
         "knowledge": knowledge
     }
 
+
 aunts = []
 
 with open('day16.in', 'r') as f:
@@ -31,14 +32,14 @@ with open('day16.in', 'r') as f:
         aunts.append(to_aunt(l))
 
 for aunt in aunts:
-    for k, v in aunt['knowledge'].iteritems():
+    for k, v in aunt['knowledge'].items():
         if gift[k] != v:
             break
     else:
-        print("1: %s" % aunt['aunt'])
+        print("Day 16.1: %s" % aunt['aunt'])
 
 for aunt in aunts:
-    for k, v in aunt['knowledge'].iteritems():
+    for k, v in aunt['knowledge'].items():
         if k in ['cats', 'trees'] and gift[k] >= v:
             break
         elif k in ['pomeranians', 'goldfish'] and gift[k] <= v:
@@ -46,4 +47,4 @@ for aunt in aunts:
         elif k not in ['cats', 'trees', 'pomeranians', 'goldfish'] and gift[k] != v:
             break
     else:
-        print("2: %s" % aunt['aunt'])
+        print("Day 16.2: %s" % aunt['aunt'])
