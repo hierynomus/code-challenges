@@ -3,14 +3,17 @@ from itertools import permutations
 persons = set()
 happy_dict = dict()
 
+
 def total_happiness(seating):
     total = 0
     for x, y in [(seating[i], seating[(i + 1) % len(seating)]) for i in range(len(seating))]:
         total += happy_dict[(x, y)] + happy_dict[(y, x)]
     return total
 
+
 def best_seating(l):
     return max([perm for perm in permutations(l)], key=total_happiness)
+
 
 with open('day13.in', 'r') as f:
     for l in f:
@@ -29,7 +32,7 @@ with open('day13.in', 'r') as f:
 
 arrangement = best_seating(persons)
 happiness_diff = total_happiness(arrangement)
-print("1: %s" % (happiness_diff,))
+print("Day 13.1: %s" % (happiness_diff,))
 
 for p in persons:
     happy_dict[(p, 'Me')] = 0
@@ -39,4 +42,4 @@ persons.add('Me')
 
 arrangement = best_seating(persons)
 happiness_diff = total_happiness(arrangement)
-print("2: %s" % (happiness_diff,))
+print("Day 13.2: %s" % (happiness_diff,))

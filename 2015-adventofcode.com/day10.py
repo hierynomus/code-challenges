@@ -1,6 +1,6 @@
+inp = "1113122113"
+expanded = inp
 
-input = "1113122113"
-expanded = input
 
 def expand(s):
     last_char = s[0]
@@ -22,8 +22,9 @@ def expand(s):
 for i in range(1, 41):
     expanded = expand(expanded)
 
-print("1: %s" % len(expanded))
+print("Day 10.1: %s" % len(expanded))
 
 for i in range(1, 11):
     expanded = expand(expanded)
-print("2: %s" % len(expanded))
+
+print("Day 10.2: %s" % len(expanded))

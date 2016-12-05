@@ -19,6 +19,6 @@ with open('day8.in', 'r') as f:
         encoded_representation = '"' + encoded_representation + '"'
         encoded_chars += len(encoded_representation)
 
-print("1: %s" % str(code_chars - string_chars))
-print("2: %s" % str(encoded_chars - code_chars))
+print("Day 8.1: %s" % str(code_chars - string_chars))
+print("Day 8.2: %s" % str(encoded_chars - code_chars))
 

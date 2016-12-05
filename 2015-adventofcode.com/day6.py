@@ -2,6 +2,7 @@
 grid = [[False for x in range(1000)] for y in range(1000)]
 grid_2 = [[0 for x in range(1000)] for y in range(1000)]
 
+
 def switch(x_left, x_right, y_top, y_bottom, onOff):
     for x in range(x_left, x_right + 1):
         for y in range(y_top, y_bottom + 1):
@@ -10,6 +11,7 @@ def switch(x_left, x_right, y_top, y_bottom, onOff):
                 grid_2[y][x] += 1
             elif grid_2[y][x] > 0:
                 grid_2[y][x] -= 1
+
 
 def toggle(x_left, x_right, y_top, y_bottom):
     for x in range(x_left, x_right + 1):
@@ -39,5 +41,5 @@ with open('day6.in', 'r') as f:
                 turned_on += 1
             brightness += grid_2[y][x]
 
-    print("1: %s" % str(turned_on))
-    print("2: %s" % str(brightness))
+    print("Day 6.1: %s" % str(turned_on))
+    print("Day 6.2: %s" % str(brightness))
