@@ -1,38 +1,46 @@
-from copy import deepcopy
 from collections import namedtuple
 
 Player = namedtuple('Player', ['hp', 'armor', 'mana', 'Shield', 'Poison', 'Recharge'])
 Boss = namedtuple('Boss', ['hp', 'damage'])
+
 
 def memoize(f):
     """ Memoization decorator for functions taking one or more arguments. """
     class memodict(dict):
         def __init__(self, f):
             self.f = f
+
         def __call__(self, *args):
             if args in self:
                 pass
                 # print("Cache hit!")
             return self[args]
+
         def __missing__(self, key):
             ret = self[key] = self.f(*key)
             return ret
     return memodict(f)
 
+
 DEBUG = False
+
 
 def debug(msg):
     if DEBUG:
         print(msg)
 
+
 def damage(player, amount):
     return player._replace(hp=player.hp - amount)
+
 
 def magic_missile(player, opponent):
     return (player, damage(opponent, 4))
 
+
 def drain(player, opponent):
     return (damage(player, -2), damage(opponent, 2))
+
 
 def shield(player, opponent, timer):
     debug("Shield's timer is %s" % timer)
@@ -43,11 +51,13 @@ def shield(player, opponent, timer):
         return (player._replace(armor=0), opponent)
     return (player, opponent)
 
+
 def poison(player, opponent, timer):
     debug("Poison deals 3 damage, its timer is now %s" % timer)
     if timer == 0:
         debug("Poison wears off.")
     return (player, damage(opponent, 3))
+
 
 def recharge(player, opponent, timer):
     debug("Recharge provides 101 mana, its timer is now %s" % timer)
@@ -55,16 +65,19 @@ def recharge(player, opponent, timer):
         debug("Recharge wears off.")
     return (player._replace(mana=player.mana + 101), opponent)
 
+
 spells = {
-    'Magic Missile': { 'mana': 53, 'cast': magic_missile },
-    'Drain': { 'mana': 73, 'cast': drain },
-    'Shield': { 'mana': 113, 'timer': 6, 'effect': shield, 'set_timer': lambda p, t: p._replace(Shield=t) },
-    'Poison': { 'mana': 173, 'timer': 6, 'effect': poison, 'set_timer': lambda p, t: p._replace(Poison=t) },
-    'Recharge': { 'mana': 229, 'timer': 5, 'effect': recharge, 'set_timer': lambda p, t: p._replace(Recharge=t) }
+    'Magic Missile': {'mana': 53, 'cast': magic_missile},
+    'Drain': {'mana': 73, 'cast': drain},
+    'Shield': {'mana': 113, 'timer': 6, 'effect': shield, 'set_timer': lambda p, t: p._replace(Shield=t)},
+    'Poison': {'mana': 173, 'timer': 6, 'effect': poison, 'set_timer': lambda p, t: p._replace(Poison=t)},
+    'Recharge': {'mana': 229, 'timer': 5, 'effect': recharge, 'set_timer': lambda p, t: p._replace(Recharge=t)}
 }
+
 
 def print_stats(player, opponent):
     debug("Player: %s - Boss: %s" % (player.hp, opponent.hp))
+
 
 def boss_turn(player, opponent):
     debug("-- Boss turn --")
@@ -72,6 +85,7 @@ def boss_turn(player, opponent):
     boss_damage = boss.damage - player.armor
     debug("Boss deals %s damage" % boss_damage)
     return (damage(player, boss_damage), opponent)
+
 
 def player_turn(player, opponent, spell_name):
     """ Take Player's turn, return 'True' if the spell was successfully cast, 'False' otherwise. """
@@ -94,6 +108,7 @@ def player_turn(player, opponent, spell_name):
         player = spell['set_timer'](player, spell['timer'])
 
     return (player, opponent, True)
+
 
 def full_turn(player, opponent, spell_name, hard=False):
     if hard:
@@ -120,6 +135,7 @@ def full_turn(player, opponent, spell_name, hard=False):
     else:
         return (player, opponent, None)
 
+
 def apply_effects(player, opponent):
     for e in ['Shield', 'Poison', 'Recharge']:
         timer = getattr(player, e)
@@ -129,14 +145,18 @@ def apply_effects(player, opponent):
             player = spells[e]['set_timer'](player, timer)
     return (player, opponent)
 
+
 def is_dead(p):
     return p.hp <= 0
+
 
 def mana_cost(spells_cast):
     return sum([spells[s]['mana'] for s in spells_cast])
 
+
 boss = Boss(hp=71, damage=10)
 me = Player(hp=50, mana=500, armor=0, Shield=0, Recharge=0, Poison=0)
+
 
 @memoize
 def minimum_win_spell_sequence(player, opponent, hard=False):
@@ -159,8 +179,9 @@ def minimum_win_spell_sequence(player, opponent, hard=False):
     else:
         return min(spell_sequences, key=mana_cost)
 
+
 sequence = minimum_win_spell_sequence(me, boss)
-print("1: %s" % mana_cost(sequence))
+print("Day 22.1: %s" % mana_cost(sequence))
 
 sequence = minimum_win_spell_sequence(me, boss, True)
-print("2: %s" % mana_cost(sequence))
+print("Day 22.2: %s" % mana_cost(sequence))

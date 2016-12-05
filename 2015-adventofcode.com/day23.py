@@ -1,5 +1,5 @@
-
 DEBUG = False
+
 
 def debug(msg):
     if DEBUG:
@@ -11,6 +11,7 @@ instructions = [""]
 with open('day23.in', 'r') as f:
     for l in f:
         instructions.append(l.strip())
+
 
 def jmp(instruction, index):
     if '-' in instruction:
@@ -43,5 +44,6 @@ def evaluate(instructions, registers):
             pointer += 1
     return registers
 
-print("1: %s" % evaluate(instructions, {'a': 0, 'b': 0})['b'])
-print("2: %s" % evaluate(instructions, {'a': 1, 'b': 0})['b'])
+
+print("Day 23.1: %s" % evaluate(instructions, {'a': 0, 'b': 0})['b'])
+print("Day 23.2: %s" % evaluate(instructions, {'a': 1, 'b': 0})['b'])
