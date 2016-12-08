@@ -3,20 +3,16 @@ import numpy as np
 
 
 class Display(object):
-    def __init__(self, display=np.array([['.'] * 50] * 6)):
+    def __init__(self, display=np.array([[' '] * 50] * 6)):
         self.display = display
 
     def rect(self, x, y):
         d = self.display.copy()
-        for i in range(x):
-            for j in range(y):
-                d[j][i] = '#'
+        d[:y, :x] = '#'
         return Display(d)
 
     def show(self):
-        for y in self.display:
-            print(''.join(y))
-        print("\n")
+        return '\n'.join([''.join(l) for l in self.display])
 
     def rotate_row(self, y, pos):
         d = self.display.copy()
@@ -48,8 +44,7 @@ with open('day8.in', 'r') as f:
         elif l.startswith("rotate row"):
             m = movement.search(l).groupdict()
             d = d.rotate_row(int(m['idx']), int(m['pos']))
-        d.show()
+        print(d.show())
 
 print("Day 8.1: %s" % d.count())
-print("Day 8.2:")
-d.show()
+print("Day 8.2:\n%s" % d.show())
