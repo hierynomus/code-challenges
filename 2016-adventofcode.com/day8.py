@@ -1,3 +1,4 @@
+from time import sleep
 import re
 import numpy as np
 
@@ -45,6 +46,8 @@ with open('day8.in', 'r') as f:
             m = movement.search(l).groupdict()
             d = d.rotate_row(int(m['idx']), int(m['pos']))
         print(d.show())
-
+        print("\033[7A")
+        sleep(0.1)
+print('\n' * 7)
 print("Day 8.1: %s" % d.count())
 print("Day 8.2:\n%s" % d.show())
