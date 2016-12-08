@@ -2,11 +2,9 @@ import re
 
 abba = re.compile("([a-z])((?!\\1).)\\2\\1")
 hyper_abba = re.compile("\\[[a-z]*([a-z])((?!\\1).)\\2\\1[a-z]*\\]")
-aba_bab = re.compile("([a-z])((?!\\1).)\\1[a-z]*\\[[a-z]*\\2\\1\\2[a-z]*\\]")
-bab_aba = re.compile("\\[[a-z]*([a-z])((?!\\1).)\\1[a-z]*\\][a-z]*\\2\\1\\2")
 tls = 0
 ssl = 0
-ssl_2 = 0
+ssl = 0
 
 
 def has_ssl(ip):
@@ -45,12 +43,9 @@ with open('day7.in', 'r') as f:
         ip = line.strip()
         if abba.search(ip) and not hyper_abba.search(ip):
             tls += 1
-        if aba_bab.search(ip) or bab_aba.search(ip):
-            ssl += 1
         if has_ssl(ip):
-            ssl_2 += 1
+            ssl += 1
 
 
 print("Day 7.1: %s" % tls)
 print("Day 7.2: %s" % ssl)
-print("Day 7.2: %s" % ssl_2)
