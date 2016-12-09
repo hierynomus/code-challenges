@@ -13,7 +13,5 @@ def decompress(line, isV2, length=0):
 
 with open('day9.in', 'r') as f:
     line = f.readline().strip()
-    decompressed_length = decompress(line, False)
-    decompressed_length_v2 = decompress(line, True)
-    print("Day 9.1: %s" % decompressed_length)
-    print("Day 9.2: %s" % decompressed_length_v2)
+    print("Day 9.1: %s" % decompress(line, False))
+    print("Day 9.2: %s" % decompress(line, True))
