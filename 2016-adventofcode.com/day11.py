@@ -1,7 +1,6 @@
 import re
 import heapq
 from collections import namedtuple
-import itertools
 
 State = namedtuple('State', ['elevator', 'locations'])
 Element = namedtuple('Element', ['chip', 'generator'])
@@ -20,6 +19,8 @@ def is_solved(state):
 
 
 def is_valid(state):
+    if state.elevator < 0 or state.elevator > 3:
+        return False
     for e in state.locations:
         if e.chip == e.generator:
             continue
@@ -29,66 +30,46 @@ def is_valid(state):
     return True
 
 
+def update_chip(el, delta):
+    return Element(el.chip + delta, el.generator)
+
+
+def update_generator(el, delta):
+    return Element(el.chip, el.generator + delta)
+
+
+def move(state, coll, i, f_i, j=None, f_j=None):
+    for d in [-1, 1]:
+        locs = state.locations[:]
+        locs[i] = f_i(locs[i], d)
+        if j:
+            locs[j] = f_j(locs[j], d)
+        s = State(state.elevator + d, sorted(locs))
+        if is_valid(s):
+            coll.append(s)
+
+
 def next_states(state):
     ns = []
     for i in range(len(state.locations)):
         if state.locations[i].chip == state.elevator:
-            if state.elevator > 0:
-                locs = state.locations[:]
-                locs[i] = Element(locs[i].chip - 1, locs[i].generator)
-                ns.append(State(state.elevator - 1, sorted(locs)))
-            if state.elevator < 3:
-                locs = state.locations[:]
-                locs[i] = Element(locs[i].chip + 1, locs[i].generator)
-                ns.append(State(state.elevator + 1, sorted(locs)))
+            move(state, ns, i, update_chip)
             if state.locations[i].generator == state.elevator:
-                if state.elevator > 0:
-                    locs = state.locations[:]
-                    locs[i] = Element(locs[i].chip - 1, locs[i].generator - 1)
-                    ns.append(State(state.elevator - 1, sorted(locs)))
-                if state.elevator < 3:
-                    locs = state.locations[:]
-                    locs[i] = Element(locs[i].chip + 1, locs[i].generator + 1)
-                    ns.append(State(state.elevator + 1, sorted(locs)))
+                move(state, ns, i, update_chip, i, update_generator)
             for j in range(i + 1, len(state.locations)):
                 if state.locations[j].chip == state.elevator:
-                    if state.elevator > 0:
-                        locs = state.locations[:]
-                        locs[i] = Element(locs[i].chip - 1, locs[i].generator)
-                        locs[j] = Element(locs[j].chip - 1, locs[j].generator)
-                        ns.append(State(state.elevator - 1, sorted(locs)))
-                    if state.elevator < 3:
-                        locs = state.locations[:]
-                        locs[i] = Element(locs[i].chip + 1, locs[i].generator)
-                        locs[j] = Element(locs[j].chip + 1, locs[j].generator)
-                        ns.append(State(state.elevator + 1, sorted(locs)))
+                    move(state, ns, i, update_chip, j, update_chip)
         if state.locations[i].generator == state.elevator:
-            if state.elevator > 0:
-                locs = state.locations[:]
-                locs[i] = Element(locs[i].chip, locs[i].generator - 1)
-                ns.append(State(state.elevator - 1, sorted(locs)))
-            if state.elevator < 3:
-                locs = state.locations[:]
-                locs[i] = Element(locs[i].chip, locs[i].generator + 1)
-                ns.append(State(state.elevator + 1, sorted(locs)))
+            move(state, ns, i, update_generator)
             for j in range(i + 1, len(state.locations)):
                 if state.locations[j].generator == state.elevator:
-                    if state.elevator > 0:
-                        locs = state.locations[:]
-                        locs[i] = Element(locs[i].chip, locs[i].generator - 1)
-                        locs[j] = Element(locs[j].chip, locs[j].generator - 1)
-                        ns.append(State(state.elevator - 1, sorted(locs)))
-                    if state.elevator < 3:
-                        locs = state.locations[:]
-                        locs[i] = Element(locs[i].chip, locs[i].generator + 1)
-                        locs[j] = Element(locs[j].chip, locs[j].generator + 1)
-                        ns.append(State(state.elevator + 1, sorted(locs)))
+                    move(state, ns, i, update_generator, j, update_generator)
 
-    return [s for s in ns if is_valid(s)]
+    return ns
 
 
 def solve(elements):
-    state = (0, State(0, list(elements.values())))
+    state = (0, State(0, sorted(list(elements.values()))))
     seen = []
     to_view = []
     while not is_solved(state[1]):
