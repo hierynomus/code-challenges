@@ -43,7 +43,7 @@ def is_wall(x, y):
 def draw(seen, reset=True):
     if reset:
         print("\033[51A")
-    maze = [[('#' if is_wall(x, y) else ('.' if Coord(x, y) not in seen else 'O')) for x in range(50)] for y in range(50)]
+    maze = [[("\033[31m#\033[0m" if is_wall(x, y) else ("\033[0m.\033[0m" if Coord(x, y) not in seen else '\033[32mO\033[0m')) for x in range(50)] for y in range(50)]
     print("\n".join([''.join(y) for y in maze]))
 
 
