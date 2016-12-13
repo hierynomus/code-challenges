@@ -2,6 +2,8 @@ import heapq
 from collections import namedtuple
 from time import sleep
 
+ANIMATE = False
+
 Coord = namedtuple('Coord', ['x', 'y'])
 Step = namedtuple('Step', ['length', 'coord', 'prev'])
 
@@ -23,9 +25,8 @@ def solve(target):
         for neighbour in neighbours:
             if neighbour not in seen_coords:
                 seen_coords.append(neighbour)
-                draw(seen_coords)
-                sleep(0.1)
                 heapq.heappush(explore, Step(path.length + 1, neighbour, path))
+        draw(seen_coords)
         path = heapq.heappop(explore)
     return path
 
@@ -41,13 +42,16 @@ def is_wall(x, y):
 
 
 def draw(seen, reset=True):
+    if not ANIMATE:
+        return
     if reset:
         print("\033[51A")
-    maze = [[("\033[31m#\033[0m" if is_wall(x, y) else ("\033[0m.\033[0m" if Coord(x, y) not in seen else '\033[32mO\033[0m')) for x in range(50)] for y in range(50)]
+    maze = [[("#" if is_wall(x, y) else (" " if Coord(x, y) not in seen else '\033[32mO\033[0m')) for x in range(50)] for y in range(50)]
     print("\n".join([''.join(y) for y in maze]))
+    sleep(0.1)
 
 
 draw([], False)
 path_to_target = solve(Coord(31, 39))
-print("Day 13.1: %s" % path_to_target.length)
+print("\033[0mDay 13.1: %s" % path_to_target.length)
 print("Day 13.2: %s" % len(seen_in_50))

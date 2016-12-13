@@ -9,7 +9,6 @@ class Output(object):
         self.idx = idx
 
     def receive_chip(self, value):
-        print("Output %s received chip %s" % (self.idx, value))
         self.chips.append(value)
 
 
@@ -23,7 +22,6 @@ class Bot(object):
 
     def receive_chip(self, value):
         global bot_part_1
-        print("Bot %s got chip %s" % (self.idx, value))
         self.chips.append(value)
         self.chips.sort()
         if 17 in self.chips and 61 in self.chips and not bot_part_1:
