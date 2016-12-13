@@ -70,13 +70,14 @@ def next_states(state):
 
 def solve(elements):
     state = (0, State(0, sorted(list(elements.values()))))
-    seen = []
+    seen = set()
     to_view = []
     while not is_solved(state[1]):
-        seen.append(state[1])
+        seen.add(str(state[1]))
         for ns in next_states(state[1]):
-            if ns not in seen:
-                seen.append(ns)
+            s = str(ns)
+            if s not in seen:
+                seen.add(s)
                 heapq.heappush(to_view, (state[0] + 1, ns))
         state = heapq.heappop(to_view)
     return state
