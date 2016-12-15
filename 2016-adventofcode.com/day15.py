@@ -21,9 +21,7 @@ def solve(discs):
 with open('day15.in', 'r') as f:
     for l in f:
         m = disc_r.match(l)
-        disc = (int(m.group(2)), int(m.group(1)), int(m.group(3)))
-        discs.append(disc)
-
+        discs.append((int(m.group(2)), int(m.group(1)), int(m.group(3))))
 
 print("Day 15.1: %s" % solve(discs))
 discs.append((11, len(discs) + 1, 0))
