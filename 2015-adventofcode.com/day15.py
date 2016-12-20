@@ -1,5 +1,8 @@
 import itertools
 
+ingredients = []
+
+
 class Ingredient:
     def __init__(self, name, capacity, durability, flavor, texture, calories):
         self.name = name
@@ -25,7 +28,7 @@ class Recipe:
         durability = 0
         flavor = 0
         texture = 0
-        for k, v in self.amounts.iteritems():
+        for k, v in self.amounts.items():
             capacity += k.capacity * v
             durability += k.durability * v
             flavor += k.flavor * v
@@ -37,16 +40,8 @@ class Recipe:
             return capacity * durability * flavor * texture
 
     def calories(self):
-        return sum([i.calories * a for i, a in self.amounts.iteritems()])
+        return sum([i.calories * a for i, a in self.amounts.items()])
 
-ingredients = []
-
-with open('day15.in', 'r') as f:
-    for l in f:
-        parts = l.strip().split(': ')
-        ia = list(itertools.chain.from_iterable([p.strip().split(' ') for p in parts[1].split(',')]))
-
-        ingredients.append(Ingredient(parts[0], int(ia[1]), int(ia[3]), int(ia[5]), int(ia[7]), int(ia[9])))
 
 def recipe_generator():
     for a in range(0, 101):
@@ -56,8 +51,17 @@ def recipe_generator():
                 r.add_ingredient(ingredients[0], a)
                 r.add_ingredient(ingredients[1], b)
                 r.add_ingredient(ingredients[2], c)
-                r.add_ingredient(ingredients[3], 101 - a - b - c)
+                r.add_ingredient(ingredients[3], 100 - a - b - c)
                 yield r
 
-print("1: %s" % max([r.calc() for r in recipe_generator()]))
-print("2: %s" % max([r.calc() for r in recipe_generator() if r.calories() == 500]))
+
+with open('day15.in', 'r') as f:
+    for l in f:
+        parts = l.strip().split(': ')
+        ia = list(itertools.chain.from_iterable([p.strip().split(' ') for p in parts[1].split(',')]))
+
+        ingredients.append(Ingredient(parts[0], int(ia[1]), int(ia[3]), int(ia[5]), int(ia[7]), int(ia[9])))
+
+
+print("Day 15.1: %s" % max([r.calc() for r in recipe_generator()]))
+print("Day 15.2: %s" % max([r.calc() for r in recipe_generator() if r.calories() == 500]))
