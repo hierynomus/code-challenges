@@ -2,15 +2,19 @@ from bitarray import bitarray
 
 DEBUG = False
 
+
 def debug(msg):
     if DEBUG:
         print(msg)
 
+
 class mybitarray(bitarray):
     def __lshift__(self, count):
         return self[count:] + type(self)('0') * count
+
     def __rshift__(self, count):
         return type(self)('0') * count + self[:-count]
+
     def __repr__(self):
         return "{}('{}')".format(type(self).__name__, self.to01())
 
@@ -41,13 +45,14 @@ class Wire:
         self.input = i
 
     def get_signal(self):
-        if self.signal == None:
+        if self.signal is None:
             self.signal = self.input.get_signal()
         debug("%s: %s" % (self.name, self.signal.to01()))
         return self.signal
 
     def reset(self):
         self.signal = None
+
 
 class AndGate:
     def __init__(self, in_wire_1, in_wire_2, out_wire):
@@ -61,6 +66,7 @@ class AndGate:
         out_signal = self.in_wire_1.get_signal() & self.in_wire_2.get_signal()
         debug("%s: %s & %s -> %s" % (self.name, self.in_wire_1.get_signal().to01(), self.in_wire_2.get_signal().to01(), out_signal.to01()))
         return out_signal
+
 
 class OrGate:
     def __init__(self, in_wire_1, in_wire_2, out_wire):
@@ -133,14 +139,15 @@ class JointGate:
         return in_signal_copy
 
 
-
 def signal_to_int(s):
     out = 0
     for bit in s.to01():
         out = (out << 1) | int(bit)
     return out
 
+
 wires = dict()
+
 
 def get_or_create_wire(n):
     n = n.strip()
@@ -154,6 +161,7 @@ def get_or_create_wire(n):
         w = Wire(n)
         wires[n] = w
         return w
+
 
 with open('day7.in', 'r') as f:
     for l in f:
@@ -191,12 +199,12 @@ with open('day7.in', 'r') as f:
             JointGate(w, out)
 
 a_signal = signal_to_int(wires['a'].get_signal())
-print("1: " + str(a_signal))
+print("Day 7.1: " + str(a_signal))
 
 wires['b'].set_input(Signal(a_signal))
-for n, w in wires.iteritems():
+for n, w in wires.items():
     w.reset()
 
 a_signal = signal_to_int(wires['a'].get_signal())
-print("2: " + str(a_signal))
+print("Day 7.2: " + str(a_signal))
 
