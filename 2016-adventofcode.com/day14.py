@@ -54,7 +54,6 @@ def solve(key_func):
             # print("Found potential key at %s: %s" % (idx, (trip, key)))
             for i in range(idx + 1, idx + 1001):
                 if has_quintet(key_func(i, hash_cache), trip):
-                    print("Found key at %s: %s" % (idx, key))
                     keys[idx] = key
                     break
         idx += 1

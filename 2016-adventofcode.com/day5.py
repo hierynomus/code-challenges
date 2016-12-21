@@ -41,4 +41,4 @@ while None in password2:
 
 
 print("Day 5.1: %s" % password1)
-print("Day 5.2: %s" % password2)
+print("Day 5.2: %s" % ''.join(password2))

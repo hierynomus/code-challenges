@@ -39,5 +39,5 @@ with open('day2.in', 'r') as f:
         sequence_1.append(keypad_1[key_1.y][key_1.x])
         sequence_2.append(key_2)
 
-print("Day 2.1: %s" % sequence_1)
-print("Day 2.2: %s" % sequence_2)
+print("Day 2.1: %s" % ''.join([str(i) for i in sequence_1]))
+print("Day 2.2: %s" % ''.join(sequence_2))
