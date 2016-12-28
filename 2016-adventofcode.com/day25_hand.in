@@ -1,0 +1,30 @@
+cpy a d # a: a, b: 0, c: 0, d: a
+cpy 4 c # a: a, b: 0, c: 4, d: a
+cpy 633 b # a: a, b: 633, c: 0, d: a
+inc d
+dec b
+jnz b -2
+dec c
+jnz c -5 # a: a, b: 0, c: 0, d: a + 633 * 4
+cpy d a # a: a + 633 * 4, b: 0, c: 0, d: a + 633 * 4
+jnz 0 0
+cpy a b # a: a + 633 * 4, b: a + 633 * 4, c: 0, d: a + 633 * 4
+cpy 0 a # a: 0, b: a + 633 * 4, c: 0, d: a + 633 * 4
+cpy 2 c # a: 0, b: a + 633 * 4, c: 2, d: a + 633 * 4
+jnz b 2
+jnz 1 6
+dec b
+dec c
+jnz c -4
+inc a
+jnz 1 -7 # a: (a + 633 * 4) / 2, b: 0, c: (a + 644 * 4) % 2, d: a + 633 * 4
+cpy 2 b # a: (a + 633 * 4) / 2, b: 2, c: (a + 644 * 4) % 2, d: a + 633 * 4
+jnz c 2
+jnz 1 4
+dec b
+dec c
+jnz 1 -4
+jnz 0 0
+out b # a: (a + 633 * 4) / 2, b: 0 \/ 1, c: 0, d: a + 633 * 4
+jnz a -19
+jnz 1 -21
