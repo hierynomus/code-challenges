@@ -169,7 +169,12 @@ class InstructionSet(object):
                     print("Registers: %s" % vm.registers)
                 elif line.startswith('debug'):
                     vm.debug_enabled = True
+                elif line.startswith('register'):
+                    reg, val = [vm.as_val(int(x)) for x in line[8:].split()]
+                    vm.debug("set %s %s" % (reg, val))
+                    reg.store(val)
                 else:
+                    print(line)
                     vm.input = line
                     break
 
@@ -220,7 +225,7 @@ class VirtualMachine(object):
 
     def debug(self, msg):
         if self.debug_enabled:
-            print("%s: %s" % (self.instruction_address, msg))
+            print("%s: %s (Registers: %s)" % (self.instruction_address, msg, self.registers))
 
     def read_to_memory(self, program):
         """Fully read the program file to newly initialized memory"""
@@ -250,6 +255,9 @@ class VirtualMachine(object):
         """Read the next instruction or value from memory at pointer location and increment pointer"""
         v = self.memory[self.pointer]
         self.pointer += 1
+        return self.as_val(v)
+
+    def as_val(self, v):
         if v < 32768:
             return LiteralValue(v)
         elif v < 32768 + 8:
