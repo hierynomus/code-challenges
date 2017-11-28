@@ -9,14 +9,14 @@ class NumberGuesser:
         self.range = range(low, high + 1)
 
     def guess(self):
-        return self.range[len(self.range)/2]
+        return self.range[int(len(self.range) / 2)]
 
     def guess_higher(self):
-        self.range = self.range[1+(len(self.range)/2):]
+        self.range = self.range[1 + int(len(self.range) / 2):]
         return self.guess()
 
     def guess_lower(self):
-        self.range = self.range[0:len(self.range)/2]
+        self.range = self.range[0:int(len(self.range) / 2)]
         return self.guess()
 
 

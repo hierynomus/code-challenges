@@ -2,7 +2,7 @@ import heapq
 from collections import namedtuple
 from time import sleep
 
-ANIMATE = False
+ANIMATE = True
 
 Coord = namedtuple('Coord', ['x', 'y'])
 Step = namedtuple('Step', ['length', 'coord', 'prev'])

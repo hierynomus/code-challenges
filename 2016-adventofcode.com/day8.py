@@ -2,7 +2,7 @@ from time import sleep
 import re
 import numpy as np
 
-ANIMATE = False
+ANIMATE = True
 
 
 class Display(object):
@@ -11,7 +11,7 @@ class Display(object):
 
     def rect(self, x, y):
         d = self.display.copy()
-        d[:y, :x] = '#'
+        d[:y, :x] = chr(9608)
         return Display(d)
 
     def show(self):
@@ -29,7 +29,7 @@ class Display(object):
         return Display(np.transpose(d))
 
     def count(self):
-        return (self.display == '#').sum()
+        return (self.display == chr(9608)).sum()
 
 
 rect = re.compile("(?P<x>[0-9]+)x(?P<y>[0-9]+)")
