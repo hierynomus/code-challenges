@@ -31,7 +31,7 @@ with open('warmup.in', 'r') as f:
             pass
 
 max_dist = max(A + B, key=lambda x: manhattan((0, 0), x))
-print("1: ", manhattan((0, 0), max_dist))
+print("Warmup 1: ", manhattan((0, 0), max_dist))
 
 max_ab_dist = -1
 for a in A:
@@ -40,4 +40,4 @@ for a in A:
         if d > max_ab_dist:
             max_ab_dist = d
 
-print("2: ", max_ab_dist)
+print("Warmup 2: ", max_ab_dist)
