@@ -4,21 +4,21 @@ with open('day06.in', 'r') as f:
 seen = {}
 mem = inp[:]
 count = 0
-l = len(mem)
-r = range(l)
-s = ",".join(map(str, mem))
-while s not in seen:
-    seen[s] = count
+mem_len = len(mem)
+r = range(mem_len)
+t = tuple(mem)
+while t not in seen:
+    seen[t] = count
     idx = max(r, key=mem.__getitem__)
     v = mem[idx]
     mem[idx] = 0
-    d, m = v // l, v % l
+    d, m = divmod(v, mem_len)
     idx += 1
     for i in r:
-        mem[(idx + i) % l] += d + (1 if m > 0 else 0)
+        mem[(idx + i) % mem_len] += d + (1 if m > 0 else 0)
         m -= 1
     count += 1
-    s = ",".join(map(str, mem))
+    t = tuple(mem)
 
 print("Day 6.1: ", count)
-print("Day 6.2: ", count - seen[s])
+print("Day 6.2: ", count - seen[t])
