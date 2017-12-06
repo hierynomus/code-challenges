@@ -6,7 +6,6 @@ mem = inp[:]
 count = 0
 l = len(mem)
 r = range(l)
-print(0, inp)
 while mem not in seen:
     seen.append(mem[:])
     idx = max(r, key=mem.__getitem__)
@@ -18,7 +17,6 @@ while mem not in seen:
         mem[(idx + i) % l] += d + (1 if m > 0 else 0)
         m -= 1
     count += 1
-    # print(count, mem)
 
 print("Day 6.1: ", count)
 print("Day 6.2: ", count - seen.index(mem))
