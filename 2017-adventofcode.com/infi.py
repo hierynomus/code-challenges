@@ -1,9 +1,7 @@
-import sys
-
 robots = []
 hits = set()
 
-with open(sys.argv[1], 'r') as f:
+with open('infi.in', 'r') as f:
     line = f.readline().strip()
     start, moves = line.split('](', 1)
     for sp in start[1:].split(']['):
