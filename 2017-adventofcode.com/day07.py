@@ -1,55 +1,53 @@
-parent_child = {}
-program_size = {}
+class Program(object):
+    def __init__(self, l):
+        s = l.strip().split(' -> ')
+        self.name, size = s[0].split()
+        self.weight = int(size[1:-1])
+        self.children = [] if len(s) == 1 else list(s[1].split(', '))
+        self.correction = 0
+        self.parent = None
+
+    def __repr__(self):
+        return "%s (%s + %s) -> %s" % (self.name, self.weight, self.correction, self.children)
+
+    def fix_children(self, programs):
+        self.children = list(map(lambda c: programs[c], self.children))
+        for c in self.children:
+            c.parent = self
+
+    def full_weight(self):
+        return self.weight + sum([c.full_weight() for c in self.children]) + self.correction
+
+    def correct_unbalance(self):
+        unbalanced = None
+        for c in self.children:
+            ub = c.correct_unbalance()
+            if ub:
+                unbalanced = ub
+
+        if not len(self.children) or unbalanced:
+            return unbalanced
+
+        cw = sorted([(c, c.full_weight()) for c in self.children], key=lambda x: x[1])
+        wrong = cw[0] if cw[0][1] != cw[1][1] else cw[-1]
+        diff = cw[1][1] - wrong[1]
+        if diff:
+            wrong[0].correction = diff
+            return wrong[0]
+        return None
+
+
+programs = {}
 with open('day07.in', 'r') as f:
     for l in f.readlines():
-        tower_line = l.strip().split(' -> ')
-        if len(tower_line) > 1:
-            (program, size), children = tower_line[0].split(), list(tower_line[1].split(', '))
-        else:
-            program, size = tower_line[0].split()
-            children = []
-        program_size[program] = int(size[1:-1])
-        parent_child[program] = children
+        p = Program(l)
+        programs[p.name] = p
 
-# Part 1
-root = None
-potential_roots = set(parent_child.keys())
-for _, children in parent_child.items():
-    for c in children:
-        potential_roots.remove(c)
+for _, p in programs.items():
+    p.fix_children(programs)
 
-assert len(potential_roots) == 1
-root = potential_roots.pop()
-print("Day 7.1:", root)
+root = [x for _, x in programs.items() if not x.parent][0]
+print("Day 7.1:", root.name)
 
-
-# Part 2
-tower_weight = {}
-
-
-def calc_weight(program):
-    children = parent_child[program]
-    self_weight = program_size[program]
-    child_weights = []
-    if len(children) == 0:
-        tower_weight[program] = self_weight
-        return self_weight
-    for c in children:
-        if c not in tower_weight:
-            if not calc_weight(c):
-                return False
-        child_weights.append((c, tower_weight[c]))
-
-    child_weights.sort(key=lambda t: t[1])
-    weight_diff = child_weights[0][1] - child_weights[-1][1]
-    if weight_diff:
-        wrong_child = child_weights[0] if child_weights[0][1] != child_weights[1][1] else child_weights[-1]
-        wrong_weight = program_size[wrong_child[0]]
-        correct_weight = wrong_weight + weight_diff if wrong_weight < child_weights[1][1] else wrong_weight - weight_diff
-        print("Day 7.2:", correct_weight)
-        return False
-    tower_weight[program] = self_weight + sum([x[1] for x in child_weights])
-    return True
-
-
-calc_weight(root)
+unbalanced = root.correct_unbalance()
+print("Day 7.2:", unbalanced.weight + unbalanced.correction)
