@@ -27,5 +27,5 @@ skip = 0
 for _ in range(64):
     knot_2, cur_pos, skip = tie_knot(knot_2, cur_pos, skip, inp_2)
 
-dense_hash = ["%02x" % reduce(lambda x, y: x ^ y, knot_2[i:i + 16]) for i in range(0, 256, 16)]
+dense_hash = ["%02x" % reduce(lambda x, y: x ^ y, i) for i in np.split(knot_2, 16)]
 print("Day 10.2:", "".join(dense_hash))
