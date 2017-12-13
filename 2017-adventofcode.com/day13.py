@@ -1,37 +1,28 @@
-scanner = {}
-with open('day13.in', 'r') as f:
-    for l in f:
-        layer, depth = map(int, l.strip().split(': '))
-        scanner[layer] = (depth, 2 * depth - 2)
+from itertools import count
 
-nr_layers = max(scanner.keys())
+firewall = []
+
+
+def as_rule(layer, depth):
+    return lambda T: layer * depth if ((T + layer) % (2 * (depth - 1))) == 0 else -1
 
 
 def pass_firewall(T):
-    severity = 0
-    caught = False
-    for layer in range(nr_layers + 1):
-        if layer in scanner:
-            d, r = scanner[layer]
-            pos = (layer + T) % r
-            # print(layer, ":", pos, d)
-            if pos == 0:
-                caught = True
-                severity += (layer * d)
-    return (caught, severity)
+    for rule in firewall:
+        yield rule(T)
 
 
-def clock():
-    n = 0
-    while True:
-        yield n
-        n += 1
+def pass_undetected():
+    for c in count():
+        if not any(map(lambda x: x >= 0, pass_firewall(c))):
+            yield c
 
 
-print("Day 13.1:", pass_firewall(0)[1])
-# print(pass_firewall(168108))
+with open('day13.in', 'r') as f:
+    for l in f:
+        layer, depth = map(int, l.strip().split(': '))
+        firewall.append(as_rule(layer, depth))
 
-for T in clock():
-    if not pass_firewall(T)[0]:
-        print("Day 13.2:", T)
-        break
+
+print("Day 13.1:", sum([max(0, severity) for severity in pass_firewall(0)]))
+print("Day 13.2:", next(pass_undetected()))
