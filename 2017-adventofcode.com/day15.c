@@ -10,11 +10,12 @@
 
 uint64_t rng_next(uint64_t x, uint64_t a, uint64_t divisor)
 {
+    uint64_t t, p, q;
     while (1)
     {
-        uint64_t t = a * x;
-        uint64_t p = t >> 31;
-        uint64_t q = t & 0x7FFFFFFF;
+        t = a * x;
+        p = t >> 31;
+        q = t & 0x7FFFFFFF;
         x = p + q;
         if (x > MODULUS)
             x -= MODULUS;
@@ -33,14 +34,8 @@ uint64_t rounds(uint64_t r, uint64_t div_a, uint64_t div_b)
     {
         a = rng_next(a, FACT_A, div_a);
         b = rng_next(b, FACT_B, div_b);
-        // printf("a = %llu, b = %llu\n", a, b);
-        // if (i > 5)
-        // {
-        //     break;
-        // }
-        if (((a ^ b) & 0xFFFF) == 0) {
+        if (((a ^ b) & 0xFFFF) == 0)
             count++;
-        }
     }
     return count;
 }
