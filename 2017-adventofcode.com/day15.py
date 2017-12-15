@@ -4,14 +4,16 @@ modulus = 2147483647
 
 def nr_generator(seed, mult, modulus, divisor):
     x = seed
+    divisor -= 1
     while True:
         x = (x * mult) % modulus
-        if x & (divisor - 1) == 0:
+        if x & divisor == 0:
             yield x
 
 
 def nr_generator_opt(x, a, m, divisor):
     """https://programmingpraxis.com/2014/01/14/minimum-standard-random-number-generator/"""
+    divisor -= 1
     while True:
         t = a * x
         p = t >> 31
@@ -19,7 +21,7 @@ def nr_generator_opt(x, a, m, divisor):
         x = p + q
         if x > m:
             x -= m
-        if x & (divisor - 1) == 0:
+        if x & divisor == 0:
             yield x
 
 
