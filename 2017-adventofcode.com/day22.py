@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 infected = set()
 
 dirs = {
@@ -22,41 +24,40 @@ with open('day22.in', 'r') as f:
 mutate = infected.copy()
 x, y = start_x, start_y
 d = 0  # Up
-infectious = 0
+infect = 0
 for _ in range(10000):
     if (x, y) in mutate:
         d = (d + 1) % 4
         mutate.remove((x, y))
     else:
         d = (d - 1) % 4
-        infectious += 1
+        infect += 1
         mutate.add((x, y))
     x, y = dirs[d](x, y)
 
-print("Day 22.1:", infectious)
+print("Day 22.1:", infect)
 
-evolved = {}
+evolved = defaultdict(lambda: '.')
 for i in infected:
     evolved[i] = '#'
 
 x, y = start_x, start_y
-infectious = 0
+infect = 0
 d = 0
 for _ in range(10000000):
-    if not (x, y) in evolved:
+    state = evolved[(x, y)]
+    if state == '.':
         evolved[(x, y)] = 'W'
         d = (d - 1) % 4
+    elif state == 'W':
+        evolved[(x, y)] = '#'
+        infect += 1
+    elif state == '#':
+        evolved[(x, y)] = 'F'
+        d = (d + 1) % 4
     else:
-        state = evolved[(x, y)]
-        if state == 'W':
-            evolved[(x, y)] = '#'
-            infectious += 1
-        elif state == '#':
-            evolved[(x, y)] = 'F'
-            d = (d + 1) % 4
-        else:
-            del evolved[(x, y)]
-            d = (d + 2) % 4
+        evolved[(x, y)] = '.'
+        d = (d + 2) % 4
     x, y = dirs[d](x, y)
 
-print("Day 22.2:", infectious)
+print("Day 22.2:", infect)
