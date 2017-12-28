@@ -1,33 +1,33 @@
 from collections import defaultdict, namedtuple
 from heapq import heappop, heappush
 
-Bridge = namedtuple('Bridge', ['weight', 'ports', 'tail'])
-
 mapping = defaultdict(list)
-
 with open('day24.in', 'r') as f:
     for l in f:
         port = tuple(map(int, l.strip().split('/')))
+        port = port[::-1] if port[0] > port[1] else port
         mapping[port[0]].append(port)
         mapping[port[1]].append(port)
 
 
-def solve():
-    bridges = [Bridge(0, [(None, 0)], 0)]
-    built_bridges = []
-    while bridges:
-        state = heappop(bridges)
-        connectors = [c for c in mapping[state.tail] if c not in state.ports]
-        for c in connectors:
-            new_tail = c[0] if state.tail == c[1] else c[1]
-            heappush(bridges, Bridge(state.weight + c[0] + c[1], state.ports + [c], new_tail))
-        else:
-            built_bridges.append(state)
+def bridges(bridge):
+    length, ports, strength, tail = bridge
+    for port in [p for p in mapping[tail] if p not in ports]:
+        new_tail = port[0] if tail == port[1] else port[1]
+        new_bridge = (length + 1, ports | {port}, strength + port[0] + port[1], new_tail)
+        yield from bridges(new_bridge)
+    else:
+        yield bridge
 
-    return built_bridges
+
+def solve():
+    all_bridges = []
+    for b in bridges((0, set(), 0, 0)):
+        all_bridges.append(b)
+    return all_bridges
 
 
 all_bridges = solve()
 
-print("Day 24.1:", max(all_bridges, key=lambda b: b.weight).weight)
-print("Day 24.2:", max(all_bridges, key=lambda b: (len(b.ports), b.weight)).weight)
+print("Day 24.1:", max(all_bridges, key=lambda b: b[2])[2])
+print("Day 24.2:", max(all_bridges, key=lambda b: (b[0], b[2]))[2])
