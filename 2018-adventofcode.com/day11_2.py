@@ -17,6 +17,7 @@ def pwr_lvl(y, x):
 grid = np.fromfunction(pwr_lvl, (300, 300), dtype=int)
 calc_grid = np.copy(grid)
 max_val = (0, (1, 0, 0))
+
 for i in range(2, 300):
     for y in range(0, 300 - i):
         for x in range(0, 300 - i):
