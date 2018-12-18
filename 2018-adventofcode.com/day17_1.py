@@ -4,13 +4,12 @@ import numpy as np
 def new_flood(ground, x, y, ymax):
     frontiers = [(x, y)]
     while frontiers:
-        # print(frontiers)
-        # show(ground)
         x, y = frontiers.pop()
         # Falling
         while ground[y + 1, x] in ['.', '|'] and y <= ymax:
             ground[y, x] = '|'
             y += 1
+        # Spreading
         if ground[y + 1, x] in ['#', '~']:
             left = x
             right = x

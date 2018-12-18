@@ -1,0 +1,78 @@
+import fileinput
+import numpy as np
+from collections import defaultdict
+
+LIMIT = 50
+
+def show(woods):
+    for i in woods:
+        print(''.join(i))
+
+def neighbours_8(x, y):
+    for dy in [-1, 0, 1]:
+        for dx in [-1, 0, 1]:
+            if dx == 0 and dy == 0:
+                continue
+            nx, ny = x + dx, y + dy
+            if nx < 0 or ny < 0 or nx >= LIMIT or ny >= LIMIT:
+                continue
+            yield (nx, ny)
+
+def evolve(woods):
+    new_woods = np.full((LIMIT, LIMIT), '.')
+    for y in range(LIMIT):
+        for x in range(LIMIT):
+            c = woods[y, x]
+            if c == '.':
+                trees = 0
+                for n in neighbours_8(x, y):
+                    trees += 1 if woods[n[1], n[0]] == '|' else 0
+                    if trees >= 3:
+                        new_woods[y, x] = '|'
+                        break
+                else:
+                    new_woods[y, x] = c
+            elif c == '|':
+                lumber = 0
+                for n in neighbours_8(x, y):
+                    lumber += 1 if woods[n[1], n[0]] == '#' else 0
+                    if lumber >= 3:
+                        new_woods[y, x] = '#'
+                        break
+                else:
+                    new_woods[y, x] = c
+            elif c == '#':
+                trees, lumber = 0, 0
+                for n in neighbours_8(x, y):
+                    v = woods[n[1], n[0]]
+                    trees += 1 if v == '|' else 0
+                    lumber += 1 if v == '#' else 0
+                    if trees >= 1 and lumber >= 1:
+                        new_woods[y, x] = '#'
+                        break
+                else:
+                    new_woods[y, x] = '.'
+    return new_woods
+
+
+woods = np.full((LIMIT, LIMIT), '.')
+y = 0
+for l in fileinput.input():
+    for i, c in enumerate(l.rstrip('\n')):
+        woods[y, i] = c
+    y += 1
+
+# show(woods)
+woodhash_times = {}
+time_woods = {}
+for t in range(1, 1001):
+    woods = evolve(woods)
+    h = hash(woods.tostring())
+    if h in woodhash_times:
+        tprev = woodhash_times[h]
+        wanted = tprev + ((1000000000 - tprev) % (t - tprev))
+        print(('|' == time_woods[wanted]).sum() * ('#' == time_woods[wanted]).sum())
+        break
+    woodhash_times[h] = t
+    time_woods[t] = woods
+
