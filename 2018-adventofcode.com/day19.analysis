@@ -1,0 +1,38 @@
+ 0: d += 16                 # addi 3 16 3  -> jmp 16 ( +1)
+ 1: b = 1                   # seti 1 5 1   -> b = 1
+ 2: e = 1                   # seti 1 4 4   -> e = 1
+ 3: f = b * e               # mulr 1 4 5   -> f = b * e
+ 4: f = 1 if f == c else 0  # eqrr 5 2 5   
+ 5: d += f                  # addr 5 3 3   -> jmp 5 + f ( +1)
+ 6: d += 1                  # addi 3 1 3   -> jmp 7 ( +1)
+ 7: a += b                  # addr 1 0 0   -> a = a + b
+ 8: e += 1                  # addi 4 1 4   -> e = e + 1
+ 9: f = 1 if e > c else 0   # gtrr 4 2 5   ->
+10: d += f                  # addr 3 5 3   -> jmp 10 + f ( +1)
+11: d = 2                   # seti 2 6 3   -> jmp 2 ( +1)
+12: b += 1                  # addi 1 1 1   -> b = b + 1
+13: f = 1 if b > c else 0   # gtrr 1 2 5   ->
+14: d += f                  # addr 5 3 3   -> jmp 14 + f ( +1)
+15: d = 1                   # seti 1 1 3   -> jmp 1 ( +1)
+16: d *= d                  # mulr 3 3 3   -> exit!
+17: c += 2                  # addi 2 2 2   -> c = c + 2
+18: c *= c                  # mulr 2 2 2   -> c = (c + 2) * c
+19: c *= d                  # mulr 3 2 2   -> c = (c + 2) * c * 19
+20: c *= 11                 # muli 2 11 2  -> c = (c + 2) * c * 19 * 11
+21: f += 3                  # addi 5 3 5   -> f = f * 3
+22: f *= d                  # mulr 5 3 5   -> f = f * 3 * 22
+23: f += 3                  # addi 5 3 5   -> f = (f * 3 * 22) + 3
+24: c += f                  # addr 2 5 2   -> c = ((c + 2) * c * 19 * 11) + (f * 3 * 22) + 3
+25: d += a                  # addr 3 0 3   -> jmp (25 + a) + 1
+26: d = 0                   # seti 0 6 3   -> jmp 0 ( +1)
+27: f = d                   # setr 3 8 5   -> f = 27
+28: f *= d                  # mulr 5 3 5   -> f = 27*28
+29: f += d                  # addr 3 5 5   -> f = 27*28+29
+30: f *= d                  # mulr 3 5 5   -> f = (27*28+29)*30
+31: f *= 14                 # muli 5 14 5  -> f = (27*28+29)*30*14
+32: f *= d                  # mulr 5 3 5   -> f = (27*28+29)*30*14*32
+33: c += f                  # addr 2 5 2   -> c = c + f
+34: a = 0                   # seti 0 2 0   -> a = 0
+35: d = 0                   # seti 0 2 3   -> jmp 0 (+1)
+
+a, b, c, d, e, f = 0
