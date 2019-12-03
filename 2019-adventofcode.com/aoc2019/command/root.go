@@ -11,6 +11,7 @@ import (
 )
 
 func init() {
+	rootCmd.AddCommand(dayCommand(1, &days.Day01{}))
 	rootCmd.AddCommand(dayCommand(2, &days.Day02{}))
 	rootCmd.AddCommand(dayCommand(3, &days.Day03{}))
 }
