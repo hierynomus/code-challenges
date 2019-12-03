@@ -4,36 +4,84 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/hierynomus/aoc2019/days"
-
 	"github.com/spf13/cobra"
 )
 
+var allDays map[int]days.Solver = map[int]days.Solver{
+	1: &days.Day01{},
+	2: &days.Day02{},
+	3: &days.Day03{},
+}
+
+var inputDir string
+
 func init() {
-	rootCmd.AddCommand(dayCommand(1, &days.Day01{}))
-	rootCmd.AddCommand(dayCommand(2, &days.Day02{}))
-	rootCmd.AddCommand(dayCommand(3, &days.Day03{}))
+	for k, v := range allDays {
+		rootCmd.AddCommand(dayCommand(k, v))
+	}
+	rootCmd.Flags().StringVarP(&inputDir, "input", "i", "", "Directory containing input files")
 }
 
 func dayCommand(day int, s days.Solver) *cobra.Command {
-	return &cobra.Command{
+	var f string
+	cmd := &cobra.Command{
 		Use:   fmt.Sprintf("day%02d", day),
 		Short: fmt.Sprintf("Solve Day %02d", day),
 		Run: func(cmf *cobra.Command, args []string) {
-			reader := bufio.NewScanner(os.Stdin)
-			p1, p2 := s.Solve(reader)
-			fmt.Printf("Day %02d.1: %s\n", day, p1)
-			fmt.Printf("Day %02d.2: %s\n", day, p2)
+			if strings.TrimSpace(f) != "" {
+				runDayWithInput(day, s, f)
+			} else if stdInAvailable() {
+				runDay(day, s)
+			} else {
+				panic(fmt.Errorf("No input available"))
+			}
 		},
 	}
+
+	cmd.Flags().StringVarP(&f, "file", "f", "", "Input file")
+	return cmd
+}
+
+func stdInAvailable() bool {
+	stat, _ := os.Stdin.Stat()
+	return stat.Mode()&os.ModeCharDevice == 0
+}
+
+func runDayWithInput(day int, s days.Solver, f string) {
+	fileHandle, err := os.Open(f)
+	if err != nil {
+		panic(err)
+	}
+	defer fileHandle.Close()
+	fileScanner := bufio.NewScanner(fileHandle)
+	runDayWithScanner(day, s, fileScanner)
+}
+
+func runDay(day int, s days.Solver) {
+	runDayWithScanner(day, s, bufio.NewScanner(os.Stdin))
+}
+
+func runDayWithScanner(day int, s days.Solver, scanner *bufio.Scanner) {
+	p1, p2 := s.Solve(scanner)
+	fmt.Printf("Day %02d.1: %s\n", day, p1)
+	fmt.Printf("Day %02d.2: %s\n", day, p2)
 }
 
 var rootCmd = &cobra.Command{
 	Use:   "aoc2019",
 	Short: "AoC 2019 Solutions",
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
+		if strings.TrimSpace(inputDir) != "" {
+			for day, solver := range allDays {
+				f := fmt.Sprintf("%s/day%02d.in", inputDir, day)
+				runDayWithInput(day, solver, f)
+			}
+		} else {
+			panic(fmt.Errorf("cannot run all days without input dir"))
+		}
 	},
 }
 
