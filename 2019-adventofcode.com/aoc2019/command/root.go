@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/hierynomus/aoc2019/days"
@@ -79,9 +80,15 @@ var rootCmd = &cobra.Command{
 	Short: "AoC 2019 Solutions",
 	Run: func(cmd *cobra.Command, args []string) {
 		if strings.TrimSpace(inputDir) != "" {
-			for day, solver := range allDays {
+			var keys []int
+			for k := range allDays {
+				keys = append(keys, k)
+			}
+			sort.Ints(keys)
+
+			for _, day := range keys {
 				f := fmt.Sprintf("%s/day%02d.in", inputDir, day)
-				runDayWithInput(day, solver, f)
+				runDayWithInput(day, allDays[day], f)
 			}
 		} else {
 			panic(fmt.Errorf("cannot run all days without input dir"))
