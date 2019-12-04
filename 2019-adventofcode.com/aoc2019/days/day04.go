@@ -17,8 +17,6 @@ func (d *Day04) Solve(scanner *bufio.Scanner) (string, string) {
 	}
 	r := strings.Split(scanner.Text(), "-")
 	lo, hi := aoc.ToInt(r[0]), aoc.ToInt(r[1])
-	println(lo)
-	println(hi)
 
 	nrPasswords := 0
 	nrPasswords2 := 0
