@@ -14,6 +14,7 @@ var allDays map[int]days.Solver = map[int]days.Solver{
 	1: &days.Day01{},
 	2: &days.Day02{},
 	3: &days.Day03{},
+	4: &days.Day04{},
 }
 
 var inputDir string
@@ -22,7 +23,7 @@ func init() {
 	for k, v := range allDays {
 		rootCmd.AddCommand(dayCommand(k, v))
 	}
-	rootCmd.Flags().StringVarP(&inputDir, "input", "i", "", "Directory containing input files")
+	rootCmd.PersistentFlags().StringVarP(&inputDir, "input", "i", "", "Directory containing input files")
 }
 
 func dayCommand(day int, s days.Solver) *cobra.Command {
@@ -32,6 +33,9 @@ func dayCommand(day int, s days.Solver) *cobra.Command {
 		Short: fmt.Sprintf("Solve Day %02d", day),
 		Run: func(cmf *cobra.Command, args []string) {
 			if strings.TrimSpace(f) != "" {
+				runDayWithInput(day, s, f)
+			} else if strings.TrimSpace(inputDir) != "" {
+				f := fmt.Sprintf("%s/day%02d.in", inputDir, day)
 				runDayWithInput(day, s, f)
 			} else if stdInAvailable() {
 				runDay(day, s)
