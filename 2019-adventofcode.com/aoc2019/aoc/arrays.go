@@ -5,17 +5,17 @@ import (
 	"strings"
 )
 
-func AsIntArray(line string) ([]int, error) {
+func AsIntArray(line string) []int {
 	arr := strings.Split(line, ",")
 	iArr := make([]int, len(arr))
 	for i, c := range arr {
 		n, err := strconv.Atoi(c)
 		if err != nil {
-			return nil, err
+			panic(err)
 		}
 		iArr[i] = n
 	}
-	return iArr, nil
+	return iArr
 }
 
 func AsRuneArray(line string) ([]rune, error) {

@@ -12,10 +12,7 @@ type Day02 struct{}
 
 func (d *Day02) Solve(reader *bufio.Scanner) (string, string) {
 	for reader.Scan() {
-		program, err := aoc.AsIntArray(reader.Text())
-		if err != nil {
-			panic(err)
-		}
+		program := aoc.AsIntArray(reader.Text())
 
 		program[1] = 12
 		program[2] = 2
@@ -24,7 +21,9 @@ func (d *Day02) Solve(reader *bufio.Scanner) (string, string) {
 		part1 := strconv.Itoa(icm.Run())
 		for x := 0; x <= 99; x++ {
 			for y := 0; y <= 99; y++ {
-				icm.SetNounVerb(x, y)
+				icm.Reset()
+				icm.Mem[1] = x
+				icm.Mem[2] = y
 				out := icm.Run()
 				if out == 19690720 {
 					return part1, strconv.Itoa(100*x + y)

@@ -1,37 +1,52 @@
 package intcode
 
 type IntCodeMachine struct {
-	mem     []int
-	opCodes map[int]*Instruction
+	Mem        Memory
+	initialMem Memory
+	opCodes    map[int]*Instruction
+	IO         *InputOutput
 }
 
-func NewIntCodeMachine(initialMem []int) *IntCodeMachine {
+func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
+	io := NewInputOutput()
 	return &IntCodeMachine{
-		mem: initialMem,
+		Mem:        initialMem.Copy(),
+		initialMem: initialMem,
 		opCodes: map[int]*Instruction{
 			1:  Addition(),
 			2:  Multiplication(),
+			3:  Input(io),
+			4:  Output(io),
+			5:  JumpIfTrue(),
+			6:  JumpIfFalse(),
+			7:  LessThan(),
+			8:  Equals(),
 			99: Halt(),
 		},
+		IO: io,
 	}
 }
 
-func (icm *IntCodeMachine) SetNounVerb(noun int, verb int) {
-	icm.mem[1] = noun
-	icm.mem[2] = verb
+func (icm *IntCodeMachine) Reset() {
+	icm.Mem = icm.initialMem.Copy()
+	icm.IO.Reset()
 }
 
 func (icm *IntCodeMachine) Run() int {
-	mem := make([]int, len(icm.mem))
-	copy(mem, icm.mem)
 	pointer := 0
-	for pointer < len(mem) {
-		i := icm.opCodes[mem[pointer]]
-		newMem, err := i.f(pointer, mem)
+	for pointer < len(icm.Mem) {
+		i := icm.opCodes[icm.Mem[pointer]%100]
+		err := i.f(pointer, icm.Mem)
 		if err != nil {
-			return err.(*HaltError).code
+			switch e := err.(type) {
+			case *HaltError:
+				icm.IO.Close()
+				return e.code
+			case *Jump:
+				pointer = e.newLocation
+				continue
+			}
 		}
-		mem = newMem
 		pointer += i.opCodeLen
 	}
 	return 0
