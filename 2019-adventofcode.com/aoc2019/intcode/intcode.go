@@ -1,5 +1,9 @@
 package intcode
 
+import "fmt"
+
+var Debug bool = false
+
 type IntCodeMachine struct {
 	Mem        Memory
 	initialMem Memory
@@ -36,6 +40,9 @@ func (icm *IntCodeMachine) Run() int {
 	pointer := 0
 	for pointer < len(icm.Mem) {
 		i := icm.opCodes[icm.Mem[pointer]%100]
+		if Debug {
+			fmt.Printf("%d: %s %v\n", pointer, i.str, icm.Mem[pointer:pointer+i.opCodeLen])
+		}
 		err := i.f(pointer, icm.Mem)
 		if err != nil {
 			switch e := err.(type) {

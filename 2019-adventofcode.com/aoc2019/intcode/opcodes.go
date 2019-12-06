@@ -20,6 +20,7 @@ func (e *Jump) Error() string {
 
 type Instruction struct {
 	opCode    int
+	str       string
 	opCodeLen int
 	f         func(ptr int, mem Memory) error
 }
@@ -27,6 +28,7 @@ type Instruction struct {
 func Addition() *Instruction {
 	return &Instruction{
 		opCode:    1,
+		str:       "add",
 		opCodeLen: 4,
 		f: func(ptr int, mem Memory) error {
 			modeOp := mem[ptr]
@@ -41,6 +43,7 @@ func Addition() *Instruction {
 func Multiplication() *Instruction {
 	return &Instruction{
 		opCode:    2,
+		str:       "mul",
 		opCodeLen: 4,
 		f: func(ptr int, mem Memory) error {
 			modeOp := mem[ptr]
@@ -55,6 +58,7 @@ func Multiplication() *Instruction {
 func Halt() *Instruction {
 	return &Instruction{
 		opCode:    99,
+		str:       "halt",
 		opCodeLen: 1,
 		f: func(ptr int, mem Memory) error {
 			return &HaltError{mem[0]}
@@ -65,6 +69,7 @@ func Halt() *Instruction {
 func Input(io *InputOutput) *Instruction {
 	return &Instruction{
 		opCode:    3,
+		str:       "inp",
 		opCodeLen: 2,
 		f: func(ptr int, mem Memory) error {
 			mem.Set(ptr+1, io.Read())
@@ -76,6 +81,7 @@ func Input(io *InputOutput) *Instruction {
 func Output(io *InputOutput) *Instruction {
 	return &Instruction{
 		opCode:    4,
+		str:       "out",
 		opCodeLen: 2,
 		f: func(ptr int, mem Memory) error {
 			modeOp := mem[ptr]
@@ -88,6 +94,7 @@ func Output(io *InputOutput) *Instruction {
 func JumpIfTrue() *Instruction {
 	return &Instruction{
 		opCode:    5,
+		str:       "jt",
 		opCodeLen: 3,
 		f: func(ptr int, mem Memory) error {
 			modeOp := mem[ptr]
@@ -103,6 +110,7 @@ func JumpIfTrue() *Instruction {
 func JumpIfFalse() *Instruction {
 	return &Instruction{
 		opCode:    5,
+		str:       "jf",
 		opCodeLen: 3,
 		f: func(ptr int, mem Memory) error {
 			modeOp := mem[ptr]
@@ -118,6 +126,7 @@ func JumpIfFalse() *Instruction {
 func LessThan() *Instruction {
 	return &Instruction{
 		opCode:    6,
+		str:       "lt",
 		opCodeLen: 4,
 		f: func(ptr int, mem Memory) error {
 			modeOp := mem[ptr]
@@ -135,6 +144,7 @@ func LessThan() *Instruction {
 func Equals() *Instruction {
 	return &Instruction{
 		opCode:    8,
+		str:       "eq",
 		opCodeLen: 4,
 		f: func(ptr int, mem Memory) error {
 			modeOp := mem[ptr]
