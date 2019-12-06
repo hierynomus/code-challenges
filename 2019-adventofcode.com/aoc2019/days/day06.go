@@ -3,78 +3,64 @@ package days
 import (
 	"bufio"
 	"fmt"
-	"github.com/hierynomus/aoc2019/aoc"
 	"strconv"
 	"strings"
 )
 
 type Day06 struct{}
 
-var SpaceObjects map[string]*SpaceObject = map[string]*SpaceObject{}
-
-func GetOrCreate(object string) *SpaceObject {
-	var o *SpaceObject
-	if v, ok := SpaceObjects[object]; ok {
-		o = v
-	} else {
-		o = &SpaceObject{object, nil, []*SpaceObject{}}
-		SpaceObjects[object] = o
-	}
-	return o
-}
-
 type SpaceObject struct {
 	object   string
 	orbiting *SpaceObject
-	orbiters []*SpaceObject
 }
 
 func (s *SpaceObject) String() string {
 	return fmt.Sprintf("%s->%s", s.object, s.orbiting)
 }
 
+type SpaceMap map[string]*SpaceObject
+
+func (s SpaceMap) GetOrCreate(object string) *SpaceObject {
+	var o *SpaceObject
+	if v, ok := s[object]; ok {
+		o = v
+	} else {
+		o = &SpaceObject{object, nil}
+		s[object] = o
+	}
+	return o
+}
+
 func (d *Day06) Solve(scanner *bufio.Scanner) (string, string) {
+	spaceMap := make(SpaceMap)
 	for scanner.Scan() {
 		orbit := strings.Split(scanner.Text(), ")")
-		planet1, planet2 := GetOrCreate(orbit[0]), GetOrCreate(orbit[1])
-		if planet2.orbiting != nil {
+		o1, o2 := spaceMap.GetOrCreate(orbit[0]), spaceMap.GetOrCreate(orbit[1])
+		if o2.orbiting != nil {
 			panic(fmt.Errorf("BooM!"))
 		}
-		planet2.orbiting = planet1
-		planet1.orbiters = append(planet1.orbiters, planet2)
+		o2.orbiting = o1
 	}
 
 	orbits := 0
-	for _, v := range SpaceObjects {
+	for _, v := range spaceMap {
 		for v.orbiting != nil {
 			orbits++
 			v = v.orbiting
 		}
 	}
 
-	me := SpaceObjects["YOU"]
-	santa := SpaceObjects["SAN"]
+	me := spaceMap["YOU"]
+	santa := spaceMap["SAN"]
 
-	fmt.Printf("%s\n", me)
-	fmt.Printf("%s\n", santa)
-
-	orbitListSanta := []string{}
-	o := santa
-	for o.orbiting != nil {
-		orbitListSanta = append(orbitListSanta, o.orbiting.object)
-		o = o.orbiting
-	}
-
-	m := me
 	transfers := 0
-	for m.orbiting != nil {
-		i := aoc.StringArrayIndex(orbitListSanta, m.orbiting.object)
-		if i != -1 {
-			transfers += i
-			break
-		} else {
-			transfers++
-			m = m.orbiting
+	found := false
+	for mDist, m := 0, me.orbiting; !found && m.orbiting != nil; mDist, m = mDist+1, m.orbiting {
+		for sDist, s := 0, santa.orbiting; !found && s.orbiting != nil; sDist, s = sDist+1, s.orbiting {
+			if s == m {
+				transfers = mDist + sDist
+				found = true
+			}
 		}
 	}
 
