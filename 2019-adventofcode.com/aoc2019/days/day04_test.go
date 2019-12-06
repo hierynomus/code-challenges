@@ -29,3 +29,8 @@ func TestHasExactPair(t *testing.T) {
 	assert.Check(t, !hasExactPair(135679))
 	assert.Check(t, hasExactPair(1356679))
 }
+
+func TestDay04(t *testing.T) {
+	d := TestDay(&Day04{}, t)
+	d.WithFile("../input/day04.in", "945", "617")
+}

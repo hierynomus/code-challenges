@@ -62,6 +62,13 @@ func (w Wire) IndexOf(p aoc.Point) int {
 	return -1
 }
 
+var Dirs map[byte][]int = map[byte][]int{
+	'U': []int{0, 1},
+	'D': []int{0, -1},
+	'L': []int{-1, 0},
+	'R': []int{1, 0},
+}
+
 func wireToPoints(wire []string) Wire {
 	x, y := 0, 0
 	var points []aoc.Point
@@ -71,18 +78,7 @@ func wireToPoints(wire []string) Wire {
 		if err != nil {
 			panic(err)
 		}
-		var dx, dy int
-		switch dir {
-		case 'U':
-			dx, dy = 0, 1
-		case 'D':
-			dx, dy = 0, -1
-		case 'L':
-			dx, dy = -1, 0
-		case 'R':
-			dx, dy = 1, 0
-		}
-		nx, ny, pts := makePoints(x, y, dx, dy, dist)
+		nx, ny, pts := makePoints(x, y, Dirs[dir][0], Dirs[dir][1], dist)
 		x, y = nx, ny
 		points = append(points, pts...)
 	}
@@ -93,7 +89,7 @@ func makePoints(x, y, dx, dy, nr int) (nx, ny int, np []aoc.Point) {
 	nx, ny = x, y
 	for i := 0; i < nr; i++ {
 		nx, ny = nx+dx, ny+dy
-		np = append(np, aoc.Point{nx, ny})
+		np = append(np, aoc.Point{X: nx, Y: ny})
 	}
 	return
 }

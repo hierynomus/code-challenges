@@ -43,3 +43,12 @@ func StringArrayIndex(haystack []string, needle string) int {
 	}
 	return -1
 }
+
+func IntArrayIndex(haystack []int, needle int) int {
+	for i, s := range haystack {
+		if s == needle {
+			return i
+		}
+	}
+	return -1
+}
