@@ -25,3 +25,21 @@ func AsRuneArray(line string) ([]rune, error) {
 func AsStringArray(line string) ([]string, error) {
 	return strings.Split(line, ","), nil
 }
+
+func StringArrayContains(haystack []string, needle string) bool {
+	for _, s := range haystack {
+		if s == needle {
+			return true
+		}
+	}
+	return false
+}
+
+func StringArrayIndex(haystack []string, needle string) int {
+	for i, s := range haystack {
+		if s == needle {
+			return i
+		}
+	}
+	return -1
+}
