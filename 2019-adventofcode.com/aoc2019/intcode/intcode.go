@@ -9,6 +9,7 @@ type IntCodeMachine struct {
 	initialMem Memory
 	opCodes    map[int]*Instruction
 	IO         *InputOutput
+	Closed     bool
 }
 
 func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
@@ -27,13 +28,15 @@ func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
 			8:  Equals(),
 			99: Halt(),
 		},
-		IO: io,
+		IO:     io,
+		Closed: false,
 	}
 }
 
 func (icm *IntCodeMachine) Reset() {
 	icm.Mem = icm.initialMem.Copy()
 	icm.IO.Reset()
+	icm.Closed = false
 }
 
 func (icm *IntCodeMachine) Run() int {
@@ -48,6 +51,7 @@ func (icm *IntCodeMachine) Run() int {
 			switch e := err.(type) {
 			case *HaltError:
 				icm.IO.Close()
+				icm.Closed = true
 				return e.code
 			case *Jump:
 				pointer = e.newLocation
