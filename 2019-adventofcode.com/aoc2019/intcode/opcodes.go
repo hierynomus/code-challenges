@@ -22,7 +22,7 @@ type Instruction struct {
 	opCode    int
 	str       string
 	opCodeLen int
-	f         func(ptr int, mem Memory) error
+	f         func(state *State, mem Memory) error
 }
 
 func Addition() *Instruction {
@@ -30,11 +30,11 @@ func Addition() *Instruction {
 		opCode:    1,
 		str:       "add",
 		opCodeLen: 4,
-		f: func(ptr int, mem Memory) error {
-			modeOp := mem[ptr]
-			l := mem.Get(ptr+1, modeOp/100%10)
-			r := mem.Get(ptr+2, modeOp/1000%10)
-			mem.Set(ptr+3, l+r)
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			l := mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase)
+			r := mem.Get(state.Ip+2, modeOp/1000%10, state.RelativeBase)
+			mem.Set(state.Ip+3, l+r, modeOp/10000%10, state.RelativeBase)
 			return nil
 		},
 	}
@@ -45,11 +45,11 @@ func Multiplication() *Instruction {
 		opCode:    2,
 		str:       "mul",
 		opCodeLen: 4,
-		f: func(ptr int, mem Memory) error {
-			modeOp := mem[ptr]
-			l := mem.Get(ptr+1, modeOp/100%10)
-			r := mem.Get(ptr+2, modeOp/1000%10)
-			mem.Set(ptr+3, l*r)
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			l := mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase)
+			r := mem.Get(state.Ip+2, modeOp/1000%10, state.RelativeBase)
+			mem.Set(state.Ip+3, l*r, modeOp/10000%10, state.RelativeBase)
 			return nil
 		},
 	}
@@ -60,7 +60,7 @@ func Halt() *Instruction {
 		opCode:    99,
 		str:       "halt",
 		opCodeLen: 1,
-		f: func(ptr int, mem Memory) error {
+		f: func(state *State, mem Memory) error {
 			return &HaltError{mem[0]}
 		},
 	}
@@ -71,8 +71,9 @@ func Input(io *InputOutput) *Instruction {
 		opCode:    3,
 		str:       "inp",
 		opCodeLen: 2,
-		f: func(ptr int, mem Memory) error {
-			mem.Set(ptr+1, io.Read())
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			mem.Set(state.Ip+1, io.Read(), modeOp/100%10, state.RelativeBase)
 			return nil
 		},
 	}
@@ -83,9 +84,9 @@ func Output(io *InputOutput) *Instruction {
 		opCode:    4,
 		str:       "out",
 		opCodeLen: 2,
-		f: func(ptr int, mem Memory) error {
-			modeOp := mem[ptr]
-			io.Write(mem.Get(ptr+1, modeOp/100%10))
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			io.Write(mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase))
 			return nil
 		},
 	}
@@ -96,11 +97,11 @@ func JumpIfTrue() *Instruction {
 		opCode:    5,
 		str:       "jt",
 		opCodeLen: 3,
-		f: func(ptr int, mem Memory) error {
-			modeOp := mem[ptr]
-			jump := mem.Get(ptr+1, modeOp/100%10)
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			jump := mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase)
 			if jump != 0 {
-				return &Jump{mem.Get(ptr+2, modeOp/1000%10)}
+				return &Jump{mem.Get(state.Ip+2, modeOp/1000%10, state.RelativeBase)}
 			}
 			return nil
 		},
@@ -112,11 +113,11 @@ func JumpIfFalse() *Instruction {
 		opCode:    5,
 		str:       "jf",
 		opCodeLen: 3,
-		f: func(ptr int, mem Memory) error {
-			modeOp := mem[ptr]
-			jump := mem.Get(ptr+1, modeOp/100%10)
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			jump := mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase)
 			if jump == 0 {
-				return &Jump{mem.Get(ptr+2, modeOp/1000%10)}
+				return &Jump{mem.Get(state.Ip+2, modeOp/1000%10, state.RelativeBase)}
 			}
 			return nil
 		},
@@ -128,14 +129,14 @@ func LessThan() *Instruction {
 		opCode:    6,
 		str:       "lt",
 		opCodeLen: 4,
-		f: func(ptr int, mem Memory) error {
-			modeOp := mem[ptr]
-			l := mem.Get(ptr+1, modeOp/100%10)
-			r := mem.Get(ptr+2, modeOp/1000%10)
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			l := mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase)
+			r := mem.Get(state.Ip+2, modeOp/1000%10, state.RelativeBase)
 			if l < r {
-				mem.Set(ptr+3, 1)
+				mem.Set(state.Ip+3, 1, modeOp/10000%10, state.RelativeBase)
 			} else {
-				mem.Set(ptr+3, 0)
+				mem.Set(state.Ip+3, 0, modeOp/10000%10, state.RelativeBase)
 			}
 			return nil
 		},
@@ -146,15 +147,29 @@ func Equals() *Instruction {
 		opCode:    8,
 		str:       "eq",
 		opCodeLen: 4,
-		f: func(ptr int, mem Memory) error {
-			modeOp := mem[ptr]
-			l := mem.Get(ptr+1, modeOp/100%10)
-			r := mem.Get(ptr+2, modeOp/1000%10)
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			l := mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase)
+			r := mem.Get(state.Ip+2, modeOp/1000%10, state.RelativeBase)
 			if l == r {
-				mem.Set(ptr+3, 1)
+				mem.Set(state.Ip+3, 1, modeOp/10000%10, state.RelativeBase)
 			} else {
-				mem.Set(ptr+3, 0)
+				mem.Set(state.Ip+3, 0, modeOp/10000%10, state.RelativeBase)
 			}
+			return nil
+		},
+	}
+}
+
+func SetRelativeBase() *Instruction {
+	return &Instruction{
+		opCode:    9,
+		str:       "roff",
+		opCodeLen: 2,
+		f: func(state *State, mem Memory) error {
+			modeOp := mem[state.Ip]
+			l := mem.Get(state.Ip+1, modeOp/100%10, state.RelativeBase)
+			state.RelativeBase += l
 			return nil
 		},
 	}

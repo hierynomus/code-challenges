@@ -26,6 +26,7 @@ func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
 			6:  JumpIfFalse(),
 			7:  LessThan(),
 			8:  Equals(),
+			9:  SetRelativeBase(),
 			99: Halt(),
 		},
 		IO:     io,
@@ -40,13 +41,17 @@ func (icm *IntCodeMachine) Reset() {
 }
 
 func (icm *IntCodeMachine) Run() int {
-	pointer := 0
-	for pointer < len(icm.Mem) {
-		i := icm.opCodes[icm.Mem[pointer]%100]
-		if Debug {
-			fmt.Printf("%d: %s %v\n", pointer, i.str, icm.Mem[pointer:pointer+i.opCodeLen])
+	state := &State{0, 0}
+	for state.Ip < len(icm.Mem) {
+		opc := icm.Mem[state.Ip] % 100
+		i, ok := icm.opCodes[opc]
+		if !ok {
+			panic(fmt.Errorf("Unknown opcode %d", opc))
 		}
-		err := i.f(pointer, icm.Mem)
+		if Debug {
+			fmt.Printf("%d: %s %v\n", state.Ip, i.str, icm.Mem[state.Ip:state.Ip+i.opCodeLen])
+		}
+		err := i.f(state, icm.Mem)
 		if err != nil {
 			switch e := err.(type) {
 			case *HaltError:
@@ -54,11 +59,11 @@ func (icm *IntCodeMachine) Run() int {
 				icm.Closed = true
 				return e.code
 			case *Jump:
-				pointer = e.newLocation
+				state.Ip = e.newLocation
 				continue
 			}
 		}
-		pointer += i.opCodeLen
+		state.Ip += i.opCodeLen
 	}
 	return 0
 }

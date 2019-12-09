@@ -20,6 +20,7 @@ var allDays map[int]days.Solver = map[int]days.Solver{
 	6: &days.Day06{},
 	7: &days.Day07{},
 	8: &days.Day08{},
+	9: &days.Day09{},
 }
 
 var inputDir string
