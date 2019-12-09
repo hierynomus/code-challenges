@@ -43,32 +43,22 @@ func (d *Day08) Solve(scanner *bufio.Scanner) (string, string) {
 		}
 	}
 
+	output := "\n"
 	for y := 0; y < Height; y++ {
 		for x := 0; x < Width; x++ {
 			for _, l := range layers {
 				layerPixel := l[Width*y+x]
-				if layerPixel == Transparent {
-					continue
-				} else if layerPixel == Black {
-					print(" ")
+				if layerPixel == Black {
+					output += " "
 					break
 				} else if layerPixel == White {
-					print("X")
+					output += "X"
 					break
 				}
 			}
 		}
-		print("\n")
+		output += "\n"
 	}
 
-	return strconv.Itoa(hist['1'] * hist['2']), ""
-}
-
-func AsIntArray(line string) []int {
-	iArr := make([]int, len(line))
-	for i, c := range line {
-		n := int(c - '0')
-		iArr[i] = n
-	}
-	return iArr
+	return strconv.Itoa(hist['1'] * hist['2']), output
 }

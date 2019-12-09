@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/hierynomus/aoc2019/aoc"
-	"github.com/magiconair/properties/assert"
+	"gotest.tools/v3/assert"
 )
 
 func TestHistogram(t *testing.T) {
@@ -16,5 +16,5 @@ func TestHistogram(t *testing.T) {
 
 func TestDay08_Real(t *testing.T) {
 	d := TestDay(&Day08{}, t)
-	d.WithFile("../input/day08.in", "1485", "")
+	d.WithFile("../input/day08.in", "1485", "\nXXX  X     XX  X  X XXXX \nX  X X    X  X X X  X    \nX  X X    X  X XX   XXX  \nXXX  X    XXXX X X  X    \nX X  X    X  X X X  X    \nX  X XXXX X  X X  X X    \n")
 }
