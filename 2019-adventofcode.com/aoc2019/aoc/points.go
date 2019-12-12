@@ -12,6 +12,18 @@ func (p Point) String() string {
 	return fmt.Sprintf("(%d,%d)", p.X, p.Y)
 }
 
+type Point3D struct {
+	X, Y, Z int64
+}
+
+func (p Point3D) String() string {
+	return fmt.Sprintf("(%d,%d,%d)", p.X, p.Y, p.Z)
+}
+
+func ZeroPoint3D() Point3D {
+	return Point3D{X: 0, Y: 0, Z: 0}
+}
+
 func Manhattan(p1 Point, p2 Point) int {
 	return Abs(p1.X-p2.X) + Abs(p1.Y-p2.Y)
 }
