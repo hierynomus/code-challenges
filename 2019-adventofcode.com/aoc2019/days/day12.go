@@ -40,20 +40,19 @@ func (s *JupiterSystem) Move() {
 	}
 }
 
-func (s *JupiterSystem) AllCycled() bool {
-	for _, m := range s.moons {
-		if !m.Cycled() {
-			return false
-		}
-	}
-	return true
-}
+// func (s *JupiterSystem) AllCycled() bool {
+// 	for _, m := range s.moons {
+// 		if !m.Cycled() {
+// 			return false
+// 		}
+// 	}
+// 	return true
+// }
 
 type Moon struct {
 	Initial aoc.Point3D
 	L       aoc.Point3D
 	V       aoc.Point3D
-	time    int64
 	cycles  aoc.Point3D
 }
 
@@ -62,8 +61,6 @@ func NewMoon(p aoc.Point3D) *Moon {
 		Initial: p,
 		L:       p,
 		V:       aoc.ZeroPoint3D(),
-		time:    0,
-		cycles:  aoc.ZeroPoint3D(),
 	}
 }
 
@@ -79,27 +76,11 @@ func (m *Moon) ApplyGravity(o *Moon) {
 	}
 }
 
-func (m *Moon) Cycled() bool {
-	return m.cycles.X > 0 && m.cycles.Y > 0 && m.cycles.Z > 0
-}
-
 func (m *Moon) Move() {
 	m.L = aoc.Point3D{
 		X: m.L.X + m.V.X,
 		Y: m.L.Y + m.V.Y,
 		Z: m.L.Z + m.V.Z,
-	}
-	m.time++
-	if !m.Cycled() {
-		if m.L.X == m.Initial.X && m.V.X == 0 && m.cycles.X == 0 {
-			m.cycles = aoc.Point3D{X: m.time, Y: m.cycles.Y, Z: m.cycles.Z}
-		}
-		if m.L.Y == m.Initial.Y && m.V.Y == 0 && m.cycles.Y == 0 {
-			m.cycles = aoc.Point3D{X: m.cycles.X, Y: m.time, Z: m.cycles.Z}
-		}
-		if m.L.Z == m.Initial.Z && m.V.Z == 0 && m.cycles.Z == 0 {
-			m.cycles = aoc.Point3D{X: m.cycles.X, Y: m.cycles.Y, Z: m.time}
-		}
 	}
 }
 
@@ -147,18 +128,44 @@ func (d *Day12) Solve(scanner *bufio.Scanner) (string, string) {
 	}
 
 	part2 := system.Copy()
-	for !part2.AllCycled() {
+
+	cycled := make([]int64, 3)
+	for time := int64(0); cycled[0] == 0 || cycled[1] == 0 || cycled[2] == 0; time++ {
 		part2.ApplyGravity()
 		part2.Move()
+		foundX, foundY, foundZ := true, true, true
+		for _, m := range part2.moons {
+			if cycled[0] > 0 || m.L.X != m.Initial.X {
+				foundX = false
+			}
+			if cycled[1] > 0 || m.L.Y != m.Initial.Y {
+				foundY = false
+			}
+			if cycled[2] >= 0 || m.L.Z != m.Initial.Z {
+				foundZ = false
+			}
+		}
+
+		if foundX {
+			cycled[0] = time
+		}
+		if foundY {
+			cycled[1] = time
+		}
+		if foundZ {
+			cycled[2] = time
+		}
 	}
 
-	lcms := []int64{}
-	for _, m := range part2.moons {
-		fmt.Printf("%v\n", m)
-		lcm := aoc.Lcm(m.cycles.X, m.cycles.Y)
-		lcm = aoc.Lcm(lcm, m.cycles.Z)
-		fmt.Printf("%d\n", lcm)
-		lcms = append(lcms, lcm)
-	}
-	return fmt.Sprintf("%d", totalEnergy), fmt.Sprintf("%d", aoc.LcmArray(lcms))
+	lcm := aoc.LcmArray(cycled)
+
+	// lcms := []int64{}
+	// for _, m := range part2.moons {
+	// 	fmt.Printf("%v\n", m)
+	// 	lcm := aoc.Lcm(m.cycles.X, m.cycles.Y)
+	// 	lcm = aoc.Lcm(lcm, m.cycles.Z)
+	// 	fmt.Printf("%d\n", lcm)
+	// 	lcms = append(lcms, lcm)
+	// }
+	return fmt.Sprintf("%d", totalEnergy), fmt.Sprintf("%d", lcm)
 }
