@@ -5,6 +5,18 @@ import (
 	"strings"
 )
 
+func IntArrayAsString(arr []int, sep string) string {
+	if len(arr) == 0 {
+		return ""
+	}
+	s := strconv.Itoa(arr[0])
+	for _, i := range arr[1:] {
+		s += sep
+		s += strconv.Itoa(i)
+	}
+	return s
+}
+
 func AsIntArray(line string) []int {
 	arr := strings.Split(line, ",")
 	iArr := make([]int, len(arr))
