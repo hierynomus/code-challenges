@@ -37,13 +37,34 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 	}
 
 	intersections := FindIntersections(grid)
-	Print(grid)
 
 	sum := 0
 	for _, i := range intersections {
 		sum += i.X * i.Y
 	}
-	return strconv.Itoa(sum), ""
+
+	program[0] = 2
+	droid := intcode.NewIntCodeMachine(program)
+	go droid.Run()
+
+	// Calculated by hand
+	// 	Print(grid)
+	//Main: A,B,A,C,B,C,B,C,A,C
+	//A: L,10,R,12,R,12
+	//B: R,6,R,10,L,10
+	//C: R,10,L,10,L,12,R,6
+	go func() {
+		movements := "A,B,A,C,B,C,B,C,A,C\nL,10,R,12,R,12\nR,6,R,10,L,10\nR,10,L,10,L,12,R,6\nn\n"
+		for _, m := range movements {
+			droid.IO.Input <- int(m)
+		}
+	}()
+
+	Dust := 0
+	for i := range droid.IO.Output {
+		Dust = i
+	}
+	return strconv.Itoa(sum), strconv.Itoa(Dust)
 }
 
 func FindIntersections(grid [][]rune) []aoc.Point {
