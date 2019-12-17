@@ -1,13 +1,77 @@
 {
-	"folders": [
-		{
-			"name": "code-challenges",
-			"path": "."
-		},
-		{
-			"name": "AdventOfCode - 2019",
-			"path": "2019-adventofcode.com/aoc2019"
-		}
-	],
-	"settings": {}
+  "folders": [
+    {
+      "name": "code-challenges",
+      "path": "."
+    },
+    {
+      "name": "AdventOfCode - 2019",
+      "path": "2019-adventofcode.com/aoc2019"
+    }
+  ],
+  "settings": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.detectIndentation": false,
+    "editor.formatOnSave": true,
+    "editor.insertSpaces": true,
+    "editor.minimap.enabled": false,
+    "editor.tabSize": 2,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "git.autofetch": true,
+    "gopls": {
+      "completeUnimported": true,
+      "usePlaceholders": true,
+      "completionDocumentation": true,
+      "hoverKind": "SynopsisDocumentation" // No/Synopsis/Full, default Synopsis
+    },
+    "go.languageServerExperimentalFeatures": {
+      "format": true,
+      "autoComplete": true,
+      "rename": true,
+      "goToDefinition": true,
+      "hover": true,
+      "signatureHelp": true,
+      "goToTypeDefinition": true,
+      "goToImplementation": true,
+      "documentSymbols": true,
+      "workspaceSymbols": true,
+      "findReferences": true,
+      "diagnostics": true,
+      "documentLink": false
+    },
+    "go.autocompleteUnimportedPackages": true,
+    "go.useLanguageServer": true,
+    "go.formatTool": "goimports",
+    "go.lintFlags": [
+      "--fast",
+      "--enable-all",
+      "--disable",
+      "lll"
+    ],
+    "go.buildTags": "integration",
+    "go.lintOnSave": "package",
+    "go.lintTool": "golangci-lint",
+    "go.testFlags": [
+      "-v",
+      "-count=1"
+    ],
+    "go.vetOnSave": "package",
+    "[go]": {
+      "files.eol": "\n", // formatting only supports LF line ending
+    },
+    "[sql]": {
+      "editor.formatOnSave": false
+    },
+    "[yaml]": {
+      "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+      },
+      "editor.autoIndent": "advanced"
+    }
+  },
 }
