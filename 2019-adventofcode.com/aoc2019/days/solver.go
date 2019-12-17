@@ -2,6 +2,6 @@ package days
 
 import "bufio"
 
-type Solver interface {
+type Day interface {
 	Solve(r *bufio.Scanner) (string, string)
 }

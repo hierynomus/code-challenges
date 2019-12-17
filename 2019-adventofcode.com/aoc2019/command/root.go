@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var allDays map[int]days.Solver = map[int]days.Solver{
+var allDays map[int]days.Day = map[int]days.Day{
 	1:  &days.Day01{},
 	2:  &days.Day02{},
 	3:  &days.Day03{},
@@ -26,6 +26,7 @@ var allDays map[int]days.Solver = map[int]days.Solver{
 	12: &days.Day12{},
 	13: &days.Day13{},
 	14: &days.Day14{},
+	15: &days.Day15{},
 	16: &days.Day16{},
 	17: &days.Day17{},
 }
@@ -39,7 +40,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&inputDir, "input", "i", "", "Directory containing input files")
 }
 
-func dayCommand(day int, s days.Solver) *cobra.Command {
+func dayCommand(day int, s days.Day) *cobra.Command {
 	var f string
 	cmd := &cobra.Command{
 		Use:   fmt.Sprintf("day%02d", day),
@@ -67,7 +68,7 @@ func stdInAvailable() bool {
 	return stat.Mode()&os.ModeCharDevice == 0
 }
 
-func runDayWithInput(day int, s days.Solver, f string) {
+func runDayWithInput(day int, s days.Day, f string) {
 	fileHandle, err := os.Open(f)
 	if err != nil {
 		panic(err)
@@ -77,11 +78,11 @@ func runDayWithInput(day int, s days.Solver, f string) {
 	runDayWithScanner(day, s, fileScanner)
 }
 
-func runDay(day int, s days.Solver) {
+func runDay(day int, s days.Day) {
 	runDayWithScanner(day, s, bufio.NewScanner(os.Stdin))
 }
 
-func runDayWithScanner(day int, s days.Solver, scanner *bufio.Scanner) {
+func runDayWithScanner(day int, s days.Day, scanner *bufio.Scanner) {
 	p1, p2 := s.Solve(scanner)
 	fmt.Printf("Day %02d.1: %s\n", day, p1)
 	fmt.Printf("Day %02d.2: %s\n", day, p2)

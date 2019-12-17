@@ -10,14 +10,14 @@ import (
 )
 
 type DayTester struct {
-	solver Solver
-	t      *testing.T
+	day Day
+	t   *testing.T
 }
 
-func TestDay(s Solver, t *testing.T) *DayTester {
+func TestDay(s Day, t *testing.T) *DayTester {
 	return &DayTester{
-		solver: s,
-		t:      t,
+		day: s,
+		t:   t,
 	}
 }
 
@@ -38,7 +38,7 @@ func (d *DayTester) WithInput(input string, expected1 string, expected2 string) 
 }
 
 func (d *DayTester) withScanner(scanner *bufio.Scanner, expected1 string, expected2 string) {
-	o1, o2 := d.solver.Solve(scanner)
+	o1, o2 := d.day.Solve(scanner)
 	assert.Equal(d.t, o1, expected1)
 	assert.Equal(d.t, o2, expected2)
 }
