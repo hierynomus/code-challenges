@@ -31,13 +31,12 @@ func (a *Arkanoid) ReadAndUpdateState() {
 		if x == -1 && y == 0 {
 			a.Score = k
 			if len(a.Blocks) == 0 {
+				close(a.BallUpdate)
 				break
 			}
 		}
 		a.Update(aoc.Point{X: x, Y: y}, k)
-		if k == Paddle {
-			a.PaddleUpdate <- a.Paddle
-		} else if k == Ball {
+		if k == Ball {
 			a.BallUpdate <- a.Ball
 		}
 	}
@@ -64,7 +63,6 @@ func (a *Arkanoid) Init() {
 	x, y, k := 0, 0, 0
 	for {
 		x, y, k = a.read()
-		fmt.Printf("%d: (%d, %d)\n", k, x, y)
 		if x == -1 && y == 0 {
 			break
 		}
@@ -129,11 +127,7 @@ func (d *Day13) Solve(scanner *bufio.Scanner) (string, string) {
 	go game.ReadAndUpdateState()
 
 	game.PlayMove()
-	for len(game.Blocks) > 0 {
-		if game.JoystickPosition != 0 {
-			<-game.PaddleUpdate
-		}
-		<-game.BallUpdate
+	for range game.BallUpdate {
 		game.PlayMove()
 	}
 
