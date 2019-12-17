@@ -37,7 +37,6 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 	}
 
 	intersections := FindIntersections(grid)
-	fmt.Print(intersections)
 	Print(grid)
 
 	sum := 0
