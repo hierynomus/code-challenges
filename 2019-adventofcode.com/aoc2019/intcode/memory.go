@@ -11,14 +11,16 @@ const (
 )
 
 func (m Memory) Get(address int, mode int, relativeBase int) int {
-	if mode == Position {
+	switch mode {
+	case Position:
 		return m[m[address]]
-	} else if mode == Immediate {
+	case Immediate:
 		return m[address]
-	} else if mode == Relative {
+	case Relative:
 		return m[m[address]+relativeBase]
+	default:
+		panic(fmt.Errorf("invalid mode %d", mode))
 	}
-	panic(fmt.Errorf("Invalid mode %d", mode))
 }
 
 func (m Memory) Set(address int, val int, mode int, relativeBase int) {
@@ -29,11 +31,13 @@ func (m Memory) Set(address int, val int, mode int, relativeBase int) {
 		m[m[address]+relativeBase] = val
 		return
 	}
-	panic(fmt.Errorf("Invalid mode %d", mode))
+
+	panic(fmt.Errorf("invalid mode %d", mode))
 }
 
 func (m Memory) Copy() Memory {
 	newMem := make([]int, len(m)+100000)
 	copy(newMem, m)
+
 	return newMem
 }

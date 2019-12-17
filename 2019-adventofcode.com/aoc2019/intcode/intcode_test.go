@@ -1,10 +1,11 @@
 package intcode
 
-import "testing"
+import (
+	"testing"
 
-import "github.com/hierynomus/aoc2019/aoc"
-
-import "gotest.tools/v3/assert"
+	"github.com/hierynomus/aoc2019/aoc"
+	"gotest.tools/v3/assert"
+)
 
 func TestShouldFunctionParameterMode(t *testing.T) {
 	input := aoc.AsIntArray("1002,4,3,4,33")
@@ -16,10 +17,12 @@ func TestShouldFunctionParameterMode(t *testing.T) {
 func TestShouldJumpCorrectlyPositionMode(t *testing.T) {
 	input := aoc.AsIntArray("3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9")
 	icm := NewIntCodeMachine(input)
+
 	go icm.Run()
 	icm.IO.Input <- 0
 	assert.Equal(t, <-icm.IO.Output, 0)
 	icm.Reset()
+
 	go icm.Run()
 	icm.IO.Input <- 2
 	assert.Equal(t, <-icm.IO.Output, 1)
@@ -28,10 +31,12 @@ func TestShouldJumpCorrectlyPositionMode(t *testing.T) {
 func TestShouldJumpCorrectlyImmediateMode(t *testing.T) {
 	input := aoc.AsIntArray("3,3,1105,-1,9,1101,0,0,12,4,12,99,1")
 	icm := NewIntCodeMachine(input)
+
 	go icm.Run()
 	icm.IO.Input <- 0
 	assert.Equal(t, <-icm.IO.Output, 0)
 	icm.Reset()
+
 	go icm.Run()
 	icm.IO.Input <- 2
 	assert.Equal(t, <-icm.IO.Output, 1)
@@ -40,17 +45,20 @@ func TestShouldJumpCorrectlyImmediateMode(t *testing.T) {
 func TestIntCodeDay05_1(t *testing.T) {
 	input := aoc.AsIntArray("3,9,8,9,10,9,4,9,99,-1,8")
 	icm := NewIntCodeMachine(input)
+
 	go icm.Run()
 	icm.IO.Input <- 8
 	assert.Equal(t, <-icm.IO.Output, 1)
-
 }
 
 func TestIntCodeDay09_1(t *testing.T) {
 	input := aoc.AsIntArray("109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99")
 	icm := NewIntCodeMachine(input)
+
 	go icm.Run()
+
 	out := []int{}
+
 	for i := range icm.IO.Output {
 		out = append(out, i)
 	}
@@ -61,6 +69,7 @@ func TestIntCodeDay09_1(t *testing.T) {
 func TestIntCodeDay09_2(t *testing.T) {
 	input := aoc.AsIntArray("1102,34915192,34915192,7,4,7,99,0")
 	icm := NewIntCodeMachine(input)
+
 	go icm.Run()
 	assert.Equal(t, <-icm.IO.Output, 1219070632396864)
 }
@@ -68,6 +77,7 @@ func TestIntCodeDay09_2(t *testing.T) {
 func TestIntCodeDay09_3(t *testing.T) {
 	input := aoc.AsIntArray("104,1125899906842624,99")
 	icm := NewIntCodeMachine(input)
+
 	go icm.Run()
 	assert.Equal(t, <-icm.IO.Output, 1125899906842624)
 }

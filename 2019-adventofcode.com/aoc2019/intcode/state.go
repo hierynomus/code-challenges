@@ -1,6 +1,6 @@
 package intcode
 
 type State struct {
-	Ip           int // InstructionPointer
+	IP           int // InstructionPointer
 	RelativeBase int
 }

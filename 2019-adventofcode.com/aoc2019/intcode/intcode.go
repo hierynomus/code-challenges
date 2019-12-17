@@ -2,7 +2,7 @@ package intcode
 
 import "fmt"
 
-var Debug bool = false
+var Debug bool = false //nolint:gochecknoglobals
 
 type IntCodeMachine struct {
 	Mem        Memory
@@ -14,6 +14,7 @@ type IntCodeMachine struct {
 
 func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
 	io := NewInputOutput()
+
 	return &IntCodeMachine{
 		Mem:        initialMem.Copy(),
 		initialMem: initialMem,
@@ -42,28 +43,34 @@ func (icm *IntCodeMachine) Reset() {
 
 func (icm *IntCodeMachine) Run() int {
 	state := &State{0, 0}
-	for state.Ip < len(icm.Mem) {
-		opc := icm.Mem[state.Ip] % 100
+	for state.IP < len(icm.Mem) {
+		opc := icm.Mem[state.IP] % 100
 		i, ok := icm.opCodes[opc]
+
 		if !ok {
-			panic(fmt.Errorf("Unknown opcode %d", opc))
+			panic(fmt.Errorf("unknown opcode %d", opc))
 		}
+
 		if Debug {
-			fmt.Printf("%d: %s %v\n", state.Ip, i.str, icm.Mem[state.Ip:state.Ip+i.opCodeLen])
+			fmt.Printf("%d: %s %v\n", state.IP, i.str, icm.Mem[state.IP:state.IP+i.opCodeLen])
 		}
+
 		err := i.f(state, icm.Mem)
 		if err != nil {
 			switch e := err.(type) {
 			case *HaltError:
 				icm.IO.Close()
 				icm.Closed = true
+
 				return e.code
 			case *Jump:
-				state.Ip = e.newLocation
+				state.IP = e.newLocation
 				continue
 			}
 		}
-		state.Ip += i.opCodeLen
+
+		state.IP += i.opCodeLen
 	}
+
 	return 0
 }
