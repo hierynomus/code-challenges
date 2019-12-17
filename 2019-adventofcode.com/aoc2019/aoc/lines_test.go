@@ -1,8 +1,10 @@
 package aoc
 
-import "testing"
+import (
+	"testing"
 
-import "gotest.tools/v3/assert"
+	"gotest.tools/v3/assert"
+)
 
 func TestShouldIntersect(t *testing.T) {
 	l1 := Line{Point{0, 0}, Point{10, 0}}

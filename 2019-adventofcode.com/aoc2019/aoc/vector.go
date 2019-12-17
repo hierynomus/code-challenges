@@ -1,8 +1,9 @@
 package aoc
 
-import "math"
-
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 type Vector struct {
 	Radians float64
@@ -16,7 +17,7 @@ func (v *Vector) String() string {
 func CreateVector(a *Point, o *Point) *Vector {
 	angle := math.Atan2(float64(o.X-a.X), float64(a.Y-o.Y)) * 180 / math.Pi
 	if angle < 0 {
-		angle = angle + 360
+		angle += 360
 	}
 
 	return &Vector{

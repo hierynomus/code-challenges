@@ -2,6 +2,7 @@ package aoc
 
 func Permutations(arr []int) [][]int {
 	var helper func([]int, int)
+
 	res := [][]int{}
 
 	helper = func(arr []int, n int) {
@@ -25,5 +26,6 @@ func Permutations(arr []int) [][]int {
 		}
 	}
 	helper(arr, len(arr))
+
 	return res
 }

@@ -1,8 +1,10 @@
 package aoc
 
-import "testing"
+import (
+	"testing"
 
-import "gotest.tools/v3/assert"
+	"gotest.tools/v3/assert"
+)
 
 func TestLcm(t *testing.T) {
 	assert.Equal(t, Lcm(6, 10), 30)

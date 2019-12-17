@@ -2,7 +2,7 @@ package aoc
 
 import "fmt"
 
-var Origin = Point{0, 0}
+var Origin = Point{0, 0} //nolint:gochecknoglobals
 
 type Point struct {
 	X, Y int
