@@ -4,7 +4,7 @@ import "fmt"
 
 var Debug bool = false //nolint:gochecknoglobals
 
-type IntCodeMachine struct {
+type IntCodeMachine struct { //nolint:golint
 	Mem        Memory
 	initialMem Memory
 	opCodes    map[int]*Instruction

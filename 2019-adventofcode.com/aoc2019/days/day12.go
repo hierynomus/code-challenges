@@ -20,6 +20,7 @@ func (s *JupiterSystem) Copy() *JupiterSystem {
 	for _, m := range s.moons {
 		newMoons = append(newMoons, NewMoon(m.L))
 	}
+
 	return &JupiterSystem{newMoons}
 }
 
@@ -29,6 +30,7 @@ func (s *JupiterSystem) ApplyGravity() {
 			if x == y {
 				continue
 			}
+
 			x.ApplyGravity(y)
 		}
 	}
@@ -87,6 +89,7 @@ func (m *Moon) Move() {
 func (m *Moon) Energy() int64 {
 	potential := m.energy(m.L)
 	kinetic := m.energy(m.V)
+
 	return potential * kinetic
 }
 
@@ -100,23 +103,31 @@ func (m *Moon) adj(self, other int64) int64 {
 	} else if self < other {
 		return 1
 	}
+
 	return 0
+}
+
+func ParseMoon(line string) *Moon {
+	l := strings.Trim(line, "<>")
+	xyz := strings.Split(l, ", ")
+	coords := []int64{}
+
+	for _, i := range xyz {
+		j, _ := strconv.Atoi(strings.SplitAfter(i, "=")[1])
+		coords = append(coords, int64(j))
+	}
+
+	return NewMoon(aoc.Point3D{X: coords[0], Y: coords[1], Z: coords[2]})
 }
 
 func (d *Day12) Solve(scanner *bufio.Scanner) (string, string) {
 	system := &JupiterSystem{moons: []*Moon{}}
 	for scanner.Scan() {
-		l := strings.Trim(scanner.Text(), "<>")
-		xyz := strings.Split(l, ", ")
-		coords := []int64{}
-		for _, i := range xyz {
-			j, _ := strconv.Atoi(strings.SplitAfter(i, "=")[1])
-			coords = append(coords, int64(j))
-		}
-		system.moons = append(system.moons, NewMoon(aoc.Point3D{X: coords[0], Y: coords[1], Z: coords[2]}))
+		system.moons = append(system.moons, ParseMoon(scanner.Text()))
 	}
 
 	part1 := system.Copy()
+
 	for i := 0; i < 1000; i++ {
 		part1.ApplyGravity()
 		part1.Move()
@@ -127,37 +138,37 @@ func (d *Day12) Solve(scanner *bufio.Scanner) (string, string) {
 		totalEnergy += m.Energy()
 	}
 
-	part2 := system.Copy()
+	// part2 := system.Copy()
 
-	cycled := make([]int64, 3)
-	for time := int64(0); cycled[0] == 0 || cycled[1] == 0 || cycled[2] == 0; time++ {
-		part2.ApplyGravity()
-		part2.Move()
-		foundX, foundY, foundZ := true, true, true
-		for _, m := range part2.moons {
-			if cycled[0] > 0 || m.L.X != m.Initial.X {
-				foundX = false
-			}
-			if cycled[1] > 0 || m.L.Y != m.Initial.Y {
-				foundY = false
-			}
-			if cycled[2] >= 0 || m.L.Z != m.Initial.Z {
-				foundZ = false
-			}
-		}
+	// cycled := make([]int64, 3)
+	// for time := int64(0); cycled[0] == 0 || cycled[1] == 0 || cycled[2] == 0; time++ {
+	// 	part2.ApplyGravity()
+	// 	part2.Move()
+	// 	foundX, foundY, foundZ := true, true, true
+	// 	for _, m := range part2.moons {
+	// 		if cycled[0] > 0 || m.L.X != m.Initial.X {
+	// 			foundX = false
+	// 		}
+	// 		if cycled[1] > 0 || m.L.Y != m.Initial.Y {
+	// 			foundY = false
+	// 		}
+	// 		if cycled[2] >= 0 || m.L.Z != m.Initial.Z {
+	// 			foundZ = false
+	// 		}
+	// 	}
 
-		if foundX {
-			cycled[0] = time
-		}
-		if foundY {
-			cycled[1] = time
-		}
-		if foundZ {
-			cycled[2] = time
-		}
-	}
+	// 	if foundX {
+	// 		cycled[0] = time
+	// 	}
+	// 	if foundY {
+	// 		cycled[1] = time
+	// 	}
+	// 	if foundZ {
+	// 		cycled[2] = time
+	// 	}
+	// }
 
-	lcm := aoc.LcmArray(cycled)
+	// lcm := aoc.LcmArray(cycled)
 
 	// lcms := []int64{}
 	// for _, m := range part2.moons {
@@ -167,5 +178,5 @@ func (d *Day12) Solve(scanner *bufio.Scanner) (string, string) {
 	// 	fmt.Printf("%d\n", lcm)
 	// 	lcms = append(lcms, lcm)
 	// }
-	return fmt.Sprintf("%d", totalEnergy), fmt.Sprintf("%d", lcm)
+	return fmt.Sprintf("%d", totalEnergy), "" //fmt.Sprintf("%d", lcm)
 }

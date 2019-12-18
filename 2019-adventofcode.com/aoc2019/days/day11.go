@@ -20,12 +20,13 @@ func (r *Robot) turn(turn int) {
 	if turn == 0 {
 		turn = -1
 	}
+
 	r.d = (4 + r.d + turn) % 4
 }
 
 func (r *Robot) move() {
 	directions := map[int]aoc.Point{
-		0: aoc.Point{X: 0, Y: -1},
+		0: aoc.Point{X: 0, Y: -1}, //nolint:gofmt
 		1: aoc.Point{X: 1, Y: 0},
 		2: aoc.Point{X: 0, Y: 1},
 		3: aoc.Point{X: -1, Y: 0},
@@ -36,7 +37,7 @@ func (r *Robot) move() {
 
 func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 	if !scanner.Scan() {
-		panic(fmt.Errorf("Boom!"))
+		panic(fmt.Errorf("boom"))
 	}
 
 	painted := map[aoc.Point]int{}
@@ -47,6 +48,7 @@ func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 	go icm.Run()
 
 	robot := &Robot{l: aoc.Point{X: 0, Y: 0}, d: 0}
+
 	for !icm.Closed {
 		color, present := painted[robot.l]
 		if !present {
@@ -60,13 +62,18 @@ func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 
 	// Part 2
 	icm.Reset()
+
 	grid := make([][]int, 6)
+
 	for y := 0; y < 6; y++ {
 		grid[y] = make([]int, 43)
 	}
+
 	go icm.Run()
+
 	robot = &Robot{l: aoc.Point{X: 0, Y: 0}, d: 0}
 	grid[robot.l.Y][robot.l.X] = 1
+
 	for !icm.Closed {
 		color := grid[robot.l.Y][robot.l.X]
 		icm.IO.Input <- color
@@ -75,7 +82,12 @@ func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 		robot.move()
 	}
 
+	return strconv.Itoa(len(painted)), PrintGrid(grid)
+}
+
+func PrintGrid(grid [][]int) string {
 	out := "\n"
+
 	for y := 0; y < len(grid); y++ {
 		l := grid[y]
 		for x := 0; x < len(l); x++ {
@@ -85,7 +97,9 @@ func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 				out += "."
 			}
 		}
+
 		out += "\n"
 	}
-	return strconv.Itoa(len(painted)), out
+
+	return out
 }

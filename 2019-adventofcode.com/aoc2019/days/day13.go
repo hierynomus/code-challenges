@@ -26,6 +26,7 @@ type Arkanoid struct {
 
 func (a *Arkanoid) ReadAndUpdateState() {
 	x, y, k := 0, 0, 0
+
 	for {
 		x, y, k = a.read()
 		if x == -1 && y == 0 {
@@ -35,7 +36,9 @@ func (a *Arkanoid) ReadAndUpdateState() {
 				break
 			}
 		}
+
 		a.Update(aoc.Point{X: x, Y: y}, k)
+
 		if k == Ball {
 			a.BallUpdate <- a.Ball
 		}
@@ -48,26 +51,30 @@ func (a *Arkanoid) read() (x, y, k int) {
 }
 
 func (a *Arkanoid) Update(p aoc.Point, k int) {
-	if k == Ball {
+	switch k {
+	case Ball:
 		a.Ball = p
-	} else if k == Paddle {
+	case Paddle:
 		a.Paddle = p
-	} else if k == Block {
+	case Block:
 		a.Blocks[p] = struct{}{}
-	} else if k == Empty {
+	case Empty:
 		delete(a.Blocks, p)
 	}
 }
 
 func (a *Arkanoid) Init() {
 	x, y, k := 0, 0, 0
+
 	for {
 		x, y, k = a.read()
 		if x == -1 && y == 0 {
 			break
 		}
+
 		a.Update(aoc.Point{X: x, Y: y}, k)
 	}
+
 	a.Score = k
 }
 
@@ -78,21 +85,22 @@ func (a *Arkanoid) PlayMove() {
 	} else if a.Paddle.X < a.Ball.X {
 		joystick = 1
 	}
+
 	a.JoystickPosition = joystick
 	a.Machine.IO.Input <- joystick
 }
 
 const (
 	Empty  int = 0
-	Wall       = 1
-	Block      = 2
-	Paddle     = 3
-	Ball       = 4
+	Wall   int = 1
+	Block  int = 2
+	Paddle int = 3
+	Ball   int = 4
 )
 
 func (d *Day13) Solve(scanner *bufio.Scanner) (string, string) {
 	if !scanner.Scan() {
-		panic(fmt.Errorf("Boom!"))
+		panic(fmt.Errorf("boom"))
 	}
 
 	program := aoc.AsIntArray(scanner.Text())
@@ -106,6 +114,7 @@ func (d *Day13) Solve(scanner *bufio.Scanner) (string, string) {
 		<-icm.IO.Output
 		<-icm.IO.Output
 		k := <-icm.IO.Output
+
 		if k == Block {
 			nrBlocks++
 		}
@@ -113,7 +122,9 @@ func (d *Day13) Solve(scanner *bufio.Scanner) (string, string) {
 
 	program[0] = 2
 	arcade := intcode.NewIntCodeMachine(program)
+
 	go arcade.Run()
+
 	game := &Arkanoid{
 		Machine:      arcade,
 		Score:        0,
@@ -124,9 +135,11 @@ func (d *Day13) Solve(scanner *bufio.Scanner) (string, string) {
 	}
 	game.Init()
 	game.wg.Add(1)
+
 	go game.ReadAndUpdateState()
 
 	game.PlayMove()
+
 	for range game.BallUpdate {
 		game.PlayMove()
 	}

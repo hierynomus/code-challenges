@@ -14,8 +14,11 @@ func (d *Day05) Solve(scanner *bufio.Scanner) (string, string) {
 	if scanner.Scan() {
 		program := aoc.AsIntArray(scanner.Text())
 		icm := intcode.NewIntCodeMachine(program)
+
 		var part1, part2 string
+
 		go icm.Run()
+
 		icm.IO.Input <- 1
 		for i := range icm.IO.Output {
 			if i != 0 {
@@ -28,7 +31,9 @@ func (d *Day05) Solve(scanner *bufio.Scanner) (string, string) {
 		go icm.Run()
 		icm.IO.Input <- 5
 		part2 = strconv.Itoa(<-icm.IO.Output)
+
 		return part1, part2
 	}
+
 	return "", ""
 }

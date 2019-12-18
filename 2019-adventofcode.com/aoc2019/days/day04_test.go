@@ -1,8 +1,10 @@
 package days
 
-import "testing"
+import (
+	"testing"
 
-import "gotest.tools/v3/assert"
+	"gotest.tools/v3/assert"
+)
 
 func TestIsAsc(t *testing.T) {
 	assert.Check(t, isAsc(123))

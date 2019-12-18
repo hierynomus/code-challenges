@@ -11,11 +11,12 @@ type Day16 struct{}
 
 func (d *Day16) Solve(scanner *bufio.Scanner) (string, string) {
 	if !scanner.Scan() {
-		panic(fmt.Errorf("Could not read input"))
+		panic(fmt.Errorf("could not read input"))
 	}
 
 	line := scanner.Text()
 	input := []int{}
+
 	for _, c := range line {
 		input = append(input, int(c-'0'))
 	}
@@ -45,6 +46,7 @@ func roundA(arr []int) []int {
 	for i := 0; i < len(arr); i++ {
 		out[i] = fft(i, arr)
 	}
+
 	return out
 }
 
@@ -52,6 +54,7 @@ func fft(idx int, arr []int) int {
 	sum := 0
 	rpt := 1 + idx
 	patIdx := 1
+
 	for i := 0; i < len(arr); i++ {
 		pat := (patIdx / rpt) % 4
 		if pat == 1 { // 0, *1*, 0, -1
@@ -61,5 +64,6 @@ func fft(idx int, arr []int) int {
 		}
 		patIdx++
 	}
+
 	return aoc.Abs(sum) % 10
 }

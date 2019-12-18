@@ -13,7 +13,7 @@ type Day17 struct{}
 
 func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 	if !scanner.Scan() {
-		panic(fmt.Errorf("Boom!"))
+		panic(fmt.Errorf("boom"))
 	}
 
 	program := aoc.AsIntArray(scanner.Text())
@@ -25,12 +25,13 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 	go icm.Run()
 
 	y := 0
+
 	for !icm.Closed {
 		c := rune(<-icm.IO.Output)
 		switch c {
 		case '\n':
-			y += 1
 			grid = append(grid, []rune{})
+			y++
 		default:
 			grid[y] = append(grid[y], c)
 		}
@@ -45,6 +46,7 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 
 	program[0] = 2
 	droid := intcode.NewIntCodeMachine(program)
+
 	go droid.Run()
 
 	// Calculated by hand
@@ -64,34 +66,39 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 	for i := range droid.IO.Output {
 		Dust = i
 	}
+
 	return strconv.Itoa(sum), strconv.Itoa(Dust)
 }
 
 func FindIntersections(grid [][]rune) []aoc.Point {
 	points := []aoc.Point{}
 	xLen := len(grid[0])
+
 	for y := 1; y < len(grid)-1; y++ {
 		for x := 1; x < xLen-1; x++ {
 			if grid[y][x] == '#' {
 				found := true
+
 				for _, n := range getNeighbours(x, y) {
 					if grid[n.Y][n.X] != '#' {
 						found = false
 						break
 					}
 				}
+
 				if found {
 					points = append(points, aoc.Point{X: x, Y: y})
 				}
 			}
 		}
 	}
+
 	return points
 }
 
 func getNeighbours(x, y int) []aoc.Point {
 	return []aoc.Point{
-		aoc.Point{X: x - 1, Y: y},
+		aoc.Point{X: x - 1, Y: y}, //nolint:gofmt
 		aoc.Point{X: x + 1, Y: y},
 		aoc.Point{X: x, Y: y - 1},
 		aoc.Point{X: x, Y: y + 1},

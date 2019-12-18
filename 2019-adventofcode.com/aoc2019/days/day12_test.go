@@ -17,8 +17,8 @@ func TestDay12_1(t *testing.T) {
 `
 	d := TestDay(&Day12{}, t)
 	d.WithInput(input, "14645", "4686774924")
-
 }
+
 func TestDay12_2(t *testing.T) {
 	input := `<x=-1, y=0, z=2>
 <x=2, y=-10, z=-7>
@@ -27,5 +27,4 @@ func TestDay12_2(t *testing.T) {
 `
 	d := TestDay(&Day12{}, t)
 	d.WithInput(input, "183", "2772")
-
 }

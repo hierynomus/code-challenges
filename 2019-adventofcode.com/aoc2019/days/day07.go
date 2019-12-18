@@ -22,12 +22,23 @@ func (a AmplifierArray) Reset() {
 	}
 }
 
+func (a AmplifierArray) PassValues(in int) int {
+	for i := 0; i < 5; i++ {
+		a[i].IO.Input <- in
+		in = <-a[i].IO.Output
+	}
+
+	return in
+}
+
 type Day07 struct{}
 
 func (d *Day07) Solve(scanner *bufio.Scanner) (string, string) {
 	amplifiers := AmplifierArray{}
+
 	if scanner.Scan() {
 		program := aoc.AsIntArray(scanner.Text())
+
 		for i := 0; i < 5; i++ {
 			amplifiers = append(amplifiers, intcode.NewIntCodeMachine(program))
 		}
@@ -35,42 +46,42 @@ func (d *Day07) Solve(scanner *bufio.Scanner) (string, string) {
 		permutations := aoc.Permutations([]int{0, 1, 2, 3, 4})
 
 		maxOut := 0
+
 		for _, perm := range permutations {
 			for i, x := range perm {
 				amplifiers[i].IO.Input <- x
 			}
+
 			amplifiers.Run()
-			amplifiers[0].IO.Input <- 0
-			amplifiers[1].IO.Input <- <-amplifiers[0].IO.Output
-			amplifiers[2].IO.Input <- <-amplifiers[1].IO.Output
-			amplifiers[3].IO.Input <- <-amplifiers[2].IO.Output
-			amplifiers[4].IO.Input <- <-amplifiers[3].IO.Output
-			newMax := <-amplifiers[4].IO.Output
+
+			newMax := amplifiers.PassValues(0)
+
 			if newMax > maxOut {
 				maxOut = newMax
 			}
+
 			amplifiers.Reset()
 		}
 
 		permutations = aoc.Permutations([]int{5, 6, 7, 8, 9})
 
 		maxOut2 := 0
+
 		for _, perm := range permutations {
 			amplifiers.Reset()
 
 			for i, x := range perm {
 				amplifiers[i].IO.Input <- x
 			}
+
 			amplifiers.Run()
+
 			newMax := 0
+
 			for !amplifiers[0].Closed {
-				amplifiers[0].IO.Input <- newMax
-				amplifiers[1].IO.Input <- <-amplifiers[0].IO.Output
-				amplifiers[2].IO.Input <- <-amplifiers[1].IO.Output
-				amplifiers[3].IO.Input <- <-amplifiers[2].IO.Output
-				amplifiers[4].IO.Input <- <-amplifiers[3].IO.Output
-				newMax = <-amplifiers[4].IO.Output
+				newMax = amplifiers.PassValues(newMax)
 			}
+
 			if newMax > maxOut2 {
 				maxOut2 = newMax
 			}
@@ -78,5 +89,6 @@ func (d *Day07) Solve(scanner *bufio.Scanner) (string, string) {
 
 		return strconv.Itoa(maxOut), strconv.Itoa(maxOut2)
 	}
+
 	return "", ""
 }

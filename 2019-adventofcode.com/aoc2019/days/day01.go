@@ -1,8 +1,10 @@
 package days
 
-import "bufio"
+import (
+	"bufio"
 
-import "strconv"
+	"strconv"
+)
 
 type Day01 struct{}
 
@@ -12,11 +14,13 @@ func FuelFor(mass int) int {
 
 func (d *Day01) Solve(reader *bufio.Scanner) (string, string) {
 	var input []int
+
 	for reader.Scan() {
 		i, err := strconv.Atoi(reader.Text())
 		if err != nil {
 			panic(err)
 		}
+
 		input = append(input, i)
 	}
 
@@ -26,6 +30,7 @@ func (d *Day01) Solve(reader *bufio.Scanner) (string, string) {
 	}
 
 	part2 := 0
+
 	for _, i := range input {
 		fuel := FuelFor(i)
 		for fuel > 0 {
@@ -35,5 +40,4 @@ func (d *Day01) Solve(reader *bufio.Scanner) (string, string) {
 	}
 
 	return strconv.Itoa(part1), strconv.Itoa(part2)
-
 }

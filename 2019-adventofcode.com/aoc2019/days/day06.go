@@ -28,24 +28,30 @@ func (s SpaceMap) GetOrCreate(object string) *SpaceObject {
 		o = &SpaceObject{object, nil}
 		s[object] = o
 	}
+
 	return o
 }
 
 func (d *Day06) Solve(scanner *bufio.Scanner) (string, string) {
 	spaceMap := make(SpaceMap)
+
 	for scanner.Scan() {
 		orbit := strings.Split(scanner.Text(), ")")
 		o1, o2 := spaceMap.GetOrCreate(orbit[0]), spaceMap.GetOrCreate(orbit[1])
+
 		if o2.orbiting != nil {
-			panic(fmt.Errorf("BooM!"))
+			panic(fmt.Errorf("boom"))
 		}
+
 		o2.orbiting = o1
 	}
 
 	orbits := 0
+
 	for _, v := range spaceMap {
 		for v.orbiting != nil {
 			orbits++
+
 			v = v.orbiting
 		}
 	}
@@ -55,6 +61,7 @@ func (d *Day06) Solve(scanner *bufio.Scanner) (string, string) {
 
 	transfers := 0
 	found := false
+
 	for mDist, m := 0, me.orbiting; !found && m.orbiting != nil; mDist, m = mDist+1, m.orbiting {
 		for sDist, s := 0, santa.orbiting; !found && s.orbiting != nil; sDist, s = sDist+1, s.orbiting {
 			if s == m {
