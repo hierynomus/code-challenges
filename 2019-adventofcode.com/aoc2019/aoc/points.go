@@ -12,6 +12,14 @@ func (p Point) String() string {
 	return fmt.Sprintf("(%d,%d)", p.X, p.Y)
 }
 
+func (p Point) Add(o Point) Point {
+	return Point{X: p.X + o.X, Y: p.Y + o.Y}
+}
+
+func (p Point) AddXY(x, y int) Point {
+	return Point{X: p.X + x, Y: p.Y + y}
+}
+
 type Point3D struct {
 	X, Y, Z int64
 }

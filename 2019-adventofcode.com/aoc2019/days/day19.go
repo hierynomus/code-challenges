@@ -47,34 +47,9 @@ func (d *Day19) Solve(scanner *bufio.Scanner) (string, string) {
 		}
 	}
 
-	x, y := 100, 100
-	xStart := x
-	count := 0
-
-	for {
-		x = xStart
-		for !tb.Pulled(x, y) {
-			x++
-		}
-
-		xStart = x
-
-		for tb.Pulled(x, y) { // x-loop
-			x++
-			count++
-		}
-
-		if count >= 100 {
-			break
-		} else {
-			count = 0
-			y++
-		}
-	}
-
 	xCount := 1
 	yCount := 1
-	pos := aoc.Point{X: xStart, Y: y}
+	pos := aoc.Point{X: 800, Y: 800} // Works from any set of coords on left side of TB
 
 	for !(xCount >= 100 && yCount >= 100) {
 		if tb.Pulled(pos.X+xCount, pos.Y) {
@@ -88,7 +63,6 @@ func (d *Day19) Solve(scanner *bufio.Scanner) (string, string) {
 			for !tb.Pulled(pos.X, pos.Y) {
 				pos = pos.AddXY(1, 0)
 			}
-			fmt.Println(pos)
 		}
 
 		if tb.Pulled(pos.X, pos.Y+yCount) {
