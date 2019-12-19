@@ -10,6 +10,7 @@ type IntCodeMachine struct { //nolint:golint
 	opCodes    map[int]*Instruction
 	IO         *InputOutput
 	Closed     bool
+	ClosedCh   chan struct{}
 }
 
 func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
@@ -30,8 +31,9 @@ func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
 			9:  SetRelativeBase(),
 			99: Halt(),
 		},
-		IO:     io,
-		Closed: false,
+		IO:       io,
+		Closed:   false,
+		ClosedCh: make(chan struct{}),
 	}
 }
 
@@ -61,6 +63,7 @@ func (icm *IntCodeMachine) Run() int {
 			case *HaltError:
 				icm.IO.Close()
 				icm.Closed = true
+				icm.ClosedCh <- struct{}{}
 
 				return e.code
 			case *Jump:
