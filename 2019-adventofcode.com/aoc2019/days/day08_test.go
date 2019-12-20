@@ -16,12 +16,12 @@ func TestHistogram(t *testing.T) {
 
 func TestDay08_Real(t *testing.T) {
 	out := `
-XXX  X     XX  X  X XXXX
-X  X X    X  X X X  X
-X  X X    X  X XX   XXX
-XXX  X    XXXX X X  X
-X X  X    X  X X X  X
-X  X XXXX X  X X  X X
+XXX..X.....XX..X..X.XXXX.
+X..X.X....X..X.X.X..X....
+X..X.X....X..X.XX...XXX..
+XXX..X....XXXX.X.X..X....
+X.X..X....X..X.X.X..X....
+X..X.XXXX.X..X.X..X.X....
 `
 	d := TestDay(&Day08{}, t)
 	d.WithFile("../input/day08.in", "1485", out)

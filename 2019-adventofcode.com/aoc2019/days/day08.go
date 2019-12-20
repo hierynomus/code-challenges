@@ -54,7 +54,7 @@ func (d *Day08) Solve(scanner *bufio.Scanner) (string, string) {
 			for _, l := range layers {
 				layerPixel := l[Width*y+x]
 				if layerPixel == Black {
-					output += " "
+					output += "."
 					break
 				} else if layerPixel == White {
 					output += "X"
