@@ -29,8 +29,6 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 loop:
 	for {
 		select {
-		case <-icm.ClosedCh:
-			break loop
 		case i := <-icm.IO.Output:
 			c := rune(i)
 			switch c {
@@ -40,6 +38,8 @@ loop:
 			default:
 				grid[y] = append(grid[y], c)
 			}
+		case <-icm.ClosedCh:
+			break loop
 		}
 	}
 
@@ -78,10 +78,9 @@ loop:
 
 func FindIntersections(grid [][]rune) []aoc.Point {
 	points := []aoc.Point{}
-	xLen := len(grid[0])
 
 	for y := 1; y < len(grid)-1; y++ {
-		for x := 1; x < xLen-1; x++ {
+		for x := 1; x < len(grid[y])-1; x++ {
 			if grid[y][x] == '#' {
 				found := true
 
