@@ -33,7 +33,7 @@ func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
 		},
 		IO:       io,
 		Closed:   false,
-		ClosedCh: make(chan struct{}),
+		ClosedCh: make(chan struct{}, 1),
 	}
 }
 

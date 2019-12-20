@@ -18,6 +18,7 @@ func (a AmplifierArray) Run() {
 
 func (a AmplifierArray) Reset() {
 	for _, amp := range a {
+		<-amp.ClosedCh
 		amp.Reset()
 	}
 }
@@ -68,7 +69,6 @@ func (d *Day07) Solve(scanner *bufio.Scanner) (string, string) {
 		maxOut2 := 0
 
 		for _, perm := range permutations {
-			amplifiers.Reset()
 
 			for i, x := range perm {
 				amplifiers[i].IO.Input <- x
@@ -81,6 +81,7 @@ func (d *Day07) Solve(scanner *bufio.Scanner) (string, string) {
 			for !amplifiers[0].Closed {
 				newMax = amplifiers.PassValues(newMax)
 			}
+			amplifiers.Reset()
 
 			if newMax > maxOut2 {
 				maxOut2 = newMax

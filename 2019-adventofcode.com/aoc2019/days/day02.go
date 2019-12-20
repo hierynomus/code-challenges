@@ -18,7 +18,17 @@ func (d *Day02) Solve(reader *bufio.Scanner) (string, string) {
 		program[2] = 2
 
 		icm := intcode.NewIntCodeMachine(program)
-		part1 := strconv.Itoa(icm.Run())
+		retCode := make(chan int)
+
+		go func() {
+			err := icm.Run()
+			retCode <- err
+		}()
+
+		<-icm.ClosedCh
+
+		code := <-retCode
+		part1 := strconv.Itoa(code)
 
 		for x := 0; x <= 99; x++ {
 			for y := 0; y <= 99; y++ {
@@ -26,6 +36,7 @@ func (d *Day02) Solve(reader *bufio.Scanner) (string, string) {
 				icm.Mem[1] = x
 				icm.Mem[2] = y
 				out := icm.Run()
+				<-icm.ClosedCh
 
 				if out == 19690720 {
 					return part1, strconv.Itoa(100*x + y)
