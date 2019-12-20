@@ -11,6 +11,7 @@ type IntCodeMachine struct { //nolint:golint
 	IO         *InputOutput
 	Closed     bool
 	ClosedCh   chan struct{}
+	State      *State
 }
 
 func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
@@ -34,19 +35,20 @@ func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {
 		IO:       io,
 		Closed:   false,
 		ClosedCh: make(chan struct{}, 1),
+		State:    &State{0, 0},
 	}
 }
 
 func (icm *IntCodeMachine) Reset() {
 	icm.Mem = icm.initialMem.Copy()
+	icm.State = &State{0, 0}
 	icm.IO.Reset()
 	icm.Closed = false
 }
 
 func (icm *IntCodeMachine) Run() int {
-	state := &State{0, 0}
-	for state.IP < len(icm.Mem) {
-		opc := icm.Mem[state.IP] % 100
+	for icm.State.IP < len(icm.Mem) {
+		opc := icm.Mem[icm.State.IP] % 100
 		i, ok := icm.opCodes[opc]
 
 		if !ok {
@@ -54,25 +56,25 @@ func (icm *IntCodeMachine) Run() int {
 		}
 
 		if Debug {
-			fmt.Printf("%d: %s %v\n", state.IP, i.str, icm.Mem[state.IP:state.IP+i.opCodeLen])
+			fmt.Printf("%d: %s %v\n", icm.State.IP, i.str, icm.Mem[icm.State.IP:icm.State.IP+i.opCodeLen])
 		}
 
-		err := i.f(state, icm.Mem)
+		err := i.f(icm.State, icm.Mem)
 		if err != nil {
 			switch e := err.(type) {
 			case *HaltError:
 				icm.IO.Close()
-				icm.Closed = true
 				icm.ClosedCh <- struct{}{}
+				icm.Closed = true
 
 				return e.code
 			case *Jump:
-				state.IP = e.newLocation
+				icm.State.IP = e.newLocation
 				continue
 			}
 		}
 
-		state.IP += i.opCodeLen
+		icm.State.IP += i.opCodeLen
 	}
 
 	return 0

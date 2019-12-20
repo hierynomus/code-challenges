@@ -59,7 +59,7 @@ func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 		robot.turn(<-icm.IO.Output)
 		robot.move()
 	}
-
+	<-icm.ClosedCh
 	// Part 2
 	icm.Reset()
 
