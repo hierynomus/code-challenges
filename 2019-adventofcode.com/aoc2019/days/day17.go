@@ -26,14 +26,20 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 
 	y := 0
 
-	for !icm.Closed {
-		c := rune(<-icm.IO.Output)
-		switch c {
-		case '\n':
-			grid = append(grid, []rune{})
-			y++
-		default:
-			grid[y] = append(grid[y], c)
+loop:
+	for {
+		select {
+		case <-icm.ClosedCh:
+			break loop
+		case i := <-icm.IO.Output:
+			c := rune(i)
+			switch c {
+			case '\n':
+				grid = append(grid, []rune{})
+				y++
+			default:
+				grid[y] = append(grid[y], c)
+			}
 		}
 	}
 

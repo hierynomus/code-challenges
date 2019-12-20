@@ -29,6 +29,7 @@ var allDays map[int]days.Day = map[int]days.Day{ //nolint:gochecknoglobals
 	15: &days.Day15{},
 	16: &days.Day16{},
 	17: &days.Day17{},
+	19: &days.Day19{},
 }
 
 var inputDir string //nolint:gochecknoglobals
@@ -88,8 +89,11 @@ func runDay(day int, s days.Day) {
 
 func runDayWithScanner(day int, s days.Day, scanner *bufio.Scanner) {
 	p1, p2 := s.Solve(scanner)
-	fmt.Printf("Day %02d.1: %s\n", day, p1)
-	fmt.Printf("Day %02d.2: %s\n", day, p2)
+	f := bufio.NewWriter(os.Stdout)
+
+	fmt.Fprintf(f, "Day %02d.1: %s\n", day, p1)
+	fmt.Fprintf(f, "Day %02d.2: %s\n", day, p2)
+	f.Flush()
 }
 
 var rootCmd = &cobra.Command{ //nolint:gochecknoglobals
