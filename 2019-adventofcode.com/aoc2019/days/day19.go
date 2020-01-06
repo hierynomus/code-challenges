@@ -16,10 +16,10 @@ type TractorBeam struct {
 func (tb *TractorBeam) Pulled(x, y int) bool {
 	go tb.icm.Run()
 
-	tb.icm.IO.Input <- x
-	tb.icm.IO.Input <- y
+	tb.icm.Input.Write(x)
+	tb.icm.Input.Write(y)
 
-	out := <-tb.icm.IO.Output
+	out := tb.icm.Output.Read()
 	<-tb.icm.ClosedCh
 	tb.icm.Reset()
 

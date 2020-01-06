@@ -30,6 +30,8 @@ var allDays map[int]days.Day = map[int]days.Day{ //nolint:gochecknoglobals
 	16: &days.Day16{},
 	17: &days.Day17{},
 	19: &days.Day19{},
+	22: &days.Day22{},
+	24: &days.Day24{},
 }
 
 var inputDir string //nolint:gochecknoglobals

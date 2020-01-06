@@ -54,9 +54,9 @@ func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 		if !present {
 			color = 0
 		}
-		icm.IO.Input <- color
-		painted[robot.l] = <-icm.IO.Output
-		robot.turn(<-icm.IO.Output)
+		icm.Input.Write(color)
+		painted[robot.l] = icm.Output.Read()
+		robot.turn(icm.Output.Read())
 		robot.move()
 	}
 	<-icm.ClosedCh
@@ -76,9 +76,9 @@ func (d *Day11) Solve(scanner *bufio.Scanner) (string, string) {
 
 	for !icm.Closed {
 		color := grid[robot.l.Y][robot.l.X]
-		icm.IO.Input <- color
-		grid[robot.l.Y][robot.l.X] = <-icm.IO.Output
-		robot.turn(<-icm.IO.Output)
+		icm.Input.Write(color)
+		grid[robot.l.Y][robot.l.X] = icm.Output.Read()
+		robot.turn(icm.Output.Read())
 		robot.move()
 	}
 

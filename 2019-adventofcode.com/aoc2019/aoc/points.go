@@ -50,3 +50,12 @@ func ManhattanSort(pts []Point) func(i, j int) bool {
 		return p1.Y < p2.Y
 	}
 }
+
+func Neighbours(x, y int) []Point {
+	return []Point{
+		Point{X: x - 1, Y: y}, //nolint:gofmt
+		Point{X: x + 1, Y: y},
+		Point{X: x, Y: y - 1},
+		Point{X: x, Y: y + 1},
+	}
+}

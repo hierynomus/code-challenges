@@ -19,18 +19,25 @@ func (d *Day05) Solve(scanner *bufio.Scanner) (string, string) {
 
 		go icm.Run()
 
-		icm.IO.Input <- 1
-		for i := range icm.IO.Output {
-			if i != 0 {
-				part1 = strconv.Itoa(i)
-				break
+		icm.Input.Write(1)
+	loop:
+		for {
+			select {
+			case <-icm.ClosedCh:
+				break loop
+			default:
+				i := icm.Output.Read()
+				if i != 0 {
+					part1 = strconv.Itoa(i)
+					break
+				}
 			}
 		}
 
 		icm = intcode.NewIntCodeMachine(program)
 		go icm.Run()
-		icm.IO.Input <- 5
-		part2 = strconv.Itoa(<-icm.IO.Output)
+		icm.Input.Write(5)
+		part2 = strconv.Itoa(icm.Output.Read())
 
 		return part1, part2
 	}

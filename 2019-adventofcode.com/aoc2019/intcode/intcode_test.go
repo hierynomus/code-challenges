@@ -19,13 +19,13 @@ func TestShouldJumpCorrectlyPositionMode(t *testing.T) {
 	icm := NewIntCodeMachine(input)
 
 	go icm.Run()
-	icm.IO.Input <- 0
-	assert.Equal(t, <-icm.IO.Output, 0)
+	icm.Input.Write(0)
+	assert.Equal(t, icm.Output.Read(), 0)
 	icm.Reset()
 
 	go icm.Run()
-	icm.IO.Input <- 2
-	assert.Equal(t, <-icm.IO.Output, 1)
+	icm.Input.Write(2)
+	assert.Equal(t, icm.Output.Read(), 1)
 }
 
 func TestShouldJumpCorrectlyImmediateMode(t *testing.T) {
@@ -33,13 +33,13 @@ func TestShouldJumpCorrectlyImmediateMode(t *testing.T) {
 	icm := NewIntCodeMachine(input)
 
 	go icm.Run()
-	icm.IO.Input <- 0
-	assert.Equal(t, <-icm.IO.Output, 0)
+	icm.Input.Write(0)
+	assert.Equal(t, icm.Output.Read(), 0)
 	icm.Reset()
 
 	go icm.Run()
-	icm.IO.Input <- 2
-	assert.Equal(t, <-icm.IO.Output, 1)
+	icm.Input.Write(2)
+	assert.Equal(t, icm.Output.Read(), 1)
 }
 
 func TestIntCodeDay05_1(t *testing.T) {
@@ -47,8 +47,8 @@ func TestIntCodeDay05_1(t *testing.T) {
 	icm := NewIntCodeMachine(input)
 
 	go icm.Run()
-	icm.IO.Input <- 8
-	assert.Equal(t, <-icm.IO.Output, 1)
+	icm.Input.Write(8)
+	assert.Equal(t, icm.Output.Read(), 1)
 }
 
 func TestIntCodeDay09_1(t *testing.T) {
@@ -59,8 +59,14 @@ func TestIntCodeDay09_1(t *testing.T) {
 
 	out := []int{}
 
-	for i := range icm.IO.Output {
-		out = append(out, i)
+loop:
+	for {
+		select {
+		case <-icm.ClosedCh:
+			break loop
+		default:
+			out = append(out, icm.Output.Read())
+		}
 	}
 
 	assert.DeepEqual(t, input, out)
@@ -71,7 +77,7 @@ func TestIntCodeDay09_2(t *testing.T) {
 	icm := NewIntCodeMachine(input)
 
 	go icm.Run()
-	assert.Equal(t, <-icm.IO.Output, 1219070632396864)
+	assert.Equal(t, icm.Output.Read(), 1219070632396864)
 }
 
 func TestIntCodeDay09_3(t *testing.T) {
@@ -79,5 +85,5 @@ func TestIntCodeDay09_3(t *testing.T) {
 	icm := NewIntCodeMachine(input)
 
 	go icm.Run()
-	assert.Equal(t, <-icm.IO.Output, 1125899906842624)
+	assert.Equal(t, icm.Output.Read(), 1125899906842624)
 }

@@ -20,14 +20,14 @@ func (d *Day09) Solve(scanner *bufio.Scanner) (string, string) {
 	icm := intcode.NewIntCodeMachine(program)
 
 	go icm.Run()
-	icm.IO.Input <- 1
-	part1 := <-icm.IO.Output
+	icm.Input.Write(1)
+	part1 := icm.Output.Read()
 
 	icm.Reset()
 
 	go icm.Run()
-	icm.IO.Input <- 2
-	part2 := <-icm.IO.Output
+	icm.Input.Write(2)
+	part2 := icm.Output.Read()
 
 	return strconv.Itoa(part1), strconv.Itoa(part2)
 }

@@ -60,8 +60,8 @@ loop:
 				dir := d.position.Backtrack()
 				d.position = d.position.From
 
-				d.brain.IO.Input <- dir
-				<-d.brain.IO.Output // Always a room...
+				d.brain.Input.Write(dir)
+				d.brain.Output.Read() // Always a room...
 			} else {
 				dir := unexplored[0]
 				newPos := d.position.Pos.Add(moves[dir])
@@ -71,8 +71,8 @@ loop:
 					continue
 				}
 
-				d.brain.IO.Input <- dir
-				o := <-d.brain.IO.Output
+				d.brain.Input.Write(dir)
+				o := d.brain.Output.Read()
 
 				if o == 0 { // Wall
 					d.position.Walls[dir] = emptyStruct

@@ -47,7 +47,7 @@ func (a *Arkanoid) ReadAndUpdateState() {
 }
 
 func (a *Arkanoid) read() (x, y, k int) {
-	return <-a.Machine.IO.Output, <-a.Machine.IO.Output, <-a.Machine.IO.Output
+	return a.Machine.Output.Read(), a.Machine.Output.Read(), a.Machine.Output.Read()
 }
 
 func (a *Arkanoid) Update(p aoc.Point, k int) {
@@ -87,7 +87,7 @@ func (a *Arkanoid) PlayMove() {
 	}
 
 	a.JoystickPosition = joystick
-	a.Machine.IO.Input <- joystick
+	a.Machine.Input.Write(joystick)
 }
 
 const (
@@ -111,9 +111,9 @@ func (d *Day13) Solve(scanner *bufio.Scanner) (string, string) {
 	nrBlocks := 0
 
 	for !icm.Closed {
-		<-icm.IO.Output
-		<-icm.IO.Output
-		k := <-icm.IO.Output
+		icm.Output.Read()
+		icm.Output.Read()
+		k := icm.Output.Read()
 
 		if k == Block {
 			nrBlocks++

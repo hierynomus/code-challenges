@@ -1,31 +1,34 @@
 package intcode
 
-type InputOutput struct {
-	Input  chan int
-	Output chan int
+type IOChannel interface {
+	Read() int
+	Write(i int)
+	Close()
+	Reset()
 }
 
-func NewInputOutput() *InputOutput {
-	return &InputOutput{
-		Input:  make(chan int, 10),
-		Output: make(chan int, 10),
+type BlockingChannel struct {
+	c chan int
+}
+
+func (io *BlockingChannel) Read() int {
+	return <-io.c
+}
+
+func (io *BlockingChannel) Write(i int) {
+	io.c <- i
+}
+
+func (io *BlockingChannel) Close() {
+	close(io.c)
+}
+
+func (io *BlockingChannel) Reset() {
+	io.c = make(chan int, 10)
+}
+
+func NewBlockingChannel() *BlockingChannel {
+	return &BlockingChannel{
+		c: make(chan int, 10),
 	}
-}
-
-func (io *InputOutput) Close() {
-	close(io.Output)
-	close(io.Input)
-}
-
-func (io *InputOutput) Reset() {
-	io.Input = make(chan int, 10)
-	io.Output = make(chan int, 10)
-}
-
-func (io *InputOutput) Read() int {
-	return <-io.Input
-}
-
-func (io *InputOutput) Write(v int) {
-	io.Output <- v
 }

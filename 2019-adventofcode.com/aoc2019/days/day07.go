@@ -25,8 +25,8 @@ func (a AmplifierArray) Reset() {
 
 func (a AmplifierArray) PassValues(in int) int {
 	for i := 0; i < 5; i++ {
-		a[i].IO.Input <- in
-		in = <-a[i].IO.Output
+		a[i].Input.Write(in)
+		in = a[i].Output.Read()
 	}
 
 	return in
@@ -50,7 +50,7 @@ func (d *Day07) Solve(scanner *bufio.Scanner) (string, string) {
 
 		for _, perm := range permutations {
 			for i, x := range perm {
-				amplifiers[i].IO.Input <- x
+				amplifiers[i].Input.Write(x)
 			}
 
 			amplifiers.Run()
@@ -71,7 +71,7 @@ func (d *Day07) Solve(scanner *bufio.Scanner) (string, string) {
 		for _, perm := range permutations {
 
 			for i, x := range perm {
-				amplifiers[i].IO.Input <- x
+				amplifiers[i].Input.Write(x)
 			}
 
 			amplifiers.Run()

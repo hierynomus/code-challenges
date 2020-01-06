@@ -66,7 +66,7 @@ func Halt() *Instruction {
 	}
 }
 
-func Input(io *InputOutput) *Instruction {
+func Input(io IOChannel) *Instruction {
 	return &Instruction{
 		opCode:    3,
 		str:       "inp",
@@ -79,7 +79,7 @@ func Input(io *InputOutput) *Instruction {
 	}
 }
 
-func Output(io *InputOutput) *Instruction {
+func Output(io IOChannel) *Instruction {
 	return &Instruction{
 		opCode:    4,
 		str:       "out",

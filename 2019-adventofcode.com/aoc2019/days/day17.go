@@ -29,7 +29,10 @@ func (d *Day17) Solve(scanner *bufio.Scanner) (string, string) {
 loop:
 	for {
 		select {
-		case i := <-icm.IO.Output:
+		case <-icm.ClosedCh:
+			break loop
+		default:
+			i := icm.Output.Read()
 			c := rune(i)
 			switch c {
 			case '\n':
@@ -38,8 +41,6 @@ loop:
 			default:
 				grid[y] = append(grid[y], c)
 			}
-		case <-icm.ClosedCh:
-			break loop
 		}
 	}
 
@@ -64,13 +65,20 @@ loop:
 	go func() {
 		movements := "A,B,A,C,B,C,B,C,A,C\nL,10,R,12,R,12\nR,6,R,10,L,10\nR,10,L,10,L,12,R,6\nn\n"
 		for _, m := range movements {
-			droid.IO.Input <- int(m)
+			droid.Input.Write(int(m))
 		}
 	}()
 
 	Dust := 0
-	for i := range droid.IO.Output {
-		Dust = i
+loop2:
+	for {
+		select {
+		case <-droid.ClosedCh:
+			break loop2
+		default:
+			i := droid.Output.Read()
+			Dust = i
+		}
 	}
 
 	return strconv.Itoa(sum), strconv.Itoa(Dust)
