@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "/Users/ajvanerp/.local/share/virtualenvs/quickstart-xebialabs-devops-platform-PbfNxUI4/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.formatting.provider": "black"
+}
