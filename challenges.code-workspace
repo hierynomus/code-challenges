@@ -5,8 +5,8 @@
       "path": "."
     },
     {
-      "name": "AdventOfCode - 2019",
-      "path": "2019-adventofcode.com/aoc2019"
+      "name": "AdventOfCode",
+      "path": "adventofcode"
     }
   ],
   "settings": {
