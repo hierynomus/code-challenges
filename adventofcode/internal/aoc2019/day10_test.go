@@ -6,14 +6,8 @@ import (
 	"testing"
 
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/aoc"
-	"github.com/hierynomus/code-challenges/adventofcode/pkg/day"
 	"github.com/stretchr/testify/assert"
 )
-
-func TestDay10_Real(t *testing.T) {
-	d := day.TestDay(t, Day10)
-	d.WithFile("../../input/aoc2019/day10.in", "263", "1110")
-}
 
 func TestDay10_1(t *testing.T) {
 	input := `#..##.###...#######

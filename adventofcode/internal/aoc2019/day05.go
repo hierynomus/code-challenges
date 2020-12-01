@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"strconv"
 
+	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2019/intcode"
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/aoc"
-	"github.com/hierynomus/code-challenges/adventofcode/pkg/intcode"
 )
 
 func Day05(scanner *bufio.Scanner) (string, string) {

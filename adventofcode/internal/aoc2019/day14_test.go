@@ -6,11 +6,6 @@ import (
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/day"
 )
 
-func TestDay14_Real(t *testing.T) {
-	d := day.TestDay(t, Day14)
-	d.WithFile("../../input/aoc2019/day14.in", "337862", "")
-}
-
 func TestDay14_1(t *testing.T) {
 	d := day.TestDay(t, Day14)
 	d.WithInput(`171 ORE => 8 CNZTR
