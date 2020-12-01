@@ -26,3 +26,12 @@ func ToInt(s string) int {
 
 	return i
 }
+
+func Sum(l []int) int {
+	s := 0
+	for _, x := range l {
+		s += x
+	}
+
+	return s
+}
