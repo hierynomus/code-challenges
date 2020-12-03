@@ -22,9 +22,13 @@ func IntArrayAsString(arr []int, sep string) string {
 
 func AsIntArray(line string) []int {
 	arr := strings.Split(line, ",")
-	iArr := make([]int, len(arr))
+	return ToIntArray(arr)
+}
 
-	for i, c := range arr {
+func ToIntArray(sArr []string) []int {
+	iArr := make([]int, len(sArr))
+
+	for i, c := range sArr {
 		n, err := strconv.Atoi(c)
 		if err != nil {
 			panic(err)
@@ -34,6 +38,7 @@ func AsIntArray(line string) []int {
 	}
 
 	return iArr
+
 }
 
 func AsRuneArray(line string) ([]rune, error) {

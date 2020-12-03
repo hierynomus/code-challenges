@@ -35,3 +35,14 @@ func Sum(l []int) int {
 
 	return s
 }
+
+func Max(l []int) int {
+	m := l[0]
+	for _, x := range l {
+		if x > m {
+			m = x
+		}
+	}
+
+	return m
+}

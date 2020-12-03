@@ -51,7 +51,7 @@ var Years = map[int]map[int]day.Solver{
 	2020: {
 		1: aoc2020.Day01,
 		2: aoc2020.Day02,
-		// 3:  aoc2020.Day03,
+		3: aoc2020.Day03,
 		// 4:  aoc2020.Day04,
 		// 5:  aoc2020.Day05,
 		// 6:  aoc2020.Day06,

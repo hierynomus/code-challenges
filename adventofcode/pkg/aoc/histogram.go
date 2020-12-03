@@ -11,6 +11,10 @@ func MakeIntHistogram(list []int) IntHistogram {
 	return h
 }
 
+func (h IntHistogram) Add(i int) {
+	h[i]++
+}
+
 func (h IntHistogram) Adds(list []int) {
 	for _, i := range list {
 		h[i]++
