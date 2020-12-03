@@ -1,6 +1,9 @@
 package aoc
 
-import "strconv"
+import (
+	"strconv"
+	"strings"
+)
 
 func Abs(i int) int {
 	if i < 0 {
@@ -19,7 +22,7 @@ func Abs64(i int64) int64 {
 }
 
 func ToInt(s string) int {
-	i, err := strconv.Atoi(s)
+	i, err := strconv.Atoi(strings.TrimSpace(s))
 	if err != nil {
 		panic(err)
 	}
