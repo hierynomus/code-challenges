@@ -14,9 +14,9 @@ func TestDays(t *testing.T) {
 		part2 string
 	}{
 		1: {s: Day01, part1: "224436", part2: "303394260"},
-		2: {s: Day02, part1: "", part2: ""},
+		2: {s: Day02, part1: "556", part2: "605"},
 		3: {s: Day03, part1: "145", part2: "3424528800"},
-		// 4: {s: Day04, part1: "39422", part2: "65474"},
+		4: {s: Day04, part1: "230", part2: "156"},
 		// 5: {s: Day05, part1: "11118", part2: "6948"},
 	}
 
