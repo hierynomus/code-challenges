@@ -19,6 +19,12 @@ func (s IntSet) Delete(i int) {
 
 type RuneSet map[rune]struct{}
 
+func NewRuneSet(rs []rune) RuneSet {
+	s := RuneSet{}
+	s.Adds(rs)
+	return s
+}
+
 func (s RuneSet) Add(i rune) {
 	s[i] = exists
 }
@@ -26,6 +32,19 @@ func (s RuneSet) Add(i rune) {
 func (s RuneSet) Adds(rs []rune) {
 	for _, r := range rs {
 		s[r] = exists
+	}
+}
+
+func (s RuneSet) Intersect(rs []rune) {
+	for c := range s {
+		f := false
+		for _, r := range rs {
+			f = f || c == r
+		}
+
+		if !f {
+			s.Delete(c)
+		}
 	}
 }
 
