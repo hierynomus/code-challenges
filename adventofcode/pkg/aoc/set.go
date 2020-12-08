@@ -17,6 +17,15 @@ func (s IntSet) Delete(i int) {
 	delete(s, i)
 }
 
+func (s IntSet) Copy() IntSet {
+	n := IntSet{}
+	for k := range s {
+		n[k] = exists
+	}
+
+	return n
+}
+
 type RuneSet map[rune]struct{}
 
 func NewRuneSet(rs []rune) RuneSet {
