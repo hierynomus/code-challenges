@@ -21,6 +21,7 @@ func TestDays(t *testing.T) {
 		6: {s: Day06, part1: "6809", part2: "3394"},
 		7: {s: Day07, part1: "192", part2: "12128"},
 		8: {s: Day08, part1: "1134", part2: "1205"},
+		9: {s: Day09, part1: "3199139634", part2: "438559930"},
 	}
 
 	for d, s := range tests {
