@@ -36,6 +36,10 @@ func Day10(reader *bufio.Scanner) (string, string) {
 }
 
 func countPermutations(adapters []int, from int, to int) int64 {
+	if adapters[to]-adapters[from] != to-from {
+		panic("Not only 1-differences in the range, did not account for that")
+	}
+
 	switch to - from {
 	case 0:
 		return 1
