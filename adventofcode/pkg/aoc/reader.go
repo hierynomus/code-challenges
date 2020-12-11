@@ -37,3 +37,13 @@ func ReadIntGrid(reader *bufio.Scanner, sep string) [][]int {
 
 	return grid
 }
+
+func ReadRuneGrid(reader *bufio.Scanner) [][]rune {
+	grid := [][]rune{}
+	for reader.Scan() {
+		l := []rune(reader.Text())
+		grid = append(grid, l)
+	}
+
+	return grid
+}

@@ -13,4 +13,10 @@ var AllDays map[int]day.Solver = map[int]day.Solver{
 	8:  Day08,
 	9:  Day09,
 	10: Day10,
+	11: Day11,
+	// 12: Day12,
+	// 13: Day13,
+	// 14: Day14,
+	// 15: Day15,
+	// 16: Day16,
 }

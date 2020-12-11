@@ -50,7 +50,7 @@ func SimulateEris(eris [][]rune) [][]rune {
 		for x := 1; x < 6; x++ {
 			bugCount := 0
 
-			for _, n := range aoc.Neighbours(x, y) {
+			for _, n := range aoc.Neighbours4(x, y) {
 				if eris[n.Y][n.X] == '#' {
 					bugCount++
 				}

@@ -64,11 +64,37 @@ func ManhattanSort(pts []Point) func(i, j int) bool {
 	}
 }
 
-func Neighbours(x, y int) []Point {
+func Neighbours4(x, y int) []Point {
 	return []Point{
 		{X: x - 1, Y: y}, //nolint:gofmt
 		{X: x + 1, Y: y},
 		{X: x, Y: y - 1},
 		{X: x, Y: y + 1},
+	}
+}
+
+func Neighbours8(x, y int) []Point {
+	return []Point{
+		{X: x - 1, Y: y - 1},
+		{X: x, Y: y - 1},
+		{X: x + 1, Y: y - 1},
+		{X: x - 1, Y: y},
+		{X: x + 1, Y: y},
+		{X: x - 1, Y: y + 1},
+		{X: x, Y: y + 1},
+		{X: x + 1, Y: y + 1},
+	}
+}
+
+func DeltaNeighbours8(x, y int) []Point {
+	return []Point{
+		{X: -1, Y: -1},
+		{X: 0, Y: -1},
+		{X: 1, Y: -1},
+		{X: -1, Y: 0},
+		{X: 1, Y: 0},
+		{X: -1, Y: 1},
+		{X: 0, Y: 1},
+		{X: 1, Y: 1},
 	}
 }
