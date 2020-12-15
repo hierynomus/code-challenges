@@ -30,6 +30,15 @@ func ToInt(s string) int {
 	return i
 }
 
+func ToInt64(s string) int64 {
+	i, err := strconv.ParseInt(s, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	return i
+}
+
 func Sum(l []int) int {
 	s := 0
 	for _, x := range l {
@@ -59,4 +68,12 @@ func Min(l []int) int {
 	}
 
 	return m
+}
+
+func ParseBin(s string) int64 {
+	i, err := strconv.ParseInt(s, 2, 64)
+	if err != nil {
+		panic(err)
+	}
+	return i
 }

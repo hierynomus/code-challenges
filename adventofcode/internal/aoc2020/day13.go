@@ -13,25 +13,37 @@ func Day13(reader *bufio.Scanner) (string, string) {
 		panic("Nothing to read")
 	}
 	t := aoc.ToInt(reader.Text())
-	buses := []int{}
+	buses := map[int]int{}
 	if !reader.Scan() {
 		panic("missing data")
 	}
 
-	for _, b := range strings.Split(reader.Text(), ",") {
+	for i, b := range strings.Split(reader.Text(), ",") {
 		if "x" != b {
-			buses = append(buses, aoc.ToInt(b))
+			buses[aoc.ToInt(b)] = i
 		}
 	}
 
-	bus := buses[0]
-	min := bus - (t % bus)
-	for _, b := range buses {
+	var bus, min int
+	for b := range buses {
 		m := b - (t % b)
-		if m < min {
+		if bus == 0 || m < min {
 			bus, min = b, m
 		}
 	}
 
-	return strconv.Itoa(bus * min), ""
+	t, period := 0, 1
+	for b, i := range buses {
+		for true {
+			if (t+i)%b == 0 {
+				period *= b
+				break
+			}
+			t += period
+		}
+	}
+
+	part2 := t
+
+	return strconv.Itoa(bus * min), strconv.Itoa(part2)
 }
