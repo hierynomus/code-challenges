@@ -47,3 +47,11 @@ func ReadRuneGrid(reader *bufio.Scanner) [][]rune {
 
 	return grid
 }
+
+func Read(reader *bufio.Scanner) string {
+	if !reader.Scan() {
+		panic("No input")
+	}
+
+	return reader.Text()
+}

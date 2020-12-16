@@ -8,6 +8,12 @@ func (s IntSet) Add(i int) {
 	s[i] = exists
 }
 
+func (s IntSet) Adds(rs []int) {
+	for _, r := range rs {
+		s[r] = exists
+	}
+}
+
 func (s IntSet) Contains(i int) bool {
 	_, ok := s[i]
 	return ok
