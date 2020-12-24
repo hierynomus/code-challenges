@@ -37,6 +37,23 @@ type Point3D struct {
 	X, Y, Z int64
 }
 
+func (p Point3D) Neighbours26() []Point3D {
+	pts := []Point3D{}
+	for x := -1; x <= 1; x++ {
+		for y := -1; y <= 1; y++ {
+			for z := -1; z <= 1; z++ {
+				if x == 0 && y == 0 && z == 0 {
+					continue
+				}
+
+				pts = append(pts, Point3D{p.X + int64(x), p.Y + int64(y), p.Z + int64(z)})
+			}
+		}
+	}
+
+	return pts
+}
+
 func (p Point3D) String() string {
 	return fmt.Sprintf("(%d,%d,%d)", p.X, p.Y, p.Z)
 }

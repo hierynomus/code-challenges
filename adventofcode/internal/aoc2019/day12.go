@@ -10,12 +10,12 @@ import (
 )
 
 type JupiterSystem struct {
-	moons []*Moon
+	Moons []*Moon
 }
 
 func (s *JupiterSystem) Copy() *JupiterSystem {
 	newMoons := []*Moon{}
-	for _, m := range s.moons {
+	for _, m := range s.Moons {
 		newMoons = append(newMoons, NewMoon(m.L))
 	}
 
@@ -23,8 +23,8 @@ func (s *JupiterSystem) Copy() *JupiterSystem {
 }
 
 func (s *JupiterSystem) ApplyGravity() {
-	for _, x := range s.moons {
-		for _, y := range s.moons {
+	for _, x := range s.Moons {
+		for _, y := range s.Moons {
 			if x == y {
 				continue
 			}
@@ -35,7 +35,7 @@ func (s *JupiterSystem) ApplyGravity() {
 }
 
 func (s *JupiterSystem) Move() {
-	for _, m := range s.moons {
+	for _, m := range s.Moons {
 		m.Move()
 	}
 }
@@ -119,9 +119,9 @@ func ParseMoon(line string) *Moon {
 }
 
 func Day12(scanner *bufio.Scanner) (string, string) {
-	system := &JupiterSystem{moons: []*Moon{}}
+	system := &JupiterSystem{Moons: []*Moon{}}
 	for scanner.Scan() {
-		system.moons = append(system.moons, ParseMoon(scanner.Text()))
+		system.Moons = append(system.Moons, ParseMoon(scanner.Text()))
 	}
 
 	part1 := system.Copy()
@@ -132,11 +132,14 @@ func Day12(scanner *bufio.Scanner) (string, string) {
 	}
 
 	var totalEnergy int64 = 0
-	for _, m := range part1.moons {
+	for _, m := range part1.Moons {
 		totalEnergy += m.Energy()
 	}
 
 	// part2 := system.Copy()
+	// for _, m := range part2.Moons {
+	// 	seen := [](int, int, int){}
+	// }
 
 	// cycled := make([]int64, 3)
 	// for time := int64(0); cycled[0] == 0 || cycled[1] == 0 || cycled[2] == 0; time++ {

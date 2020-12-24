@@ -25,6 +25,11 @@ func AsIntArray(line string) []int {
 	return ToIntArray(arr)
 }
 
+func AsIntArrayS(line string, sep string) []int {
+	arr := strings.Split(line, sep)
+	return ToIntArray(arr)
+}
+
 func ToIntArray(sArr []string) []int {
 	iArr := make([]int, len(sArr))
 
