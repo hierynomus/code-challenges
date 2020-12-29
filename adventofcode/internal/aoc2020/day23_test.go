@@ -8,7 +8,14 @@ import (
 )
 
 func TestDay23_sample(t *testing.T) {
-	inp := []int{3, 8, 9, 1, 2, 5, 4, 6, 7}
-	out := playCrabCups(inp, 10)
-	assert.Equal(t, aoc.IntArrayAsString(out, ""), "92658374")
+	inp := "389125467"
+	m, c := parseCups(inp)
+	playCrabCups(m, c, 10)
+	arr := []int{}
+	cup := m[1]
+	for i := 0; i < 8; i++ {
+		arr = append(arr, cup.Next.Nr)
+		cup = cup.Next
+	}
+	assert.Equal(t, aoc.IntArrayAsString(arr, ""), "92658374")
 }
