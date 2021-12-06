@@ -1,7 +1,13 @@
 package aoc
 
+import "math"
+
 type Line struct {
 	p1, p2 Point
+}
+
+func NewLine(p1, p2 Point) Line {
+	return Line{p1, p2}
 }
 
 func (l Line) Intersection(o Line) Point {
@@ -11,6 +17,18 @@ func (l Line) Intersection(o Line) Point {
 	y := ((x1*y2-y1*x2)*(y3-y4) - (y1-y2)*(x3*y4-y3*x4)) / ((x1-x2)*(y3-y4) - (y1-y2)*(x3-x4))
 
 	return Point{x, y}
+}
+
+func (l Line) IsHoriz() bool {
+	return l.p1.X == l.p2.X
+}
+
+func (l Line) IsDiag45() bool {
+	return math.Abs(float64(l.p1.X-l.p2.X)) == math.Abs(float64(l.p1.Y-l.p2.Y))
+}
+
+func (l Line) IsHorizOrVert() bool {
+	return l.p1.X == l.p2.X || l.p1.Y == l.p2.Y
 }
 
 func (l Line) Contains(p Point) bool {
@@ -32,4 +50,27 @@ func between(x, y, z int) bool {
 	}
 
 	return z <= y && y <= x
+}
+
+func (l Line) Points() []Point {
+	pts := make([]Point, 0)
+	if l.p1.X == l.p2.X {
+		for _, y := range RangeIncl(l.p1.Y, l.p2.Y) {
+			pts = append(pts, Point{l.p1.X, y})
+		}
+	} else if l.p1.Y == l.p2.Y {
+		for _, x := range RangeIncl(l.p1.X, l.p2.X) {
+			pts = append(pts, Point{x, l.p1.Y})
+		}
+	} else if l.IsDiag45() {
+		xs := RangeIncl(l.p1.X, l.p2.X)
+		ys := RangeIncl(l.p1.Y, l.p2.Y)
+		for i, x := range xs {
+			pts = append(pts, Point{x, ys[i]})
+		}
+	} else {
+		panic("slanted lines not supported")
+	}
+
+	return pts
 }

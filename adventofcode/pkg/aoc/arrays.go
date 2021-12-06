@@ -83,3 +83,13 @@ func IntArrayIndex(haystack []int, needle int) int {
 
 	return -1
 }
+
+func SumArray(arr []int) int {
+	sum := 0
+
+	for _, i := range arr {
+		sum += i
+	}
+
+	return sum
+}

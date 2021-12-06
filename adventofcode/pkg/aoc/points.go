@@ -8,6 +8,12 @@ type Point struct {
 	X, Y int
 }
 
+func ReadPoint(line string) Point {
+	var x, y int
+	fmt.Sscanf(line, "%d,%d", &x, &y)
+	return Point{X: x, Y: y}
+}
+
 func NewPoint(x, y int) Point {
 	return Point{X: x, Y: y}
 }
