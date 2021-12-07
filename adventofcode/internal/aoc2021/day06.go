@@ -29,12 +29,12 @@ func Day06(reader *bufio.Scanner) (string, string) {
 		evolve(fish)
 	}
 
-	part1 = aoc.SumArray(fish)
+	part1 = aoc.Sum(fish)
 
 	for i := 0; i < 256-80; i++ {
 		evolve(fish)
 	}
 
-	part2 = aoc.SumArray(fish)
+	part2 = aoc.Sum(fish)
 	return strconv.Itoa(part1), strconv.Itoa(part2)
 }
