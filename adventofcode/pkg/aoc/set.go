@@ -111,3 +111,26 @@ func (s RuneSet) Keys() []rune {
 
 	return ks
 }
+
+type PointSet map[Point]struct{}
+
+func NewPointSet(ps []Point) PointSet {
+	s := PointSet{}
+	s.Adds(ps)
+	return s
+}
+
+func (s PointSet) Add(p Point) {
+	s[p] = exists
+}
+
+func (s PointSet) Adds(ps []Point) {
+	for _, p := range ps {
+		s[p] = exists
+	}
+}
+
+func (s PointSet) Contains(p Point) bool {
+	_, ok := s[p]
+	return ok
+}

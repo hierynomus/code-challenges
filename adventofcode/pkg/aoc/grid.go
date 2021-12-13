@@ -32,3 +32,11 @@ func RenderStringGrid(grid [][]string) string {
 
 	return s
 }
+func RenderIntGridS(grid [][]int, sep string) string {
+	s := ""
+	for _, l := range grid {
+		s += IntArrayAsString(l, sep) + "\n"
+	}
+
+	return s
+}

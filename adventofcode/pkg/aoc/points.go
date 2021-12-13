@@ -18,6 +18,10 @@ func NewPoint(x, y int) Point {
 	return Point{X: x, Y: y}
 }
 
+func (p Point) Coords() string {
+	return fmt.Sprintf("%d,%d", p.X, p.Y)
+}
+
 func (p Point) String() string {
 	return fmt.Sprintf("(%d,%d)", p.X, p.Y)
 }
@@ -37,6 +41,45 @@ func (p Point) Neighbours4() []Point {
 		{X: p.X, Y: p.Y + 1},
 		{X: p.X, Y: p.Y - 1},
 	}
+}
+
+func (p Point) Neighbours8() []Point {
+	return []Point{
+		{X: p.X - 1, Y: p.Y - 1},
+		{X: p.X - 1, Y: p.Y},
+		{X: p.X - 1, Y: p.Y + 1},
+		{X: p.X, Y: p.Y - 1},
+		{X: p.X, Y: p.Y + 1},
+		{X: p.X + 1, Y: p.Y - 1},
+		{X: p.X + 1, Y: p.Y},
+		{X: p.X + 1, Y: p.Y + 1},
+	}
+}
+
+func AsGrid(pts []Point, empty, fill rune) [][]rune {
+	maxX, maxY := 0, 0
+	for _, p := range pts {
+		if p.X > maxX {
+			maxX = p.X
+		}
+		if p.Y > maxY {
+			maxY = p.Y
+		}
+	}
+
+	grid := make([][]rune, maxY+1)
+	for i := range grid {
+		grid[i] = make([]rune, maxX+1)
+		for t := range grid[i] {
+			grid[i][t] = empty
+		}
+	}
+
+	for _, p := range pts {
+		grid[p.Y][p.X] = fill
+	}
+
+	return grid
 }
 
 type Point3D struct {
