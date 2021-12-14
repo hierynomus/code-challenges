@@ -39,6 +39,7 @@ func OctopusStep(grid [][]int) ([][]int, int) {
 		for x := range row {
 			grid[y][x]++
 			if grid[y][x] > 9 {
+				grid[y][x] = 0
 				flashes = append(flashes, aoc.Point{X: x, Y: y})
 			}
 		}
@@ -54,23 +55,25 @@ func OctopusStep(grid [][]int) ([][]int, int) {
 
 		flashed[flash.Coords()] = true
 		for _, neighbor := range flash.Neighbours8() {
-			if neighbor.X < 0 || neighbor.Y < 0 || neighbor.X >= len(grid[0]) || neighbor.Y >= len(grid) {
+			if neighbor.X < 0 || neighbor.Y < 0 || neighbor.X >= len(grid[0]) || neighbor.Y >= len(grid) || grid[neighbor.Y][neighbor.X] == 0 {
+				// Out of bounds, or flashed already
 				continue
 			}
 			grid[neighbor.Y][neighbor.X]++
 			if grid[neighbor.Y][neighbor.X] > 9 && !flashed[neighbor.Coords()] {
+				grid[neighbor.Y][neighbor.X] = 0
 				flashes = append(flashes, neighbor)
 			}
 		}
 	}
 
-	for y, row := range grid {
-		for x, cell := range row {
-			if cell > 9 {
-				grid[y][x] = 0
-			}
-		}
-	}
+	// for y, row := range grid {
+	// 	for x, cell := range row {
+	// 		if cell > 9 {
+	// 			grid[y][x] = 0
+	// 		}
+	// 	}
+	// }
 
 	return grid, len(flashed)
 }

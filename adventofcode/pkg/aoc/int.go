@@ -39,6 +39,10 @@ func ToInt64(s string) int64 {
 	return i
 }
 
+func Int64ToString(i int64) string {
+	return strconv.FormatInt(i, 10)
+}
+
 func Sum(l []int) int {
 	s := 0
 	for _, x := range l {

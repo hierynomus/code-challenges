@@ -107,7 +107,7 @@ func (ss SevSeg) RenderNumber(s string) string {
 func (ss SevSeg) MapOccurrenceCount(m map[int]rune, inp ...string) {
 	hist := aoc.MakeRuneHistogram([]rune(strings.Join(inp, "")))
 	for k, v := range hist {
-		if from, ok := m[v]; ok {
+		if from, ok := m[int(v)]; ok {
 			ss.Map(from, k)
 		}
 	}

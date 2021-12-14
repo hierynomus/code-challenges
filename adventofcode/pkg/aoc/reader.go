@@ -55,3 +55,11 @@ func Read(reader *bufio.Scanner) string {
 
 	return reader.Text()
 }
+
+func Skip(reader *bufio.Scanner) {
+	if !reader.Scan() {
+		panic("no input")
+	}
+
+	reader.Text()
+}
