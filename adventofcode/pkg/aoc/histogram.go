@@ -45,7 +45,17 @@ func MakeRuneHistogram(list []rune) RuneHistogram {
 	return h
 }
 
-func (h RuneHistogram) Max() (rune, int64) {
+func (h RuneHistogram) Max() rune {
+	k, _ := h.MaxC()
+	return k
+}
+
+func (h RuneHistogram) Min() rune {
+	k, _ := h.MinC()
+	return k
+}
+
+func (h RuneHistogram) MaxC() (rune, int64) {
 	var key rune
 	var max int64
 	for k, v := range h {
@@ -57,7 +67,7 @@ func (h RuneHistogram) Max() (rune, int64) {
 	return key, max
 }
 
-func (h RuneHistogram) Min() (rune, int64) {
+func (h RuneHistogram) MinC() (rune, int64) {
 	var key rune
 	var min int64 = 1 << 62
 	for k, v := range h {
