@@ -120,6 +120,15 @@ func NewPointSet(ps []Point) PointSet {
 	return s
 }
 
+func (s PointSet) Copy() PointSet {
+	ps := PointSet{}
+	for p := range s {
+		ps[p] = exists
+	}
+
+	return ps
+}
+
 func (s PointSet) Add(p Point) {
 	s[p] = exists
 }
