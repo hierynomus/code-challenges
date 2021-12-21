@@ -4,6 +4,12 @@ var exists = struct{}{}
 
 type IntSet map[int]struct{}
 
+func NewIntSet(is []int) IntSet {
+	s := IntSet{}
+	s.Adds(is)
+	return s
+}
+
 func (s IntSet) Add(i int) {
 	s[i] = exists
 }

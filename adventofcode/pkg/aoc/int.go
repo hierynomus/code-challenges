@@ -30,6 +30,30 @@ func ToInt(s string) int {
 	return i
 }
 
+func BinaryToInt8(s string) int {
+	i, err := strconv.ParseInt(s, 2, 8)
+	if err != nil {
+		panic(err)
+	}
+	return int(i)
+}
+
+func BinaryToInt16(s string) int {
+	i, err := strconv.ParseInt(s, 2, 16)
+	if err != nil {
+		panic(err)
+	}
+	return int(i)
+}
+
+func BinaryToInt64(s string) int64 {
+	i, err := strconv.ParseInt(s, 2, 64)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
 func ToInt64(s string) int64 {
 	i, err := strconv.ParseInt(s, 10, 64)
 	if err != nil {

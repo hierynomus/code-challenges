@@ -2,7 +2,6 @@ package aoc2021
 
 import (
 	"bufio"
-	"fmt"
 	"sort"
 	"strconv"
 
@@ -61,7 +60,6 @@ func Day10(reader *bufio.Scanner) (string, string) {
 		scores = append(scores, score)
 	}
 
-	fmt.Printf("%v", scores)
 	sort.Sort(sort.IntSlice(scores))
 
 	part2 = scores[len(scores)/2]
