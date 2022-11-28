@@ -37,7 +37,7 @@ func Day02(reader *bufio.Scanner) (string, string) {
 	part1 := 0
 	for _, p := range passwords {
 		h := aoc.MakeRuneHistogram(p.Password)
-		if p.Min <= h[p.Rune] && h[p.Rune] <= p.Max {
+		if p.Min <= int(h[p.Rune]) && int(h[p.Rune]) <= p.Max {
 			part1 += 1
 		}
 	}

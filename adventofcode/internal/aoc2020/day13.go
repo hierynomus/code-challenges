@@ -19,7 +19,7 @@ func Day13(reader *bufio.Scanner) (string, string) {
 	}
 
 	for i, b := range strings.Split(reader.Text(), ",") {
-		if "x" != b {
+		if b != "x" {
 			buses[aoc.ToInt(b)] = i
 		}
 	}

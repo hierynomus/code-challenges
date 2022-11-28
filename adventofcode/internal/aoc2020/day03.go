@@ -19,7 +19,7 @@ func Day03(reader *bufio.Scanner) (string, string) {
 		{7, 1},
 		{1, 2},
 	} {
-		p = p * traverseForest(lines, dxy[0], dxy[1])
+		p *= traverseForest(lines, dxy[0], dxy[1])
 	}
 
 	return strconv.Itoa(traverseForest(lines, 3, 1)), strconv.Itoa(p)

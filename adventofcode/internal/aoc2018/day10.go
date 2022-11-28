@@ -98,7 +98,7 @@ func Day10(reader *bufio.Scanner) (string, string) {
 	minBoxTime := 0
 	t := 0
 
-	for true {
+	for {
 		t += 1
 		nl := lights.AtTime(t)
 		mb := nl.BoundingBoxSize()

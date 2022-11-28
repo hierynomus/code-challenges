@@ -14,7 +14,6 @@ func Day18(reader *bufio.Scanner) (string, string) {
 	part1 := 0
 	part2 := 0
 	for _, sum := range lines {
-
 		s := strings.Split(strings.ReplaceAll(strings.ReplaceAll(sum, ")", " )"), "(", "( "), " ")
 		sol, _ := solve(s, calculate1)
 		part1 += sol

@@ -40,7 +40,9 @@ func TestDays(t *testing.T) {
 		// 25: {s: Day25, part1: "", part2: ""},
 	}
 
-	for d, s := range tests {
+	for dd, ss := range tests {
+		d := dd
+		s := ss
 		t.Run(fmt.Sprintf("Day%02d", d), func(t *testing.T) {
 			day := day.TestDay(t, s.s)
 			day.WithFile(fmt.Sprintf("../../input/aoc2020/day%02d.in", d), s.part1, s.part2)

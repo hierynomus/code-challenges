@@ -46,6 +46,7 @@ func isValidPassport(p Passport) bool {
 	return len(p) == 8 || (len(p) == 7 && !cidPresent)
 }
 
+//nolint:gomnd
 func isValidData(p Passport) bool {
 	byr := isIntBetween(p, "byr", 1920, 2002)
 	iyr := isIntBetween(p, "iyr", 2010, 2020)

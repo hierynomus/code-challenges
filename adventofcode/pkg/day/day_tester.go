@@ -24,8 +24,14 @@ func TestDay(t *testing.T, s Solver) *Tester {
 func (d *Tester) WithFile(file string, expected1 string, expected2 string) {
 	fileHandle, err := os.Open(file)
 	if err != nil {
-		panic(err)
+		if os.IsNotExist(err) {
+			d.t.Skipf("Skipping test, input file %s does not exist", file)
+		} else {
+			d.t.Fatalf("Error opening file %s: %v", file, err)
+		}
+		return
 	}
+
 	defer fileHandle.Close()
 	fileScanner := bufio.NewScanner(fileHandle)
 	d.withScanner(fileScanner, expected1, expected2)

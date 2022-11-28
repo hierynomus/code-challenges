@@ -23,7 +23,11 @@ func Day05(reader *bufio.Scanner) (string, string) {
 		if err != nil {
 			panic(err)
 		}
+
 		col, err := strconv.ParseInt(toBin(l[7:], 'R', 'L'), 2, 32)
+		if err != nil {
+			panic(err)
+		}
 
 		seats = append(seats, &Seat{Row: int(row), Column: int(col)})
 	}
@@ -63,12 +67,13 @@ func Day05(reader *bufio.Scanner) (string, string) {
 func toBin(s string, one, zero rune) string {
 	o := []rune{}
 	for _, c := range s {
-		if c == one {
+		switch c {
+		case one:
 			o = append(o, '1')
-		} else if c == zero {
+		case zero:
 			o = append(o, '0')
-		} else {
-			panic("unrecognized char")
+		default:
+			panic("invalid rune")
 		}
 	}
 	return string(o)

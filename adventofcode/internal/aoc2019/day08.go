@@ -65,5 +65,5 @@ func Day08(scanner *bufio.Scanner) (string, string) {
 		output += "\n"
 	}
 
-	return strconv.Itoa(hist['1'] * hist['2']), output
+	return strconv.FormatInt(hist['1']*hist['2'], 10), output
 }
