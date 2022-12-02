@@ -1,7 +1,6 @@
 package aoc2022
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/day"
@@ -9,41 +8,36 @@ import (
 
 func TestDays(t *testing.T) {
 	tests := map[int]struct {
-		s     day.Solver
-		part1 string
-		part2 string
+		S     day.Solver
+		Part1 string
+		Part2 string
 	}{
-		1:  {s: Day01, part1: "", part2: ""},
-		2:  {s: Day02, part1: "", part2: ""},
-		3:  {s: Day03, part1: "", part2: ""},
-		4:  {s: Day04, part1: "", part2: ""},
-		5:  {s: Day05, part1: "", part2: ""},
-		6:  {s: Day06, part1: "", part2: ""},
-		7:  {s: Day07, part1: "", part2: ""},
-		8:  {s: Day08, part1: "", part2: ""},
-		9:  {s: Day09, part1: "", part2: ""},
-		10: {s: Day10, part1: "", part2: ""},
-		11: {s: Day11, part1: "", part2: ""},
-		12: {s: Day12, part1: "", part2: ""},
-		13: {s: Day13, part1: "", part2: ``},
-		14: {s: Day14, part1: "", part2: ""},
-		15: {s: Day15, part1: "", part2: ""},
-		16: {s: Day16, part1: "", part2: ""},
-		17: {s: Day17, part1: "", part2: ""},
-		18: {s: Day18, part1: "", part2: ""},
-		19: {s: Day19, part1: "", part2: ""},
-		20: {s: Day20, part1: "", part2: ""},
-		21: {s: Day21, part1: "", part2: ""},
-		22: {s: Day22, part1: "", part2: ""},
-		23: {s: Day23, part1: "", part2: ""},
-		24: {s: Day24, part1: "", part2: ""},
-		25: {s: Day25, part1: "", part2: ""},
+		// 1:  {S: Day01, Part1: "67016", Part2: "200116"},
+		2: {S: Day02, Part1: "14264", Part2: "12382"},
+		// 3:  {S: Day03, Part1: "", Part2: ""},
+		// 4:  {S: Day04, Part1: "", Part2: ""},
+		// 5:  {S: Day05, Part1: "", Part2: ""},
+		// 6:  {S: Day06, Part1: "", Part2: ""},
+		// 7:  {S: Day07, Part1: "", Part2: ""},
+		// 8:  {S: Day08, Part1: "", Part2: ""},
+		// 9:  {S: Day09, Part1: "", Part2: ""},
+		// 10: {S: Day10, Part1: "", Part2: ""},
+		// 11: {S: Day11, Part1: "", Part2: ""},
+		// 12: {S: Day12, Part1: "", Part2: ""},
+		// 13: {S: Day13, Part1: "", Part2: ``},
+		// 14: {S: Day14, Part1: "", Part2: ""},
+		// 15: {S: Day15, Part1: "", Part2: ""},
+		// 16: {S: Day16, Part1: "", Part2: ""},
+		// 17: {S: Day17, Part1: "", Part2: ""},
+		// 18: {S: Day18, Part1: "", Part2: ""},
+		// 19: {S: Day19, Part1: "", Part2: ""},
+		// 20: {S: Day20, Part1: "", Part2: ""},
+		// 21: {S: Day21, Part1: "", Part2: ""},
+		// 22: {S: Day22, Part1: "", Part2: ""},
+		// 23: {S: Day23, Part1: "", Part2: ""},
+		// 24: {S: Day24, Part1: "", Part2: ""},
+		// 25: {S: Day25, Part1: "", Part2: ""},
 	}
 
-	for d, s := range tests {
-		t.Run(fmt.Sprintf("Day%02d", d), func(t *testing.T) {
-			day := day.TestDay(t, s.s)
-			day.WithFile(fmt.Sprintf("../../input/aoc2022/day%02d.in", d), s.part1, s.part2)
-		})
-	}
+	day.RunDays(t, tests)
 }

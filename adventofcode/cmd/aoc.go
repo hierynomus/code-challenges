@@ -62,14 +62,13 @@ func DayCommand(year int, d int, s day.Solver, config *Config) *cobra.Command {
 			case strings.TrimSpace(f) != "":
 				day.RunDayWithInput(d, s, f)
 			case strings.TrimSpace(config.InputDir) != "":
-				f := fmt.Sprintf("%s/aoc%d/day%02d.in", config.InputDir, year, d)
+				f = fmt.Sprintf("%s/aoc%d/day%02d.in", config.InputDir, year, d)
 				day.RunDayWithInput(d, s, f)
 			case util.StdInAvailable():
 				day.RunDay(d, s)
 			default:
 				panic(fmt.Errorf("no input available"))
 			}
-
 		},
 	}
 
