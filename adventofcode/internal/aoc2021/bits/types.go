@@ -41,9 +41,9 @@ func (lp *LiteralPacket) Value() int64 {
 }
 
 type OperatorPacket struct {
+	SubPackets []Packet
 	version    int
 	packetType PacketType
-	SubPackets []Packet
 }
 
 func (op *OperatorPacket) Version() int {
@@ -82,6 +82,8 @@ func (op *OperatorPacket) Value() int64 {
 		} else {
 			return 0
 		}
+	case LiteralPacketType:
+		fallthrough
 	default:
 		panic("Unknown operator")
 	}

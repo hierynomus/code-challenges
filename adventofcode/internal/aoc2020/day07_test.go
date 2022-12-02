@@ -1,7 +1,6 @@
 package aoc2020
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,5 +16,4 @@ func TestGetBag(t *testing.T) {
 	assert.Equal(t, 3, len(b.Contents))
 	assert.Equal(t, 4, len(bags))
 	assert.Equal(t, 1, len(bags["muted aqua"].ContainedIn))
-	fmt.Printf("%v", b)
 }

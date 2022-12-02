@@ -2,7 +2,10 @@ package day
 
 import (
 	"bufio"
+	"fmt"
 	"os"
+	"reflect"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -12,6 +15,22 @@ import (
 type Tester struct {
 	day Solver
 	t   *testing.T
+}
+
+func RunDays(t *testing.T, days map[int]struct {
+	S     Solver
+	Part1 string
+	Part2 string
+}) {
+	for dd, ss := range days {
+		d := dd
+		s := ss
+		pkg := GetPackageName(s.S)
+		t.Run(fmt.Sprintf("%s/Day%02d", pkg, d), func(t *testing.T) {
+			day := TestDay(t, s.S)
+			day.WithFile(fmt.Sprintf("../../input/%s/day%02d.in", pkg, d), s.Part1, s.Part2)
+		})
+	}
 }
 
 func TestDay(t *testing.T, s Solver) *Tester {
@@ -47,4 +66,10 @@ func (d *Tester) withScanner(scanner *bufio.Scanner, expected1 string, expected2
 	o1, o2 := d.day(scanner)
 	assert.Equal(d.t, expected1, o1)
 	assert.Equal(d.t, expected2, o2)
+}
+
+func GetPackageName(temp interface{}) string {
+	strs := strings.Split((runtime.FuncForPC(reflect.ValueOf(temp).Pointer()).Name()), ".")
+	strs = strings.Split(strs[len(strs)-2], "/")
+	return strs[len(strs)-1]
 }

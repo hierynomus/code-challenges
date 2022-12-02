@@ -39,17 +39,16 @@ func validXmas(i int, xmas []int) bool {
 func findEncryptionRange(xmas []int, weakness int) (int, int) {
 	s, e := 1, 2
 	sum := xmas[s] + xmas[e]
-	for true {
-		if sum < weakness {
-			e += 1
+	for {
+		switch {
+		case sum < weakness:
+			e++
 			sum += xmas[e]
-		} else if sum > weakness {
+		case sum > weakness:
 			sum -= xmas[s]
-			s += 1
-		} else {
-			break
+			s++
+		default:
+			return s, e
 		}
 	}
-
-	return s, e
 }

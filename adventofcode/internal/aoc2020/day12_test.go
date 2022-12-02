@@ -16,7 +16,7 @@ F11
 `
 
 	d := day.TestDay(t, Day12)
-	d.WithInput(inp, "25", "")
+	d.WithInput(inp, "25", "286")
 }
 
 func TestTurn(t *testing.T) {

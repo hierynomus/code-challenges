@@ -10,8 +10,8 @@ import (
 type Chemical string
 
 type Element struct {
-	Amount int
 	Name   Chemical
+	Amount int
 }
 
 type Reaction struct {
@@ -135,7 +135,7 @@ func Day14(scanner *bufio.Scanner) (string, string) {
 		Surplus:   map[Chemical]int{},
 	}
 
-	OreNeeded := factory.React(Element{1, Chemical("FUEL")})
+	OreNeeded := factory.React(Element{Chemical("FUEL"), 1})
 
 	factory = &NanoFactory{
 		Reactions: OutputReactions,
@@ -147,7 +147,7 @@ func Day14(scanner *bufio.Scanner) (string, string) {
 
 	for OreInStock > OreNeeded {
 		Fuel := OreInStock / OreNeeded
-		OreInStock -= factory.React(Element{Fuel, Chemical("FUEL")})
+		OreInStock -= factory.React(Element{Chemical("FUEL"), Fuel})
 		FuelProduced += Fuel
 	}
 

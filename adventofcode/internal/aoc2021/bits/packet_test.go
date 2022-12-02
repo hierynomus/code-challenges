@@ -61,5 +61,4 @@ func TestReadLiteralPacket(t *testing.T) {
 	assert.Equal(t, pkt.Version(), 6)
 	assert.Equal(t, pkt.Type(), LiteralPacketType)
 	assert.Equal(t, pkt.Value(), int64(2021))
-
 }

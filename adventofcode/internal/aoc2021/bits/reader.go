@@ -58,7 +58,6 @@ func (r *Reader) ReadBits(nr int) ([]rune, error) {
 	bits := r.transmission[r.pos : r.pos+nr]
 	r.pos += nr
 	return bits, nil
-
 }
 
 func (r *Reader) Done() bool {

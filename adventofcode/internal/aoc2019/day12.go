@@ -168,9 +168,7 @@ func Day12(scanner *bufio.Scanner) (string, string) {
 	// 		cycled[2] = time
 	// 	}
 	// }
-
 	// lcm := aoc.LcmArray(cycled)
-
 	// lcms := []int64{}
 	// for _, m := range part2.moons {
 	// 	fmt.Printf("%v\n", m)
@@ -179,5 +177,5 @@ func Day12(scanner *bufio.Scanner) (string, string) {
 	// 	fmt.Printf("%d\n", lcm)
 	// 	lcms = append(lcms, lcm)
 	// }
-	return fmt.Sprintf("%d", totalEnergy), "" //fmt.Sprintf("%d", lcm)
+	return fmt.Sprintf("%d", totalEnergy), ""
 }

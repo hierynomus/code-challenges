@@ -56,11 +56,12 @@ func SimulateEris(eris [][]rune) [][]rune {
 				}
 			}
 
-			if eris[y][x] == '#' && bugCount != 1 {
+			switch {
+			case eris[y][x] == '#' && bugCount != 1:
 				l += "."
-			} else if eris[y][x] == '.' && (bugCount == 1 || bugCount == 2) {
+			case eris[y][x] == '.' && (bugCount == 1 || bugCount == 2):
 				l += "#"
-			} else {
+			default:
 				l += string(eris[y][x])
 			}
 		}

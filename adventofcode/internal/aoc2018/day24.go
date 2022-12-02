@@ -20,12 +20,12 @@ const (
 )
 
 type Group struct {
+	Team                          Team
 	Name                          string
+	AttackType                    string
+	Weaknesses, Immunities        []string
 	Number                        int
 	Units, HP, Damage, Initiative int
-	Weaknesses, Immunities        []string
-	AttackType                    string
-	Team                          Team
 }
 
 func (g *Group) EffectivePower() int {

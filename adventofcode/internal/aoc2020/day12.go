@@ -41,7 +41,7 @@ func Day12(reader *bufio.Scanner) (string, string) {
 	part1 := aoc.Manhattan(aoc.Origin, s.Point)
 
 	wp := aoc.Point{X: 10, Y: -1}
-	ship := &Ship{Point: aoc.Origin, Bearing: 'E'}
+	ship := &Ship{Point: aoc.Origin}
 	for _, l := range lines {
 		d := aoc.ToInt(l[1:])
 		switch rune(l[0]) {

@@ -5,14 +5,14 @@ import "fmt"
 var Debug bool = false //nolint:gochecknoglobals
 
 type IntCodeMachine struct {
-	Mem        Memory
-	initialMem Memory
+	State      *State
+	ClosedCh   chan struct{}
 	opCodes    map[int]*Instruction
 	Input      IOChannel
 	Output     IOChannel
+	Mem        Memory
+	initialMem Memory
 	Closed     bool
-	ClosedCh   chan struct{}
-	State      *State
 }
 
 func NewIntCodeMachine(initialMem Memory) *IntCodeMachine {

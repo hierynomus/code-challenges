@@ -10,10 +10,10 @@ import (
 
 func Day02(reader *bufio.Scanner) (string, string) {
 	passwords := []struct {
+		Password []rune
 		Min      int
 		Max      int
 		Rune     rune
-		Password []rune
 	}{}
 
 	for reader.Scan() {
@@ -22,10 +22,10 @@ func Day02(reader *bufio.Scanner) (string, string) {
 		mm := strings.Split(split[0], "-")
 
 		passwords = append(passwords, struct {
+			Password []rune
 			Min      int
 			Max      int
 			Rune     rune
-			Password []rune
 		}{
 			Min:      aoc.ToInt(mm[0]),
 			Max:      aoc.ToInt(mm[1]),

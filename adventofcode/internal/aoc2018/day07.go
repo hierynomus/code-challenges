@@ -21,9 +21,9 @@ func (c *Clock) Tick() {
 }
 
 type WorkerElf struct {
+	Clock    *Clock
 	WorkItem rune
 	ReadyAt  int
-	Clock    *Clock
 }
 
 func NewElf(c *Clock) *WorkerElf {
@@ -115,6 +115,7 @@ func d7p1(forward, reverse map[rune][]rune) string {
 	return string(result)
 }
 
+//nolint:funlen
 func d7p2(forward, reverse map[rune][]rune, nrWorkers int) (string, int) {
 	forwardDeps := map[rune][]rune{}
 	for k, v := range forward {

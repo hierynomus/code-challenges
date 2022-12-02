@@ -23,12 +23,13 @@ func Day04(reader *bufio.Scanner) (string, string) {
 	sleepsAt := map[int]aoc.IntHistogram{}
 
 	for _, s := range input {
-		if strings.Contains(s, "Guard") {
+		switch {
+		case strings.Contains(s, "Guard"):
 			currentGuard = aoc.ToInt(strings.Split(s, " ")[3][1:])
-		} else if strings.Contains(s, "asleep") {
+		case strings.Contains(s, "asleep"):
 			t := strings.Split(s, " ")[1]
 			sleepyTime = aoc.ToInt(strings.Split(t[0:len(t)-1], ":")[1])
-		} else if strings.Contains(s, "wakes up") {
+		case strings.Contains(s, "wakes up"):
 			t := strings.Split(s, " ")[1]
 			wakeyTime = aoc.ToInt(strings.Split(t[0:len(t)-1], ":")[1])
 			totalSleep[currentGuard] += wakeyTime - sleepyTime

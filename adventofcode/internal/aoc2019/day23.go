@@ -25,8 +25,8 @@ func NewComputer(program []int, router *Router) *Computer {
 }
 
 type Router struct {
-	computers []*Computer
 	nat       Nat
+	computers []*Computer
 }
 
 func NewRouter(c []*Computer, n Nat) *Router {
@@ -47,11 +47,11 @@ type Nat interface {
 }
 
 type BreakingNat struct {
-	received       chan int
 	currentPacket  *Packet
+	lock           *sync.Mutex
+	received       chan int
 	deliverdPart1  bool
 	lastDeliveredY int
-	lock           *sync.Mutex
 }
 
 func (n *BreakingNat) ReceivePacket(p *Packet) {
@@ -100,8 +100,8 @@ type Packet struct {
 }
 
 type PacketInputChannel struct {
-	queue []int
 	lock  *sync.Mutex
+	queue []int
 	idle  bool
 }
 
@@ -156,9 +156,9 @@ func (pc *PacketInputChannel) WritePacket(p *Packet) {
 }
 
 type PacketOutputChannel struct {
-	partial []int
 	router  *Router
 	lock    *sync.Mutex
+	partial []int
 }
 
 func NewOutputChannel(router *Router) *PacketOutputChannel {

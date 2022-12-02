@@ -66,7 +66,7 @@ func hclValid(c string) bool {
 
 	for i := 1; i < 7; i++ {
 		r := rune(c[i])
-		if unicode.IsDigit(r) || 'a' == r || 'b' == r || 'c' == r || 'd' == r || 'e' == r || 'f' == r {
+		if unicode.IsDigit(r) || r == 'a' || r == 'b' || r == 'c' || r == 'd' || r == 'e' || r == 'f' {
 			continue
 		} else {
 			return false

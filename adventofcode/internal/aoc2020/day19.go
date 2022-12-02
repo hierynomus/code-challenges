@@ -10,7 +10,7 @@ import (
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/aoc"
 )
 
-var NoMatch = errors.New("No match")
+var ErrNoMatch = errors.New("no match")
 
 type Rule interface {
 	match(s string, r []int, ruleset map[int]Rule) bool
@@ -20,8 +20,8 @@ var rules map[int]Rule = map[int]Rule{}
 var rules2 map[int]Rule = map[int]Rule{}
 
 type OrRule struct {
-	i    int
 	opts [][]int
+	i    int
 }
 
 type RuneRule struct {
@@ -35,7 +35,7 @@ func NewOr(i int, s string) *OrRule {
 	for _, r := range lr {
 		opts = append(opts, aoc.AsIntArrayS(r, " "))
 	}
-	return &OrRule{i, opts}
+	return &OrRule{i: i, opts: opts}
 }
 
 func NewRune(i int, s string) *RuneRule {
@@ -108,13 +108,13 @@ func (rule *OrRule) match(s string, r []int, ruleset map[int]Rule) bool {
 // 	return 0, NoMatch
 // }
 
-func (r *OrRule) String() string {
-	s := aoc.IntArrayAsString(r.opts[0], " ")
-	for i := 1; i < len(r.opts); i++ {
-		s = fmt.Sprintf("%s | %s", s, aoc.IntArrayAsString(r.opts[i], " "))
+func (rule *OrRule) String() string {
+	s := aoc.IntArrayAsString(rule.opts[0], " ")
+	for i := 1; i < len(rule.opts); i++ {
+		s = fmt.Sprintf("%s | %s", s, aoc.IntArrayAsString(rule.opts[i], " "))
 	}
 
-	return fmt.Sprintf("OrRule[%d]: %s", r.i, s)
+	return fmt.Sprintf("OrRule[%d]: %s", rule.i, s)
 }
 
 func Day19(reader *bufio.Scanner) (string, string) {

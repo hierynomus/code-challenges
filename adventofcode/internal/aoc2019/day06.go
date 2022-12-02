@@ -8,8 +8,8 @@ import (
 )
 
 type SpaceObject struct {
-	object   string
 	orbiting *SpaceObject
+	object   string
 }
 
 func (s *SpaceObject) String() string {
@@ -23,7 +23,7 @@ func (s SpaceMap) GetOrCreate(object string) *SpaceObject {
 	if v, ok := s[object]; ok {
 		o = v
 	} else {
-		o = &SpaceObject{object, nil}
+		o = &SpaceObject{nil, object}
 		s[object] = o
 	}
 

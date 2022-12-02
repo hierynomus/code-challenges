@@ -59,7 +59,6 @@ func TestIntCodeDay09_1(t *testing.T) {
 	go icm.Run()
 
 	out := []int{}
-
 loop:
 	for {
 		select {

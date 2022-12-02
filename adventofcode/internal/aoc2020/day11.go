@@ -37,13 +37,14 @@ func evolve(grid [][]rune, tolerance int, occupancyCount func([][]rune, int, int
 		newLine := make([]rune, len(line))
 		for x := 0; x < len(line); x++ {
 			occ := occupancyCount(grid, x, y)
-			if line[x] == 'L' && occ == 0 {
+			switch {
+			case line[x] == 'L' && occ == 0:
 				newLine[x] = '#'
 				evolved = true
-			} else if line[x] == '#' && occ >= tolerance {
+			case line[x] == '#' && occ >= tolerance:
 				newLine[x] = 'L'
 				evolved = true
-			} else {
+			default:
 				newLine[x] = line[x]
 			}
 		}
@@ -73,7 +74,7 @@ func countOccupied1(grid [][]rune, x, y int) int {
 
 func countOccupied2(grid [][]rune, x, y int) int {
 	occupied := 0
-	for _, d := range aoc.DeltaNeighbours8(x, y) {
+	for _, d := range aoc.DeltaNeighbours8() {
 		dx, dy := d.X, d.Y
 
 		for y+dy >= 0 && y+dy < len(grid) && x+dx >= 0 && x+dx < len(grid[y+dy]) {
@@ -91,7 +92,6 @@ func countOccupied2(grid [][]rune, x, y int) int {
 				occupied += 1
 			}
 		}
-
 	}
 
 	return occupied

@@ -65,9 +65,7 @@ func Day07(scanner *bufio.Scanner) (string, string) {
 		permutations = aoc.Permutations([]int{5, 6, 7, 8, 9})
 
 		maxOut2 := 0
-
 		for _, perm := range permutations {
-
 			for i, x := range perm {
 				amplifiers[i].Input.Write(x)
 			}

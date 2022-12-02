@@ -45,7 +45,7 @@ func (card BingoCard) isBingo() bool {
 }
 
 func (card BingoCard) isBingoV() bool {
-	bingo := true
+	var bingo bool
 	for x := 0; x < 5; x++ {
 		bingo = true
 		for _, row := range card {
@@ -63,7 +63,7 @@ func (card BingoCard) isBingoV() bool {
 }
 
 func (card BingoCard) isBingoH() bool {
-	bingo := true
+	var bingo bool
 	for _, row := range card {
 		bingo = true
 		for _, nr := range row {

@@ -9,6 +9,7 @@ import (
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/aoc"
 )
 
+//nolint:funlen
 func Day17(scanner *bufio.Scanner) (string, string) {
 	if !scanner.Scan() {
 		panic(fmt.Errorf("boom"))
@@ -109,7 +110,7 @@ func FindIntersections(grid [][]rune) []aoc.Point {
 
 func getNeighbours(x, y int) []aoc.Point {
 	return []aoc.Point{
-		{X: x - 1, Y: y}, //nolint:gofmt
+		{X: x - 1, Y: y},
 		{X: x + 1, Y: y},
 		{X: x, Y: y - 1},
 		{X: x, Y: y + 1},

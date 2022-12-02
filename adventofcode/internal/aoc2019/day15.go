@@ -37,7 +37,7 @@ func (d *RepairDroid) Explore() {
 	go d.brain.Run()
 
 	moves := map[int]aoc.Point{
-		1: {X: 0, Y: -1}, //nolint:gofmt
+		1: {X: 0, Y: -1},
 		2: {X: 0, Y: 1},
 		3: {X: 1, Y: 0},
 		4: {X: -1, Y: 0},
@@ -89,10 +89,10 @@ loop:
 }
 
 type Location struct {
-	Pos       aoc.Point
 	From      *Location
 	Exits     map[int]*Location
 	Walls     map[int]struct{}
+	Pos       aoc.Point
 	HasOxygen bool
 }
 
@@ -157,6 +157,7 @@ func (l *Location) Backtrack() int {
 	panic(fmt.Errorf("could not backtrack to previous point"))
 }
 
+//nolint:funlen
 func Day15(scanner *bufio.Scanner) (string, string) {
 	if !scanner.Scan() {
 		panic(fmt.Errorf("boom"))

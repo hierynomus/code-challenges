@@ -23,7 +23,7 @@ linters-settings:
         checks: argument,case,condition,return
   govet:
     check-shadowing: false
-
+    enable-all: true
   nolintlint:
     allow-leading-space: false
     allow-unused: false # report any unused nolint directives
@@ -36,12 +36,12 @@ linters:
   disable-all: true
   enable:
     - bodyclose
-    - deadcode
     - depguard
     - dogsled
     - dupl
     - errcheck
     - exhaustive
+    - exportloopref
     - funlen
     - gochecknoinits
     - goconst
@@ -55,21 +55,16 @@ linters:
     - gosimple
     - govet
     - ineffassign
-    - interfacer
     - lll
-    - maligned
     - misspell
     - nakedret
     - noctx
     - nolintlint
-    - rowserrcheck
-    - scopelint
+    # - rowserrcheck
     - staticcheck
-    - structcheck
     - stylecheck
     - typecheck
     - unconvert
     - unparam
     - unused
-    - varcheck
     - whitespace

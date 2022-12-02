@@ -29,6 +29,7 @@ func hexNeighbours(p aoc.Point3D) []aoc.Point3D {
 	}
 }
 
+//nolint:funlen
 func Day24(reader *bufio.Scanner) (string, string) {
 	lines := aoc.ReadStringArray(reader)
 

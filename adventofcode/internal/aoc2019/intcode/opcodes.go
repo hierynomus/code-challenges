@@ -19,10 +19,10 @@ func (e *Jump) Error() string {
 }
 
 type Instruction struct {
-	opCode    int
-	str       string
-	opCodeLen int
 	f         func(state *State, mem Memory) error
+	str       string
+	opCode    int
+	opCodeLen int
 }
 
 func Addition() *Instruction {

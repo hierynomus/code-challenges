@@ -10,10 +10,10 @@ import (
 )
 
 type VaultWalk struct {
+	KeysFound  []rune
 	Pos        aoc.Point
 	PrevPos    aoc.Point
 	WalkLength int
-	KeysFound  []rune
 	Index      int
 }
 

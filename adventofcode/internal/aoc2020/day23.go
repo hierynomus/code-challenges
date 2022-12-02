@@ -8,8 +8,8 @@ import (
 )
 
 type Cup struct {
-	Nr   int
 	Next *Cup
+	Nr   int
 }
 
 func Day23(reader *bufio.Scanner) (string, string) {
@@ -44,7 +44,7 @@ func Day23(reader *bufio.Scanner) (string, string) {
 func parseCups(l string) (map[int]*Cup, *Cup) {
 	var current, cup *Cup = nil, nil
 	m := map[int]*Cup{}
-	for _, x := range []rune(l) {
+	for _, x := range l {
 		c := &Cup{Nr: int(x - '0')}
 		m[c.Nr] = c
 		if current == nil {
@@ -81,7 +81,7 @@ func playCrabCups(lookup map[int]*Cup, cup *Cup, rounds int) {
 	}
 }
 
-func playCrabCupsArray(game []int, rounds int) []int {
+func OldPlayCrabCupsArray(game []int, rounds int) []int {
 	round := make([]int, len(game))
 	copy(round, game)
 	for i := 0; i < rounds; i++ {

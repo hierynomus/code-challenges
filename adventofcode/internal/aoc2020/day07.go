@@ -15,9 +15,9 @@ var bagRe = regexp.MustCompile("(.*) bags contain ([no0-9]+ .* bag[s,]?).+")
 var bagExists = struct{}{}
 
 type Bag struct {
-	Type        string
-	Contents    map[*Bag]int
 	ContainedIn map[*Bag]struct{}
+	Contents    map[*Bag]int
+	Type        string
 }
 
 func Day07(reader *bufio.Scanner) (string, string) {

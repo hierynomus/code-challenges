@@ -34,7 +34,7 @@ func Day13(reader *bufio.Scanner) (string, string) {
 
 	t, period := 0, 1
 	for b, i := range buses {
-		for true {
+		for {
 			if (t+i)%b == 0 {
 				period *= b
 				break

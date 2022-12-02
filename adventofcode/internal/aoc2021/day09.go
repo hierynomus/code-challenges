@@ -36,7 +36,7 @@ func Day09(reader *bufio.Scanner) (string, string) {
 		basins[p] = aoc.PointSet{}
 		basins[p].Add(p)
 		frontier := p.Neighbours4()
-		expand(p, grid, basins[p], frontier)
+		expand(grid, basins[p], frontier)
 	}
 
 	lengths := make([]int, 0)
@@ -50,13 +50,13 @@ func Day09(reader *bufio.Scanner) (string, string) {
 	return strconv.Itoa(part1), strconv.Itoa(part2)
 }
 
-func expand(p aoc.Point, grid [][]int, basin aoc.PointSet, frontier []aoc.Point) {
+func expand(grid [][]int, basin aoc.PointSet, frontier []aoc.Point) {
 	for _, n := range frontier {
 		if basin.Contains(n) || n.X < 0 || n.Y < 0 || n.X >= len(grid) || n.Y >= len(grid[0]) || grid[n.Y][n.X] == 9 {
 			continue
 		}
 
 		basin.Add(n)
-		expand(n, grid, basin, n.Neighbours4())
+		expand(grid, basin, n.Neighbours4())
 	}
 }

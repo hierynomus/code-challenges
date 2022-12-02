@@ -37,7 +37,6 @@ func (pr *PacketReader) Next() (Packet, error) {
 	default:
 		return pr.readOperatorPacket(version, t)
 	}
-
 }
 
 func (pr *PacketReader) readLiteralPacket(version int, packetType PacketType) (Packet, error) {

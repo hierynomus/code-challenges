@@ -9,9 +9,9 @@ import (
 )
 
 type Marble struct {
-	Value int
 	Left  *Marble
 	Right *Marble
+	Value int
 }
 
 func NewMarble(v int) *Marble {

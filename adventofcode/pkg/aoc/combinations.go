@@ -25,7 +25,7 @@ func IntCombinations(s []int) [][]int {
 }
 
 func IntCombinationsN(list []int, n int) <-chan []int {
-	c := make(chan []int, 0)
+	c := make(chan []int)
 
 	go func() {
 		res := make([]int, n)

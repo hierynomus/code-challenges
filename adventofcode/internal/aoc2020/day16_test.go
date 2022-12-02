@@ -21,7 +21,7 @@ nearby tickets:
 `
 
 	d := day.TestDay(t, Day16)
-	d.WithInput(inp, "0", "")
+	d.WithInput(inp, "0", "1")
 }
 func TestDay16_sample2(t *testing.T) {
 	inp := `class: 1-3 or 5-7
@@ -39,5 +39,5 @@ nearby tickets:
 `
 
 	d := day.TestDay(t, Day16)
-	d.WithInput(inp, "71", "")
+	d.WithInput(inp, "71", "1")
 }

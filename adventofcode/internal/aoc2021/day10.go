@@ -9,19 +9,19 @@ import (
 )
 
 func Day10(reader *bufio.Scanner) (string, string) {
-	var SyntaxScores map[rune]int = map[rune]int{
+	var SyntaxScores = map[rune]int{
 		')': 3,
 		']': 57,
 		'}': 1197,
 		'>': 25137,
 	}
-	var CounterPart map[rune]rune = map[rune]rune{
+	var CounterPart = map[rune]rune{
 		')': '(',
 		']': '[',
 		'}': '{',
 		'>': '<',
 	}
-	var AutoCompleteScores map[rune]int = map[rune]int{
+	var AutoCompleteScores = map[rune]int{
 		'(': 1,
 		'[': 2,
 		'{': 3,

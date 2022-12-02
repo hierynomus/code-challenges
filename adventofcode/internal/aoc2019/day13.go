@@ -12,13 +12,13 @@ import (
 
 type Arkanoid struct {
 	Machine          *intcode.IntCodeMachine
-	Ball             aoc.Point
-	Blocks           map[aoc.Point]struct{}
-	Paddle           aoc.Point
-	Score            int
+	wg               *sync.WaitGroup
 	BallUpdate       chan aoc.Point
 	PaddleUpdate     chan aoc.Point
-	wg               *sync.WaitGroup
+	Blocks           map[aoc.Point]struct{}
+	Ball             aoc.Point
+	Paddle           aoc.Point
+	Score            int
 	JoystickPosition int
 }
 
