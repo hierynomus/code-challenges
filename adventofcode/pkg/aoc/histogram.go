@@ -45,6 +45,12 @@ func MakeRuneHistogram(list []rune) RuneHistogram {
 	return h
 }
 
+func (h RuneHistogram) Adds(rs []rune) {
+	for _, i := range rs {
+		h[i]++
+	}
+}
+
 func (h RuneHistogram) Max() rune {
 	k, _ := h.MaxC()
 	return k
