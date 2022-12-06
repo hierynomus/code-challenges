@@ -50,17 +50,15 @@ func (s *JupiterSystem) Move() {
 // }
 
 type Moon struct {
-	Initial aoc.Point3D
-	L       aoc.Point3D
-	V       aoc.Point3D
-	cycles  aoc.Point3D
+	L      aoc.Point3D
+	V      aoc.Point3D
+	cycles aoc.Point3D
 }
 
 func NewMoon(p aoc.Point3D) *Moon {
 	return &Moon{
-		Initial: p,
-		L:       p,
-		V:       aoc.ZeroPoint3D(),
+		L: p,
+		V: aoc.ZeroPoint3D(),
 	}
 }
 
@@ -136,46 +134,49 @@ func Day12(scanner *bufio.Scanner) (string, string) {
 		totalEnergy += m.Energy()
 	}
 
-	// part2 := system.Copy()
-	// for _, m := range part2.Moons {
-	// 	seen := [](int, int, int){}
-	// }
+	part2 := system.Copy()
+	cycled := make([]int64, 3)
+	for time := int64(1); cycled[0] == 0 || cycled[1] == 0 || cycled[2] == 0; time++ {
+		part2.ApplyGravity()
+		part2.Move()
 
-	// cycled := make([]int64, 3)
-	// for time := int64(0); cycled[0] == 0 || cycled[1] == 0 || cycled[2] == 0; time++ {
-	// 	part2.ApplyGravity()
-	// 	part2.Move()
-	// 	foundX, foundY, foundZ := true, true, true
-	// 	for _, m := range part2.moons {
-	// 		if cycled[0] > 0 || m.L.X != m.Initial.X {
-	// 			foundX = false
-	// 		}
-	// 		if cycled[1] > 0 || m.L.Y != m.Initial.Y {
-	// 			foundY = false
-	// 		}
-	// 		if cycled[2] >= 0 || m.L.Z != m.Initial.Z {
-	// 			foundZ = false
-	// 		}
-	// 	}
+		foundX, foundY, foundZ := true, true, true
+		for i, m := range part2.Moons {
+			initial := system.Moons[i]
+			if cycled[0] == 0 && foundX {
+				if m.L.X != initial.L.X || m.V.X != initial.V.X {
+					foundX = false
+				}
+			}
 
-	// 	if foundX {
-	// 		cycled[0] = time
-	// 	}
-	// 	if foundY {
-	// 		cycled[1] = time
-	// 	}
-	// 	if foundZ {
-	// 		cycled[2] = time
-	// 	}
-	// }
-	// lcm := aoc.LcmArray(cycled)
-	// lcms := []int64{}
-	// for _, m := range part2.moons {
-	// 	fmt.Printf("%v\n", m)
-	// 	lcm := aoc.Lcm(m.cycles.X, m.cycles.Y)
-	// 	lcm = aoc.Lcm(lcm, m.cycles.Z)
-	// 	fmt.Printf("%d\n", lcm)
-	// 	lcms = append(lcms, lcm)
-	// }
-	return fmt.Sprintf("%d", totalEnergy), ""
+			if cycled[1] == 0 && foundY {
+				if m.L.Y != initial.L.Y || m.V.Y != initial.V.Y {
+					foundY = false
+				}
+			}
+
+			if cycled[2] == 0 && foundZ {
+				if m.L.Z != initial.L.Z || m.V.Z != initial.V.Z {
+					foundZ = false
+				}
+			}
+
+		}
+
+		if foundX && cycled[0] == 0 {
+			cycled[0] = time
+		}
+
+		if foundY && cycled[1] == 0 {
+			cycled[1] = time
+		}
+
+		if foundZ && cycled[2] == 0 {
+			cycled[2] = time
+		}
+	}
+
+	lcm := aoc.LcmArray(cycled)
+
+	return aoc.Int64ToString(totalEnergy), aoc.Int64ToString(lcm)
 }
