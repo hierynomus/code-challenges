@@ -41,3 +41,13 @@ func (s *RuneStack) Pop() (rune, bool) {
 		return element, true
 	}
 }
+
+func (s *RuneStack) Peek() (rune, bool) {
+	if s.IsEmpty() {
+		return rune(0), false
+	} else {
+		index := len(*s) - 1
+		element := (*s)[index]
+		return element, true
+	}
+}
