@@ -66,11 +66,12 @@ func BuildTree(reader *bufio.Scanner, curDir *Dir) {
 			case "ls":
 				continue
 			case "cd":
-				if s[2] == ".." {
+				switch s[2] {
+				case "..":
 					return
-				} else if s[2] == "/" {
+				case "/":
 					continue
-				} else {
+				default:
 					BuildTree(reader, curDir.Dirs[s[2]])
 				}
 			default:

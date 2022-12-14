@@ -63,6 +63,16 @@ func StringArrayContains(haystack []string, needle string) bool {
 	return false
 }
 
+func IntArrayContains(haystack []int, needle int) bool {
+	for _, s := range haystack {
+		if s == needle {
+			return true
+		}
+	}
+
+	return false
+}
+
 func StringArrayIndex(haystack []string, needle string) int {
 	for i, s := range haystack {
 		if s == needle {

@@ -20,12 +20,17 @@ func TestDays(t *testing.T) {
 		6: {S: Day06, Part1: "1651", Part2: "3837"},
 		7: {S: Day07, Part1: "1644735", Part2: "1300850"},
 		8: {S: Day08, Part1: "1845", Part2: "230112"},
-		// 9:  {S: Day09, Part1: "", Part2: ""},
-		// 10: {S: Day10, Part1: "", Part2: ""},
-		// 11: {S: Day11, Part1: "", Part2: ""},
-		// 12: {S: Day12, Part1: "", Part2: ""},
-		// 13: {S: Day13, Part1: "", Part2: ``},
-		// 14: {S: Day14, Part1: "", Part2: ""},
+		9: {S: Day09, Part1: "6266", Part2: "2369"},
+		10: {S: Day10, Part1: "17840", Part2: `XXXX..XX..X.....XX..X..X.X....XXX...XX..
+X....X..X.X....X..X.X..X.X....X..X.X..X.
+XXX..X..X.X....X....X..X.X....X..X.X....
+X....XXXX.X....X.XX.X..X.X....XXX..X.XX.
+X....X..X.X....X..X.X..X.X....X....X..X.
+XXXX.X..X.XXXX..XXX..XX..XXXX.X.....XXX.`},
+		11: {S: Day11, Part1: "113232", Part2: "29703395016"},
+		12: {S: Day12, Part1: "462", Part2: "451"},
+		13: {S: Day13, Part1: "4894", Part2: "24180"},
+		14: {S: Day14, Part1: "979", Part2: "29044"},
 		// 15: {S: Day15, Part1: "", Part2: ""},
 		// 16: {S: Day16, Part1: "", Part2: ""},
 		// 17: {S: Day17, Part1: "", Part2: ""},

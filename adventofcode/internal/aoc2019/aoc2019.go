@@ -23,9 +23,9 @@ var AllDays map[int]day.Solver = map[int]day.Solver{
 	// 18: Day18,
 	19: Day19,
 	// 20: Day20,
-	// 21: Day21,
+	21: Day21,
 	22: Day22,
-	// 23: Day23,
+	23: Day23,
 	24: Day24,
 	// 25: Day25,
 }

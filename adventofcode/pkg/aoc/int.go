@@ -98,6 +98,14 @@ func Min(l []int) int {
 	return m
 }
 
+func Sign(i int) int {
+	if i < 0 {
+		return -1
+	}
+
+	return 1
+}
+
 func ParseBin(s string) int64 {
 	i, err := strconv.ParseInt(s, 2, 64)
 	if err != nil {

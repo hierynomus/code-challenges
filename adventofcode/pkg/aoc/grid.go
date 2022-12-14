@@ -2,6 +2,18 @@ package aoc
 
 import "strings"
 
+func MakeRuneGrid(width, height int, empty rune) [][]rune {
+	grid := make([][]rune, height)
+	for i := range grid {
+		grid[i] = make([]rune, width)
+		for j := range grid[i] {
+			grid[i][j] = empty
+		}
+	}
+
+	return grid
+}
+
 func RenderRuneGrid(grid [][]rune) string {
 	s := ""
 	for _, l := range grid {
