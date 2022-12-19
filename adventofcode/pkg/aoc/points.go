@@ -1,11 +1,20 @@
 package aoc
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 var Origin = Point{0, 0} //nolint:gochecknoglobals
 
 type Point struct {
 	X, Y int
+}
+
+func ParsePoint(s string) Point {
+	var x, y int
+	fmt.Sscanf(s, "x=%d, y=%d", &x, &y)
+	return Point{X: x, Y: y}
 }
 
 func ReadPoint(line string) Point {
@@ -32,6 +41,22 @@ func (p Point) Add(o Point) Point {
 
 func (p Point) AddXY(x, y int) Point {
 	return Point{X: p.X + x, Y: p.Y + y}
+}
+
+func (p Point) North() Point {
+	return Point{X: p.X, Y: p.Y + 1}
+}
+
+func (p Point) South() Point {
+	return Point{X: p.X, Y: p.Y - 1}
+}
+
+func (p Point) East() Point {
+	return Point{X: p.X + 1, Y: p.Y}
+}
+
+func (p Point) West() Point {
+	return Point{X: p.X - 1, Y: p.Y}
 }
 
 func (p Point) Neighbours4() []Point {
@@ -86,6 +111,17 @@ type Point3D struct {
 	X, Y, Z int64
 }
 
+func (p Point3D) Neighbours6() []Point3D {
+	return []Point3D{
+		{X: p.X + 1, Y: p.Y, Z: p.Z},
+		{X: p.X - 1, Y: p.Y, Z: p.Z},
+		{X: p.X, Y: p.Y + 1, Z: p.Z},
+		{X: p.X, Y: p.Y - 1, Z: p.Z},
+		{X: p.X, Y: p.Y, Z: p.Z + 1},
+		{X: p.X, Y: p.Y, Z: p.Z - 1},
+	}
+}
+
 func (p Point3D) Neighbours26() []Point3D {
 	pts := []Point3D{}
 	for x := -1; x <= 1; x++ {
@@ -101,6 +137,14 @@ func (p Point3D) Neighbours26() []Point3D {
 	}
 
 	return pts
+}
+
+func (p Point3D) Add(o Point3D) Point3D {
+	return Point3D{X: p.X + o.X, Y: p.Y + o.Y, Z: p.Z + o.Z}
+}
+
+func (p Point3D) AddXYZ(x, y, z int64) Point3D {
+	return Point3D{X: p.X + x, Y: p.Y + y, Z: p.Z + z}
 }
 
 func (p Point3D) String() string {
@@ -128,6 +172,17 @@ func ManhattanSort(pts []Point) func(i, j int) bool {
 		}
 		return p1.Y < p2.Y
 	}
+}
+
+func (p Point) ManhattanPerimeter(dist int) []Point {
+	perimeter := []Point{}
+	for x := p.X - dist; x <= p.X+dist; x++ {
+		left := dist - Abs(p.X-x)
+		perimeter = append(perimeter, Point{X: x, Y: p.Y - left})
+		perimeter = append(perimeter, Point{X: x, Y: p.Y + left})
+	}
+
+	return perimeter
 }
 
 func Neighbours4(x, y int) []Point {
@@ -163,4 +218,31 @@ func DeltaNeighbours8() []Point {
 		{X: 0, Y: 1},
 		{X: 1, Y: 1},
 	}
+}
+
+func FindBoundingBox3D(pts []Point3D) (min, max Point3D) {
+	min = Point3D{math.MaxInt64, math.MaxInt64, math.MaxInt64}
+	max = Point3D{math.MinInt64, math.MinInt64, math.MinInt64}
+	for _, p := range pts {
+		if p.X < min.X {
+			min.X = p.X
+		}
+		if p.Y < min.Y {
+			min.Y = p.Y
+		}
+		if p.Z < min.Z {
+			min.Z = p.Z
+		}
+		if p.X > max.X {
+			max.X = p.X
+		}
+		if p.Y > max.Y {
+			max.Y = p.Y
+		}
+		if p.Z > max.Z {
+			max.Z = p.Z
+		}
+	}
+
+	return
 }
