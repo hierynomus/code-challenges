@@ -11,28 +11,22 @@ import (
 
 const Part1TargetY = 2000000
 
-type Sensor struct {
-	Loc   aoc.Point
-	Range int
+func InSensorRange(loc, p aoc.Point, r int) bool {
+	return aoc.Manhattan(loc, p) <= r
 }
 
-func (s Sensor) InRange(p aoc.Point) bool {
-	return aoc.Manhattan(s.Loc, p) <= s.Range
-}
-
-func (s Sensor) ScannedPositionsAt(y int) (int, int, error) {
-	d := aoc.Abs(y - s.Loc.Y)
-	if d > s.Range {
+func ScannedPositionsAt(l aoc.Point, r, y int) (int, int, error) {
+	d := aoc.Abs(y - l.Y)
+	if d > r {
 		return 0, 0, errors.New("no positions scanned")
 	}
-	rangeLeft := s.Range - d
-	return s.Loc.X - rangeLeft, s.Loc.X + rangeLeft, nil
-
+	rangeLeft := r - d
+	return l.X - rangeLeft, l.X + rangeLeft, nil
 }
 
-func InRange(sensors []Sensor, p aoc.Point) bool {
-	for _, s := range sensors {
-		if s.InRange(p) {
+func InRange(sensors map[aoc.Point]int, p aoc.Point) bool {
+	for l, r := range sensors {
+		if InSensorRange(l, p, r) {
 			return true
 		}
 	}
@@ -41,10 +35,10 @@ func InRange(sensors []Sensor, p aoc.Point) bool {
 
 type Beacon aoc.Point
 
-func FindNonBeaconPositions(sensors []Sensor, beacons []Beacon, targetLine int) int {
+func FindNonBeaconPositions(sensors map[aoc.Point]int, beacons []Beacon, targetLine int) int {
 	xs := aoc.NewIntSet([]int{})
-	for _, s := range sensors {
-		minX, maxX, err := s.ScannedPositionsAt(targetLine)
+	for l, r := range sensors {
+		minX, maxX, err := ScannedPositionsAt(l, r, targetLine)
 		if err != nil {
 			continue
 		}
@@ -62,23 +56,28 @@ func FindNonBeaconPositions(sensors []Sensor, beacons []Beacon, targetLine int) 
 	return len(xs) - len(bs)
 }
 
-func ParseSensorsAndBeacons(reader *bufio.Scanner, sensors *[]Sensor, beacons *[]Beacon) {
+func ParseSensorsAndBeacons(reader *bufio.Scanner) (map[aoc.Point]int, []Beacon) {
+	sensors := map[aoc.Point]int{}
+	beacons := []Beacon{}
+
 	for reader.Scan() {
 		line := reader.Text()
 		sb := strings.Split(line, ": ")
 		sp := aoc.ParsePoint(strings.Split(sb[0], "at ")[1])
 		bp := aoc.ParsePoint(strings.Split(sb[1], "at ")[1])
 		r := aoc.Manhattan(sp, bp)
-		*sensors = append(*sensors, Sensor{Loc: sp, Range: r})
-		*beacons = append(*beacons, Beacon(bp))
+		sensors[sp] = r
+		beacons = append(beacons, Beacon(bp))
 	}
+
+	return sensors, beacons
 }
 
-func FindDistressBeacon(sensors []Sensor, min, max aoc.Point) aoc.Point {
+func FindDistressBeacon(sensors map[aoc.Point]int, min, max aoc.Point) aoc.Point {
 	d := 1
 	for {
-		for _, s := range sensors {
-			for _, p := range s.Loc.ManhattanPerimeter(s.Range + d) {
+		for l, r := range sensors {
+			for _, p := range l.ManhattanPerimeter(r + d) {
 				if p.X < min.X || p.X > max.X || p.Y < min.Y || p.Y > max.Y {
 					continue
 				}
@@ -95,10 +94,7 @@ func FindDistressBeacon(sensors []Sensor, min, max aoc.Point) aoc.Point {
 func Day15(reader *bufio.Scanner) (string, string) {
 	var part1, part2 int
 
-	sensors := []Sensor{}
-	beacons := []Beacon{}
-
-	ParseSensorsAndBeacons(reader, &sensors, &beacons)
+	sensors, beacons := ParseSensorsAndBeacons(reader)
 
 	part1 = FindNonBeaconPositions(sensors, beacons, Part1TargetY)
 	distress := FindDistressBeacon(sensors, aoc.Origin, aoc.NewPoint(4000000, 4000000))

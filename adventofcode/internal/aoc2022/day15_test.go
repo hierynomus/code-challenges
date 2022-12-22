@@ -26,9 +26,7 @@ Sensor at x=20, y=1: closest beacon is at x=15, y=3
 `
 
 func TestDay15_Sample(t *testing.T) {
-	sensors := []Sensor{}
-	beacons := []Beacon{}
-	ParseSensorsAndBeacons(bufio.NewScanner(strings.NewReader(A2022D15Sample)), &sensors, &beacons)
+	sensors, beacons := ParseSensorsAndBeacons(bufio.NewScanner(strings.NewReader(A2022D15Sample)))
 	assert.Equal(t, 26, FindNonBeaconPositions(sensors, beacons, 10))
 	assert.Equal(t, aoc.NewPoint(14, 11), FindDistressBeacon(sensors, aoc.Origin, aoc.NewPoint(20, 20)))
 }
