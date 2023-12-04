@@ -39,9 +39,9 @@ XXXX.X..X.XXXX..XXX..XX..XXXX.X.....XXX.`},
 		20: {S: Day20, Part1: "2275", Part2: "4090409331120"},
 		// 21: {S: Day21, Part1: "158731561459602", Part2: ""},
 		// 22: {S: Day22, Part1: "", Part2: ""},
-		// 23: {S: Day23, Part1: "", Part2: ""},
+		23: {S: Day23, Part1: "3815", Part2: "893"},
 		// 24: {S: Day24, Part1: "", Part2: ""},
-		// 25: {S: Day25, Part1: "", Part2: ""},
+		25: {S: Day25, Part1: "2--1=0=-210-1=00=-=1", Part2: "0"},
 	}
 
 	day.RunDays(t, tests)

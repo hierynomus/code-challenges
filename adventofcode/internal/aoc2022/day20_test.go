@@ -17,5 +17,5 @@ const A2022D20Sample = `1
 
 func TestDay20_Sample(t *testing.T) {
 	d := day.TestDay(t, Day20)
-	d.WithInput(A2022D20Sample, "3", "")
+	d.WithInput(A2022D20Sample, "3", "1623178306")
 }
