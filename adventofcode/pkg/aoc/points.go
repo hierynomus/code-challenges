@@ -47,16 +47,32 @@ func (p Point) North() Point {
 	return Point{X: p.X, Y: p.Y + 1}
 }
 
-func (p Point) South() Point {
-	return Point{X: p.X, Y: p.Y - 1}
+func (p Point) NorthEast() Point {
+	return Point{X: p.X + 1, Y: p.Y + 1}
 }
 
 func (p Point) East() Point {
 	return Point{X: p.X + 1, Y: p.Y}
 }
 
+func (p Point) SouthEast() Point {
+	return Point{X: p.X + 1, Y: p.Y - 1}
+}
+
+func (p Point) South() Point {
+	return Point{X: p.X, Y: p.Y - 1}
+}
+
+func (p Point) SouthWest() Point {
+	return Point{X: p.X - 1, Y: p.Y - 1}
+}
+
 func (p Point) West() Point {
 	return Point{X: p.X - 1, Y: p.Y}
+}
+
+func (p Point) NorthWest() Point {
+	return Point{X: p.X - 1, Y: p.Y + 1}
 }
 
 func (p Point) Neighbours4() []Point {

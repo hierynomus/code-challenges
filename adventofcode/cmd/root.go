@@ -10,6 +10,7 @@ import (
 
 type Config struct {
 	InputDir string
+	Time     bool
 }
 
 func RootCommand(config *Config) *cobra.Command {
@@ -19,6 +20,7 @@ func RootCommand(config *Config) *cobra.Command {
 	}
 
 	cmd.PersistentFlags().StringVarP(&config.InputDir, "input", "i", "", "The input directory")
+	cmd.PersistentFlags().BoolVarP(&config.Time, "time", "t", false, "Time solutions")
 
 	return cmd
 }

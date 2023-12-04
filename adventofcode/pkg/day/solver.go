@@ -4,17 +4,26 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
+
+	"github.com/hierynomus/code-challenges/adventofcode/pkg/util"
 )
 
 type Solver func(r *bufio.Scanner) (string, string)
 
-func RunDayWithInput(day int, s Solver, f string) {
+func RunDayWithInput(day int, s Solver, f string, timing bool) {
 	fileHandle, err := os.Open(f)
 	if err != nil {
 		panic(err)
 	}
+
 	defer fileHandle.Close()
 	fileScanner := bufio.NewScanner(fileHandle)
+
+	if timing {
+		defer util.Timing(time.Now(), fmt.Sprintf("%s/%02d", util.GetPackageName(s), day))
+	}
+
 	RunDayWithScanner(day, s, fileScanner)
 }
 

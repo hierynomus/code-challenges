@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2018"
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2019"
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2020"
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2021"
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2022"
+	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2023"
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/day"
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/util"
 	"github.com/spf13/cobra"
@@ -21,6 +23,7 @@ var Years = map[int]map[int]day.Solver{
 	2020: aoc2020.AllDays,
 	2021: aoc2021.AllDays,
 	2022: aoc2022.AllDays,
+	2023: aoc2023.AllDays,
 }
 
 func AocCommand(year int, config *Config) *cobra.Command {
@@ -35,9 +38,13 @@ func AocCommand(year int, config *Config) *cobra.Command {
 				}
 				sort.Ints(keys)
 
+				if config.Time {
+					defer util.Timing(time.Now(), fmt.Sprintf("aoc%d", year))
+				}
+
 				for _, d := range keys {
 					f := fmt.Sprintf("%s/aoc%d/day%02d.in", config.InputDir, year, d)
-					day.RunDayWithInput(d, Years[year][d], f)
+					day.RunDayWithInput(d, Years[year][d], f, config.Time)
 				}
 			} else {
 				panic(fmt.Errorf("cannot run all days without input dir"))
@@ -60,10 +67,10 @@ func DayCommand(year int, d int, s day.Solver, config *Config) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			switch {
 			case strings.TrimSpace(f) != "":
-				day.RunDayWithInput(d, s, f)
+				day.RunDayWithInput(d, s, f, config.Time)
 			case strings.TrimSpace(config.InputDir) != "":
 				f = fmt.Sprintf("%s/aoc%d/day%02d.in", config.InputDir, year, d)
-				day.RunDayWithInput(d, s, f)
+				day.RunDayWithInput(d, s, f, config.Time)
 			case util.StdInAvailable():
 				day.RunDay(d, s)
 			default:

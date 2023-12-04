@@ -38,6 +38,15 @@ func (s IntSet) Copy() IntSet {
 	return n
 }
 
+func (s IntSet) AsSlice() []int {
+	is := []int{}
+	for i := range s {
+		is = append(is, i)
+	}
+
+	return is
+}
+
 type RuneSet map[rune]struct{}
 
 func NewRuneSet(rs []rune) RuneSet {
@@ -148,4 +157,23 @@ func (s PointSet) Adds(ps []Point) {
 func (s PointSet) Contains(p Point) bool {
 	_, ok := s[p]
 	return ok
+}
+
+func (s PointSet) BoundingBox() (min, max Point) {
+	for p := range s {
+		if p.X < min.X {
+			min.X = p.X
+		}
+		if p.Y < min.Y {
+			min.Y = p.Y
+		}
+		if p.X > max.X {
+			max.X = p.X
+		}
+		if p.Y > max.Y {
+			max.Y = p.Y
+		}
+	}
+
+	return
 }
