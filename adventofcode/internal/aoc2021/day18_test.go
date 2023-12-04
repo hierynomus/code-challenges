@@ -21,16 +21,17 @@ func TestDay18_sample(t *testing.T) {
 `
 
 	d := day.TestDay(t, Day18)
-	d.WithInput(inp, "4140", "")
+	d.WithInput(inp, "4140", "3993")
 }
 
 // [[6,[5,[4,[3,2]]]],1]
-//         /\
-//        /\ 1
-//       6 /\
-//        5 /\
-//         4 /\
-//          3 2
+//
+//	  /\
+//	 /\ 1
+//	6 /\
+//	 5 /\
+//	  4 /\
+//	   3 2
 func TestExplode(t *testing.T) {
 	cases := map[string]string{
 		"[[[[[9,8],1],2],3],4]":                 "[[[[0,9],2],3],4]",

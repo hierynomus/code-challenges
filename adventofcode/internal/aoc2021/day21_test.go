@@ -11,5 +11,5 @@ func TestDay21_sample(t *testing.T) {
 Player 2 starting position: 8`
 
 	d := day.TestDay(t, Day21)
-	d.WithInput(inp, "37", "168")
+	d.WithInput(inp, "739785", "444356092776315")
 }

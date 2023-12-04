@@ -23,7 +23,7 @@ func TestDay11_sample(t *testing.T) {
 5283751526`
 
 	d := day.TestDay(t, Day11)
-	d.WithInput(inp, "1656", "168")
+	d.WithInput(inp, "1656", "195")
 }
 
 func TestDay11_1step(t *testing.T) {
