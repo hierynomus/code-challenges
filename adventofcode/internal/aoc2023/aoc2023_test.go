@@ -18,7 +18,7 @@ func TestDays(t *testing.T) {
 		4: {S: Day04, Part1: "28538", Part2: "9425061"},
 		5: {S: Day05, Part1: "51580674", Part2: "99751240"},
 		6: {S: Day06, Part1: "1084752", Part2: "28228952"},
-		// 		7: {S: Day07, Part1: "1644735", Part2: "1300850"},
+		7: {S: Day07, Part1: "254024898", Part2: "254115617"},
 		// 		8: {S: Day08, Part1: "1845", Part2: "230112"},
 		// 		9: {S: Day09, Part1: "6266", Part2: "2369"},
 		// 		10: {S: Day10, Part1: "17840", Part2: `XXXX..XX..X.....XX..X..X.X....XXX...XX..

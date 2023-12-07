@@ -21,3 +21,12 @@ func SortStringByCharacter(s string) string {
 	sort.Sort(r)
 	return string(r)
 }
+
+func AsIndexMapping(r []rune) map[rune]int {
+	m := make(map[rune]int)
+	for i, r := range r {
+		m[r] = i
+	}
+
+	return m
+}
