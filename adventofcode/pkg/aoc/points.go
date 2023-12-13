@@ -5,7 +5,14 @@ import (
 	"math"
 )
 
-var Origin = Point{0, 0} //nolint:gochecknoglobals
+var (
+	Origin = Point{0, 0} //nolint:gochecknoglobals
+
+	North = Point{X: 0, Y: -1}
+	South = Point{X: 0, Y: 1}
+	East  = Point{X: 1, Y: 0}
+	West  = Point{X: -1, Y: 0}
+)
 
 type Point struct {
 	X, Y int

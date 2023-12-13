@@ -8,11 +8,7 @@ import (
 )
 
 var (
-	North      = aoc.Point{X: 0, Y: -1}
-	South      = aoc.Point{X: 0, Y: 1}
-	East       = aoc.Point{X: 1, Y: 0}
-	West       = aoc.Point{X: -1, Y: 0}
-	Directions = []aoc.Point{North, South, West, East}
+	Directions = []aoc.Point{aoc.North, aoc.South, aoc.West, aoc.East}
 )
 
 func ShouldMove(elfPositions aoc.PointSet, pos aoc.Point) bool {
@@ -27,13 +23,13 @@ func ShouldMove(elfPositions aoc.PointSet, pos aoc.Point) bool {
 
 func CanMove(elfPositions aoc.PointSet, pos aoc.Point, dir aoc.Point) bool {
 	switch dir {
-	case North:
+	case aoc.North:
 		return !(elfPositions.Contains(pos.AddXY(-1, -1)) || elfPositions.Contains(pos.AddXY(0, -1)) || elfPositions.Contains(pos.AddXY(1, -1)))
-	case South:
+	case aoc.South:
 		return !(elfPositions.Contains(pos.AddXY(-1, 1)) || elfPositions.Contains(pos.AddXY(0, 1)) || elfPositions.Contains(pos.AddXY(1, 1)))
-	case East:
+	case aoc.East:
 		return !(elfPositions.Contains(pos.AddXY(1, -1)) || elfPositions.Contains(pos.AddXY(1, 0)) || elfPositions.Contains(pos.AddXY(1, 1)))
-	case West:
+	case aoc.West:
 		return !(elfPositions.Contains(pos.AddXY(-1, -1)) || elfPositions.Contains(pos.AddXY(-1, 0)) || elfPositions.Contains(pos.AddXY(-1, 1)))
 	default:
 		panic("invalid direction")
