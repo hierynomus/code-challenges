@@ -47,7 +47,7 @@ func Day08(reader *bufio.Scanner) (string, string) {
 		nodes[n].Right = nodes[r]
 	}
 
-	fmt.Printf("%v", nodes)
+	// fmt.Printf("%v", nodes)
 
 	curr := nodes["AAA"]
 	for curr.Name != "ZZZ" {

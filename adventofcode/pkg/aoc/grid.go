@@ -1,6 +1,10 @@
 package aoc
 
-import "strings"
+import (
+	"crypto/sha1"
+	"fmt"
+	"strings"
+)
 
 func MakeRuneGrid(width, height int, empty rune) [][]rune {
 	grid := make([][]rune, height)
@@ -21,6 +25,15 @@ func RenderRuneGrid(grid [][]rune) string {
 	}
 
 	return s
+}
+
+func HashRuneGrid(grid [][]rune) string {
+	s := ""
+	for _, l := range grid {
+		s += string(l)
+	}
+
+	return fmt.Sprintf("%x", sha1.Sum([]byte(s)))
 }
 
 func CountRuneGridOccurrences(grid [][]rune, r rune) int {
