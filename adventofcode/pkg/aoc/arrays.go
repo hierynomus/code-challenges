@@ -94,3 +94,13 @@ func IntArrayIndex(haystack []int, needle int) int {
 
 	return -1
 }
+
+func Repeat[A any](a []A, n int) []A {
+	var r []A
+
+	for i := 0; i < n; i++ {
+		r = append(r, a...)
+	}
+
+	return r
+}

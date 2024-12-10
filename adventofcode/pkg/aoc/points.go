@@ -46,6 +46,14 @@ func (p Point) Add(o Point) Point {
 	return Point{X: p.X + o.X, Y: p.Y + o.Y}
 }
 
+func (p Point) Sub(o Point) Point {
+	return Point{X: p.X - o.X, Y: p.Y - o.Y}
+}
+
+func (p Point) Multiply(m int) Point {
+	return Point{X: p.X * m, Y: p.Y * m}
+}
+
 func (p Point) AddXY(x, y int) Point {
 	return Point{X: p.X + x, Y: p.Y + y}
 }
@@ -104,6 +112,14 @@ func (p Point) Neighbours8() []Point {
 	}
 }
 
+func (p Point) RotateLeft() Point {
+	return Point{X: p.Y, Y: -p.X}
+}
+
+func (p Point) RotateRight() Point {
+	return Point{X: -p.Y, Y: p.X}
+}
+
 func AsGrid(pts []Point, empty, fill rune) [][]rune {
 	maxX, maxY := 0, 0
 	for _, p := range pts {
@@ -128,6 +144,10 @@ func AsGrid(pts []Point, empty, fill rune) [][]rune {
 	}
 
 	return grid
+}
+
+func InBounds[T any](p Point, grid [][]T) bool {
+	return p.Y >= 0 && p.Y < len(grid) && p.X >= 0 && p.X < len(grid[p.Y])
 }
 
 type Point3D struct {

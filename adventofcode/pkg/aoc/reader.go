@@ -24,6 +24,20 @@ func ReadIntArray(reader *bufio.Scanner) []int {
 	return lines
 }
 
+func ReadIntArrayLine(reader *bufio.Scanner, sep string) []int {
+	if !reader.Scan() {
+		panic("No input")
+	}
+
+	l := strings.Split(reader.Text(), sep)
+	line := []int{}
+	for _, x := range l {
+		line = append(line, ToInt(x))
+	}
+
+	return line
+}
+
 func ReadIntGrid(reader *bufio.Scanner, sep string) [][]int {
 	grid := [][]int{}
 	for reader.Scan() {

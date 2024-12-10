@@ -12,6 +12,7 @@ import (
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2021"
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2022"
 	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2023"
+	"github.com/hierynomus/code-challenges/adventofcode/internal/aoc2024"
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/day"
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/util"
 	"github.com/spf13/cobra"
@@ -24,6 +25,7 @@ var Years = map[int]map[int]day.Solver{
 	2021: aoc2021.AllDays,
 	2022: aoc2022.AllDays,
 	2023: aoc2023.AllDays,
+	2024: aoc2024.AllDays,
 }
 
 func AocCommand(year int, config *Config) *cobra.Command {

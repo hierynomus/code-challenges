@@ -154,6 +154,19 @@ func (s PointSet) Adds(ps []Point) {
 	}
 }
 
+// Creates a new union set
+func (s PointSet) Union(ps PointSet) PointSet {
+	union := PointSet{}
+	for p := range s {
+		union[p] = exists
+	}
+	for p := range ps {
+		union[p] = exists
+	}
+
+	return union
+}
+
 func (s PointSet) Contains(p Point) bool {
 	_, ok := s[p]
 	return ok
@@ -176,4 +189,21 @@ func (s PointSet) BoundingBox() (min, max Point) {
 	}
 
 	return
+}
+
+func (s PointSet) AsGrid() [][]rune {
+	min, max := s.BoundingBox()
+	grid := make([][]rune, max.Y-min.Y+1)
+	for i := range grid {
+		grid[i] = make([]rune, max.X-min.X+1)
+		for t := range grid[i] {
+			grid[i][t] = '.'
+		}
+	}
+
+	for p := range s {
+		grid[p.Y-min.Y][p.X-min.X] = '#'
+	}
+
+	return grid
 }

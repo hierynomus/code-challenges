@@ -24,6 +24,18 @@ func IntCombinations(s []int) [][]int {
 	return arr
 }
 
+func PointCombinations(s []Point) [][]Point {
+	arr := [][]Point{}
+
+	for i := 0; i < len(s); i++ {
+		for j := i + 1; j < len(s); j++ {
+			arr = append(arr, []Point{s[i], s[j]})
+		}
+	}
+
+	return arr
+}
+
 func IntCombinationsN(list []int, n int) <-chan []int {
 	c := make(chan []int)
 

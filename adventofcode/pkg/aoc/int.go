@@ -30,6 +30,12 @@ func ToInt(s string) int {
 	return i
 }
 
+func ToIntE(s string) (int, error) {
+	i, err := strconv.Atoi(strings.TrimSpace(s))
+
+	return i, err
+}
+
 func BinaryToInt8(s string) int {
 	i, err := strconv.ParseInt(s, 2, 8)
 	if err != nil {
@@ -96,6 +102,22 @@ func Min(l []int) int {
 	}
 
 	return m
+}
+
+func MinOf(i1, i2 int) int {
+	if i1 < i2 {
+		return i1
+	}
+
+	return i2
+}
+
+func MaxOf(i1, i2 int) int {
+	if i1 > i2 {
+		return i1
+	}
+
+	return i2
 }
 
 func Sign(i int) int {
