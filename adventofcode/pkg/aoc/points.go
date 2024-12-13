@@ -289,3 +289,16 @@ func FindBoundingBox3D(pts []Point3D) (min, max Point3D) {
 
 	return
 }
+
+func Perimeter(pts PointSet) int {
+	perim := 0
+	for p := range pts {
+		perim += 4
+		for _, n := range p.Neighbours4() {
+			if pts.Contains(n) {
+				perim--
+			}
+		}
+	}
+	return perim
+}

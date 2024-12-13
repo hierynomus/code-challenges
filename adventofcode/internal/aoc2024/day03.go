@@ -2,13 +2,10 @@ package aoc2024
 
 import (
 	"bufio"
-	"regexp"
 	"strings"
 
 	"github.com/hierynomus/code-challenges/adventofcode/pkg/aoc"
 )
-
-var MULT_RE = regexp.MustCompile(`mul\(\d+,\d+\)`)
 
 func Day03(reader *bufio.Scanner) (string, string) {
 	var part1, part2 int64
@@ -47,10 +44,5 @@ func Day03(reader *bufio.Scanner) (string, string) {
 		}
 	}
 
-	// matches := MULT_RE.FindAllString(instructions, -1)
-	// for _, m := range matches {
-	// 	s := strings.Split(m[4:len(m)-1], ",")
-	// 	part1 += aoc.ToInt64(s[0]) * aoc.ToInt64(s[1])
-	// }
 	return aoc.Int64ToString(part1), aoc.Int64ToString(part2)
 }

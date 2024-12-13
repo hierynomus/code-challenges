@@ -73,6 +73,18 @@ func Int64ToString(i int64) string {
 	return strconv.FormatInt(i, 10)
 }
 
+func Pow(x, y int) int {
+	if y == 0 {
+		return 1
+	}
+
+	if y%2 == 0 {
+		return Pow(x, y/2) * Pow(x, y/2)
+	}
+
+	return x * Pow(x, y/2) * Pow(x, y/2)
+}
+
 func Sum(l []int) int {
 	s := 0
 	for _, x := range l {
