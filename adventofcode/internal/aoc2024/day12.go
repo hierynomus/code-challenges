@@ -22,11 +22,17 @@ func countCorners(region aoc.PointSet) int {
 	for p := range region {
 		for _, n := range []aoc.Point{aoc.NewPoint(-1, -1), aoc.NewPoint(-1, 1), aoc.NewPoint(1, -1), aoc.NewPoint(1, 1)} {
 			// Concave corner
+			// .X?    ?X.    ???     ???
+			// XX? or ?XX or ?XX. or XX?
+			// ???    ???    ?X.     .X?
 			if region.Contains(p.AddXY(n.X, 0)) && region.Contains(p.AddXY(0, n.Y)) && !region.Contains(p.Add(n)) {
 				corners++
 			}
 
 			// Convex corner
+			// ..?    ?..    ???    ???
+			// .X? or ?X. or ?X. or .X?
+			// ???   ???     ?..    ..?
 			if !region.Contains(p.AddXY(n.X, 0)) && !region.Contains(p.AddXY(0, n.Y)) {
 				corners++
 			}
