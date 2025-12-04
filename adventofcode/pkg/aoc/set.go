@@ -207,3 +207,25 @@ func (s PointSet) AsGrid() [][]rune {
 
 	return grid
 }
+
+func (s PointSet) Delete(p Point) {
+	delete(s, p)
+}
+
+func (s PointSet) Deletes(ps []Point) {
+	for _, p := range ps {
+		delete(s, p)
+	}
+}
+
+func GridToPointSet[T any](grid [][]T, filter func(T) bool) PointSet {
+	ps := PointSet{}
+	for y := 0; y < len(grid); y++ {
+		for x := 0; x < len(grid[y]); x++ {
+			if filter(grid[y][x]) {
+				ps.Add(Point{X: x, Y: y})
+			}
+		}
+	}
+	return ps
+}

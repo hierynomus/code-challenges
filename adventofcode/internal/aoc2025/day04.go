@@ -10,37 +10,31 @@ import (
 func Day04(reader *bufio.Scanner) (string, string) {
 	var part1, part2 int
 
-	rolls := aoc.ReadRuneGrid(reader)
-	removable := Removable(rolls)
+	grid := aoc.ReadRuneGrid(reader)
+	rolls := aoc.GridToPointSet(grid, func(c rune) bool { return c == '@' })
+
+	removable := Removable(&rolls)
 	part1 = len(removable)
 	part2 = part1
 	for len(removable) > 0 {
-		for _, p := range removable {
-			rolls[p.Y][p.X] = '.'
-		}
-		removable = Removable(rolls)
+		rolls.Deletes(removable)
+		removable = Removable(&rolls)
 		part2 += len(removable)
 	}
 	return strconv.Itoa(part1), strconv.Itoa(part2)
 }
 
-func Removable(rolls [][]rune) []aoc.Point {
+func Removable(rolls *aoc.PointSet) []aoc.Point {
 	removable := []aoc.Point{}
-	for y := 0; y < len(rolls); y++ {
-		for x := 0; x < len(rolls[y]); x++ {
-			if rolls[y][x] == '@' {
-				neighbours := aoc.Neighbours8(x, y)
-				cnt := 0
-				for _, n := range neighbours {
-					if aoc.InBounds(n, rolls) && rolls[n.Y][n.X] == '@' {
-						cnt++
-					}
-				}
-
-				if cnt < 4 {
-					removable = append(removable, aoc.Point{X: x, Y: y})
-				}
+	for p := range *rolls {
+		cnt := 0
+		for _, n := range p.Neighbours8() {
+			if rolls.Contains(n) {
+				cnt++
 			}
+		}
+		if cnt < 4 {
+			removable = append(removable, p)
 		}
 	}
 	return removable
