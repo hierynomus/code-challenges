@@ -105,6 +105,19 @@ func Max(l []int) int {
 	return m
 }
 
+func MaxIdx(l []int, start, end int) (max int, midx int) {
+	max = l[start]
+	midx = start
+	for i := start; i <= end; i++ {
+		if l[i] > max {
+			max = l[i]
+			midx = i
+		}
+	}
+
+	return max, midx
+}
+
 func Min(l []int) int {
 	m := l[0]
 	for _, x := range l {
@@ -146,4 +159,15 @@ func ParseBin(s string) int64 {
 		panic(err)
 	}
 	return i
+}
+
+func StringToIntSlice(s string) []int {
+	var result []int
+	for _, r := range s {
+		i := ToInt(string(r))
+
+		result = append(result, i)
+	}
+
+	return result
 }

@@ -150,6 +150,10 @@ func InBounds[T any](p Point, grid [][]T) bool {
 	return p.Y >= 0 && p.Y < len(grid) && p.X >= 0 && p.X < len(grid[p.Y])
 }
 
+func InBoundsXY[T any](x, y int, grid [][]T) bool {
+	return y >= 0 && y < len(grid) && x >= 0 && x < len(grid[y])
+}
+
 type Point3D struct {
 	X, Y, Z int64
 }
