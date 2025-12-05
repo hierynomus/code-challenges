@@ -15,9 +15,9 @@ type Range struct {
 }
 
 func NewRange(s string) Range {
-	var start, end int
-	fmt.Sscanf(s, "%d-%d", &start, &end)
-	return Range{Start: start, End: end}
+	var r Range
+	fmt.Sscanf(s, "%d-%d", &r.Start, &r.End)
+	return r
 }
 
 func (r *Range) Includes(n int) bool {
@@ -63,9 +63,7 @@ func Day05(reader *bufio.Scanner) (string, string) {
 		}
 		last := &merged[len(merged)-1]
 		if r.Start <= last.End+1 {
-			if r.End > last.End {
-				last.End = r.End
-			}
+			last.End = aoc.MaxOf(last.End, r.End)
 		} else {
 			merged = append(merged, r)
 		}
