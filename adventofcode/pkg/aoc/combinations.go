@@ -1,5 +1,17 @@
 package aoc
 
+func Combinations[T any](s []T) [][]T {
+	arr := [][]T{}
+
+	for i := 0; i < len(s); i++ {
+		for j := i + 1; j < len(s); j++ {
+			arr = append(arr, []T{s[i], s[j]})
+		}
+	}
+
+	return arr
+}
+
 func StringCombinations(s []string) [][]string {
 	arr := [][]string{}
 
@@ -30,6 +42,18 @@ func PointCombinations(s []Point) [][]Point {
 	for i := 0; i < len(s); i++ {
 		for j := i + 1; j < len(s); j++ {
 			arr = append(arr, []Point{s[i], s[j]})
+		}
+	}
+
+	return arr
+}
+
+func Point3DCombinations(s []Point3D) [][]Point3D {
+	arr := [][]Point3D{}
+
+	for i := 0; i < len(s); i++ {
+		for j := i + 1; j < len(s); j++ {
+			arr = append(arr, []Point3D{s[i], s[j]})
 		}
 	}
 

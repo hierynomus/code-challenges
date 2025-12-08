@@ -38,6 +38,20 @@ func ReadIntArrayLine(reader *bufio.Scanner, sep string) []int {
 	return line
 }
 
+func ReadStringGridSpaces(reader *bufio.Scanner) [][]string {
+	grid := [][]string{}
+	for reader.Scan() {
+		l := strings.Fields(reader.Text())
+		line := []string{}
+		for _, x := range l {
+			line = append(line, x)
+		}
+		grid = append(grid, line)
+	}
+
+	return grid
+}
+
 func ReadIntGrid(reader *bufio.Scanner, sep string) [][]int {
 	grid := [][]int{}
 	for reader.Scan() {

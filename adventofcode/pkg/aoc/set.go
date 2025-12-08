@@ -127,7 +127,7 @@ func (s RuneSet) Keys() []rune {
 	return ks
 }
 
-type PointSet map[Point]struct{}
+type PointSet Set[Point]
 
 func NewPointSet(ps []Point) PointSet {
 	s := PointSet{}
@@ -228,4 +228,39 @@ func GridToPointSet[T any](grid [][]T, filter func(T) bool) PointSet {
 		}
 	}
 	return ps
+}
+
+type Set[T comparable] map[T]struct{}
+
+func NewSet[T comparable](items []T) Set[T] {
+	s := Set[T]{}
+	s.Adds(items)
+	return s
+}
+
+func (s Set[T]) Add(item T) {
+	s[item] = exists
+}
+
+func (s Set[T]) Adds(items []T) {
+	for _, item := range items {
+		s[item] = exists
+	}
+}
+
+func (s Set[T]) Contains(item T) bool {
+	_, ok := s[item]
+	return ok
+}
+
+func (s Set[T]) Delete(item T) {
+	delete(s, item)
+}
+
+func (s Set[T]) ToSlice() []T {
+	items := []T{}
+	for item := range s {
+		items = append(items, item)
+	}
+	return items
 }
