@@ -74,7 +74,7 @@ func ConnectJunctionBoxes(nrConnections int) func(reader *bufio.Scanner) (string
 				}
 			}
 			if c >= nrConnections-1 && part1 == 0 {
-				cs := connectedCircuits.ToSlice()
+				cs := connectedCircuits.AsSlice()
 				sort.Slice(cs, func(i int, j int) bool {
 					return len(cs[i].boxes) > len(cs[j].boxes)
 				})

@@ -53,7 +53,7 @@ func Day03(reader *bufio.Scanner) (string, string) {
 	}
 
 	for p, s := range symbols {
-		parts := aoc.IntSet{}
+		parts := aoc.Set[int]{}
 		for _, n := range p.Neighbours8() {
 			if p, ok := partNrs[n]; ok {
 				parts.Add(int(p))

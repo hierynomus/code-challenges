@@ -22,7 +22,7 @@ func Day03(reader *bufio.Scanner) (string, string) {
 
 	for _, r := range rucksacks {
 		l := len(r)
-		s := aoc.NewRuneSet([]rune(r[0 : l/2]))
+		s := aoc.NewSet([]rune(r[0 : l/2]))
 		for _, i := range r[l/2 : l] {
 			if s.Contains(i) {
 				part1 += GetItemPriority(i)
@@ -34,8 +34,8 @@ func Day03(reader *bufio.Scanner) (string, string) {
 	for idx := 0; idx < len(rucksacks); idx += 3 {
 		h := aoc.MakeRuneHistogram([]rune{})
 		for i := idx; i < idx+3; i++ {
-			s := aoc.NewRuneSet([]rune(rucksacks[i]))
-			h.Adds(s.Keys())
+			s := aoc.NewSet([]rune(rucksacks[i]))
+			h.Adds(s.AsSlice())
 		}
 
 		badge := h.Max()

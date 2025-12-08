@@ -42,14 +42,14 @@ func Day17(reader *bufio.Scanner) (string, string) {
 	vxmin := int(math.Floor(math.Sqrt(float64(2 * xmin))))
 
 	ty := ProbeTimeY(ymin, ymax, vymin, vymax)
-	velocities := map[int]aoc.IntSet{}
+	velocities := map[int]aoc.Set[int]{}
 	for t, vys := range ty {
 		for vx := vxmin; vx <= vxmax; vx++ {
 			dx := ProbeXDistance(vx, t)
 			if dx >= xmin && dx <= xmax {
-				for vy := range aoc.NewIntSet(vys) {
+				for vy := range aoc.NewSet(vys) {
 					if _, ok := velocities[vx]; !ok {
-						velocities[vx] = aoc.NewIntSet([]int{})
+						velocities[vx] = aoc.NewSet([]int{})
 					}
 					velocities[vx].Add(vy)
 				}

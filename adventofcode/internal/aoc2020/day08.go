@@ -21,15 +21,15 @@ func Day08(reader *bufio.Scanner) (string, string) {
 		program = append(program, &Instruction{Name: s[0], Offset: aoc.ToInt(s[1])})
 	}
 
-	part1, _ := runBootloader(program, 0, 0, aoc.IntSet{}, true)
-	part2, success := runBootloader(program, 0, 0, aoc.IntSet{}, false)
+	part1, _ := runBootloader(program, 0, 0, aoc.Set[int]{}, true)
+	part2, success := runBootloader(program, 0, 0, aoc.Set[int]{}, false)
 	if !success {
 		panic("Did not succeed")
 	}
 	return strconv.Itoa(part1), strconv.Itoa(part2)
 }
 
-func runBootloader(program []*Instruction, ip int, acc int, seen aoc.IntSet, modified bool) (int, bool) {
+func runBootloader(program []*Instruction, ip int, acc int, seen aoc.Set[int], modified bool) (int, bool) {
 	for ip < len(program) {
 		if seen.Contains(ip) {
 			return acc, false

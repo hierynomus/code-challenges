@@ -9,8 +9,8 @@ import (
 )
 
 func Day16(reader *bufio.Scanner) (string, string) {
-	rules := map[string]aoc.IntSet{}
-	allValidValues := aoc.IntSet{}
+	rules := map[string]aoc.Set[int]{}
+	allValidValues := aoc.Set[int]{}
 	validTickets := [][]int{}
 
 	for reader.Scan() {
@@ -22,7 +22,7 @@ func Day16(reader *bufio.Scanner) (string, string) {
 		fv := strings.Split(l, ": ")
 		ranges := strings.Split(fv[1], " or ")
 
-		rule := aoc.IntSet{}
+		rule := aoc.Set[int]{}
 		for _, r := range ranges {
 			mm := strings.Split(r, "-")
 			rr := aoc.Range(aoc.ToInt(mm[0]), aoc.ToInt(mm[1])+1)
@@ -70,7 +70,7 @@ func Day16(reader *bufio.Scanner) (string, string) {
 	return strconv.Itoa(part1), strconv.Itoa(part2)
 }
 
-func discoverFieldMapping(rules map[string]aoc.IntSet, tickets [][]int) map[string]int {
+func discoverFieldMapping(rules map[string]aoc.Set[int], tickets [][]int) map[string]int {
 	mapping := map[string]int{}
 	reverseMapping := map[int]string{}
 

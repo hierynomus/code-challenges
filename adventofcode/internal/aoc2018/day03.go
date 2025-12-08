@@ -10,7 +10,7 @@ import (
 
 func Day03(reader *bufio.Scanner) (string, string) {
 	claims := map[aoc.Point][]int{}
-	allClaims := aoc.IntSet{}
+	allClaims := aoc.Set[int]{}
 	for reader.Scan() {
 		c := reader.Text()
 		split := strings.Split(c, " ")

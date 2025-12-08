@@ -10,7 +10,7 @@ import (
 func StartOfPacket(arr []rune) int {
 	for i := 0; i < len(arr)-3; i++ {
 		a := arr[i : i+4]
-		s := aoc.NewRuneSet(a)
+		s := aoc.NewSet(a)
 		if len(s) == 4 {
 			return i + 4
 		}
@@ -22,7 +22,7 @@ func StartOfPacket(arr []rune) int {
 func StartOfMessage(arr []rune) int {
 	for i := 0; i < len(arr)-14; i++ {
 		a := arr[i : i+14]
-		s := aoc.NewRuneSet(a)
+		s := aoc.NewSet(a)
 		if len(s) == 14 {
 			return i + 14
 		}

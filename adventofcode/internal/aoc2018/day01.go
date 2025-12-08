@@ -19,7 +19,7 @@ func Day01(reader *bufio.Scanner) (string, string) {
 		part1 += i
 	}
 
-	seen := aoc.IntSet{}
+	seen := aoc.Set[int]{}
 	part2 := 0
 	sum := 0
 	for part2 == 0 {

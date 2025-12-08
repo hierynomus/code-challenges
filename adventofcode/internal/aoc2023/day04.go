@@ -10,7 +10,7 @@ import (
 
 type ScratchCard struct {
 	Nr      int
-	Winning aoc.IntSet
+	Winning aoc.Set[int]
 	Numbers []int
 }
 
@@ -60,7 +60,7 @@ func parseScratchCard(l string) ScratchCard {
 	parts := strings.Split(l, ":")
 	card.Nr = aoc.ToInt(strings.TrimSpace(parts[0][4:]))
 	nrSets := strings.Split(parts[1], " | ")
-	card.Winning = aoc.NewIntSet(aoc.AsIntArraySpace(nrSets[0]))
+	card.Winning = aoc.NewSet(aoc.AsIntArraySpace(nrSets[0]))
 	card.Numbers = aoc.AsIntArraySpace(nrSets[1])
 	return card
 }

@@ -8,23 +8,23 @@ import (
 )
 
 func Day06(reader *bufio.Scanner) (string, string) {
-	anyone := []aoc.RuneSet{}
-	everyone := []aoc.RuneSet{}
-	orGroup := aoc.RuneSet{}
-	andGroup := aoc.NewRuneSet([]rune("abcdefghijklmnopqrstuvwxyz"))
+	anyone := []aoc.Set[rune]{}
+	everyone := []aoc.Set[rune]{}
+	orGroup := aoc.Set[rune]{}
+	andGroup := aoc.NewSet([]rune("abcdefghijklmnopqrstuvwxyz"))
 
 	for reader.Scan() {
 		l := reader.Text()
 		if len(l) == 0 {
 			anyone = append(anyone, orGroup)
 			everyone = append(everyone, andGroup)
-			orGroup = aoc.RuneSet{}
-			andGroup = aoc.NewRuneSet([]rune("abcdefghijklmnopqrstuvwxyz"))
+			orGroup = aoc.Set[rune]{}
+			andGroup = aoc.NewSet([]rune("abcdefghijklmnopqrstuvwxyz"))
 			continue
 		}
 
 		orGroup.Adds([]rune(l))
-		andGroup.Intersect([]rune(l))
+		andGroup.IntersectSlice([]rune(l))
 	}
 
 	anyone = append(anyone, orGroup)

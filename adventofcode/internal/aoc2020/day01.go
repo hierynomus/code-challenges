@@ -10,7 +10,7 @@ import (
 func Day01(reader *bufio.Scanner) (string, string) {
 	var part1, part2 int
 
-	expense := aoc.IntSet{}
+	expense := aoc.Set[int]{}
 
 	for reader.Scan() {
 		i := aoc.ToInt(reader.Text())

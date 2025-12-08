@@ -77,7 +77,7 @@ func d7p1(forward, reverse map[rune][]rune) string {
 		forwardDeps[k] = v
 	}
 
-	nextNodes := aoc.RuneSet{}
+	nextNodes := aoc.Set[rune]{}
 	for k := range forwardDeps {
 		nextNodes.Add(k)
 	}
@@ -87,9 +87,9 @@ func d7p1(forward, reverse map[rune][]rune) string {
 	}
 
 	result := []rune{}
-	seen := aoc.RuneSet{}
+	seen := aoc.Set[rune]{}
 	for len(nextNodes) > 0 {
-		nextStart := nextNodes.Min()
+		nextStart := Min(nextNodes)
 		result = append(result, nextStart)
 		seen.Add(nextStart)
 		nextNodes.Delete(nextStart)
@@ -122,7 +122,7 @@ func d7p2(forward, reverse map[rune][]rune, nrWorkers int) (string, int) {
 		forwardDeps[k] = v
 	}
 
-	nextNodes := aoc.RuneSet{}
+	nextNodes := aoc.Set[rune]{}
 	for k := range forwardDeps {
 		nextNodes.Add(k)
 	}
@@ -132,7 +132,7 @@ func d7p2(forward, reverse map[rune][]rune, nrWorkers int) (string, int) {
 	}
 
 	result := []rune{}
-	seen := aoc.RuneSet{}
+	seen := aoc.Set[rune]{}
 	clock := NewClock()
 	workers := []*WorkerElf{}
 	for i := 0; i < nrWorkers; i++ {
@@ -141,7 +141,7 @@ func d7p2(forward, reverse map[rune][]rune, nrWorkers int) (string, int) {
 
 	for _, w := range workers {
 		if len(nextNodes) > 0 {
-			next := nextNodes.Min()
+			next := Min(nextNodes)
 			w.WorkOn(next)
 			nextNodes.Delete(next)
 		}
@@ -173,7 +173,7 @@ func d7p2(forward, reverse map[rune][]rune, nrWorkers int) (string, int) {
 				delete(forwardDeps, ready)
 				for _, w := range workers {
 					if w.Idle() && len(nextNodes) > 0 {
-						i := nextNodes.Min()
+						i := Min(nextNodes)
 						nextNodes.Delete(i)
 						w.WorkOn(i)
 					}
@@ -183,6 +183,22 @@ func d7p2(forward, reverse map[rune][]rune, nrWorkers int) (string, int) {
 	}
 
 	return string(result), clock.Time
+}
+
+func Min(s aoc.Set[rune]) rune {
+	ks := s.AsSlice()
+	if len(ks) < 1 {
+		return 0
+	}
+
+	m := ks[0]
+	for i := 1; i < len(ks); i++ {
+		if ks[i] < m {
+			m = ks[i]
+		}
+	}
+
+	return m
 }
 
 func allIdle(workers []*WorkerElf) bool {

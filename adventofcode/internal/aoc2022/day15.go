@@ -36,7 +36,7 @@ func InRange(sensors map[aoc.Point]int, p aoc.Point) bool {
 type Beacon aoc.Point
 
 func FindNonBeaconPositions(sensors map[aoc.Point]int, beacons []Beacon, targetLine int) int {
-	xs := aoc.NewIntSet([]int{})
+	xs := aoc.NewSet([]int{})
 	for l, r := range sensors {
 		minX, maxX, err := ScannedPositionsAt(l, r, targetLine)
 		if err != nil {
@@ -46,7 +46,7 @@ func FindNonBeaconPositions(sensors map[aoc.Point]int, beacons []Beacon, targetL
 		xs.Adds(aoc.RangeIncl(minX, maxX))
 	}
 
-	bs := aoc.IntSet{}
+	bs := aoc.Set[int]{}
 	for _, b := range beacons {
 		if b.Y == targetLine {
 			bs.Add(b.X)

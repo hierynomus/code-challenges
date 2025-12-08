@@ -12,11 +12,11 @@ func Day07(reader *bufio.Scanner) (string, string) {
 	var part1, part2 int
 
 	grid := aoc.ReadRuneGrid(reader)
-	beams := aoc.IntSet{}
+	beams := aoc.Set[int]{}
 	beams.Add(strings.Index(string(grid[0]), "S"))
 	splits := 0
 	for y := 1; y < len(grid); y++ {
-		newBeams := aoc.IntSet{}
+		newBeams := aoc.Set[int]{}
 		for beam := range beams {
 			switch grid[y][beam] {
 			case '^':

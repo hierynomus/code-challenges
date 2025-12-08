@@ -54,7 +54,7 @@ func d6p1(list []aoc.Point) int {
 		}
 	}
 
-	boundary := aoc.IntSet{}
+	boundary := aoc.Set[int]{}
 	for _, v := range frontier {
 		boundary.Add(v)
 	}
